@@ -130,16 +130,33 @@ empiricalSubmit.onmousedown = function() {
 	var mass = [];
 	for (var i = 0; i < compoundLength; i++) {
 		//Getting the user input and converting to variables
-		var compoundName = document.getElementById("empiricalElement" + (i + 1) + "Name").value.split(/[\s,]+/);
+		var compound = document.getElementById("empiricalElement" + (i + 1) + "Name").value.split(/(\d)/);
+		compound.length = compound.length - 1;
+		for (var z = 0; z < compound.length; z++) {
+			if(isNaN(compound[z]) === true) {
+				var search = 0;
+				var compoundCheck = 0;;
+				while (compoundCheck === 0) {
+					search = search + 1;
+					if (Element[search].symbol === compound[z]) {
+						compound[z] = Element[search].atomicNumber;
+						compoundCheck = 1;
+					}
+				}
+			} else {
+				compound[z] = parseInt(compound[z]);
+			}
+		}
 		var compoundMass = document.getElementById("empiricalElement" + (i + 1) + "Mass").value;
 
 		//this loop finds the atomic mass of the entire molecule
 		var compoundMol = 0;
-		for (var t = 0; t < compoundName.length / 2; t++) {
-			compoundMol = compoundMol + (Element[compoundName[t * 2]].atomicMass * compoundName[t*2+1]);
+		for (var t = 0; t < compound.length / 2; t++) {
+			compoundMol = compoundMol + (Element[compound[t * 2]].atomicMass * compound[t*2+1]);
 		}
-		mass.push(compoundMass / compoundMol * compoundName[1] * Element[compoundName[0]].atomicMass);
-		name.push(document.getElementById("empiricalElement" + (i + 1) + "Name").value.split(/[\s,]+/)[0]);
+		mass.push(compoundMass / compoundMol * compound[1] * Element[compound[0]].atomicMass);
+		name.push(compound[0]);
+		name.push(compound[1]);
 	}
 
 	if (elementLength > compoundLength) {
@@ -147,14 +164,14 @@ empiricalSubmit.onmousedown = function() {
 		for (var i = 0; i < compoundLength; i++) {
 			lastMass = lastMass - mass[i];
 		}
-		name.push("8");
+		name.push(8);
 		mass.push(lastMass);
 	}
 
 	//convert mass of elements to Mols
 	var mol = [];
 	for (var i = 0; i < elementLength; i++) {
-		mol.push(mass[i] / Element[name[i]].atomicMass);
+		mol.push(mass[i] / Element[name[i*2]].atomicMass);
 	}
 
 	//devide by lowest to find amount of element
@@ -185,7 +202,7 @@ empiricalSubmit.onmousedown = function() {
 
 	var molecularMass = 0;
 	for (var i = 0; i < elementLength; i++) {
-		molecularMass = molecularMass + Element[name[i]].atomicMass * element[i];
+		molecularMass = molecularMass + Element[name[i*2]].atomicMass * element[i];
 	}
 
 	var molecularMultiple = Math.round(document.getElementById("gramPerMol").value / molecularMass);
@@ -194,8 +211,8 @@ empiricalSubmit.onmousedown = function() {
 	var empiricalFormula = '';
 	var molecularFormula = '';
 	for (var i = 0; i < element.length; i++) {
-		empiricalFormula += Element[name[i]].symbol + String(element[i]).sub();
-		molecularFormula += Element[name[i]].symbol + String(element[i] * molecularMultiple).sub()
+		empiricalFormula += Element[name[i*2]].symbol + String(element[i]).sub();
+		molecularFormula += Element[name[i*2]].symbol + String(element[i] * molecularMultiple).sub()
 	}
 	document.getElementById("empiricalOutput").innerHTML = "Empirical Formula: " + empiricalFormula + "	Molecular Formula: " + molecularFormula;
 }
