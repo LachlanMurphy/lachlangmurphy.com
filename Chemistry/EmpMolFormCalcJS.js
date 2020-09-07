@@ -211,8 +211,16 @@ empiricalSubmit.onmousedown = function() {
 	var empiricalFormula = '';
 	var molecularFormula = '';
 	for (var i = 0; i < element.length; i++) {
-		empiricalFormula += Element[name[i*2]].symbol + String(element[i]).sub();
-		molecularFormula += Element[name[i*2]].symbol + String(element[i] * molecularMultiple).sub()
+		if (element[i] === 1) {
+			empiricalFormula += Element[name[i*2]].symbol;
+		} else {
+			empiricalFormula += Element[name[i*2]].symbol + String(element[i]).sub();
+		}
+		if (element[i] * molecularMultiple === 1) {
+			molecularFormula += Element[name[i*2]].symbol;
+		} else {
+			molecularFormula += Element[name[i*2]].symbol + String(element[i] * molecularMultiple).sub();
+		}
 	}
 	document.getElementById("empiricalOutput").innerHTML = "Empirical Formula: " + empiricalFormula + "	Molecular Formula: " + molecularFormula;
 }
