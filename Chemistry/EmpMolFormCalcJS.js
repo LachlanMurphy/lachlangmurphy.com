@@ -1,3 +1,4 @@
+//Class for periodic table. Assigns atomic mass, the name, the symbol, and the atomic number to each element.
 class elementClass {
 	constructor(atomicMass, name, symbol, atomicNumber) {
 		this.name = name;
@@ -7,6 +8,7 @@ class elementClass {
 	}
 }
 
+//Almost the entire periodic table. Info taken from https://www.lenntech.com/periodic/name/alphabetic.htm. 
 var Element = [null,
 	new elementClass(1.0079, 'Hydrogen', 'H', 1), 
 	new elementClass(4.0026, 'Helium',	'He', 2), 
@@ -120,12 +122,18 @@ var Element = [null,
 	new elementClass(277, 'Hassium', 'Hs', 108)
 ]
 
+//When the submit button is pressed the function to determine borth empirical and molecular formulas runs.
 empiricalSubmit.onmousedown = function() {
+	/*First we must pull two data sets. One which is the name(or atomic number) of the 
+	element and the mass given of the element. Two different arrays are made for this data*/
 	var name = [];
 	var mass = [];
 	for (var i = 0; i < compoundLength; i++) {
+		//Getting the user input and converting to variables
 		var compoundName = document.getElementById("empiricalElement" + (i + 1) + "Name").value.split(/[\s,]+/);
 		var compoundMass = document.getElementById("empiricalElement" + (i + 1) + "Mass").value;
+
+		//this loop finds the atomic mass of the entire molecule
 		var compoundMol = 0;
 		for (var t = 0; t < compoundName.length / 2; t++) {
 			compoundMol = compoundMol + (Element[compoundName[t * 2]].atomicMass * compoundName[t*2+1]);
@@ -134,7 +142,7 @@ empiricalSubmit.onmousedown = function() {
 		name.push(document.getElementById("empiricalElement" + (i + 1) + "Name").value.split(/[\s,]+/)[0]);
 	}
 
-	if (compoundLength > elementLength) {
+	if (elementLength > compoundLength) {
 		var lastMass = document.getElementById("totalMass").value;
 		for (var i = 0; i < compoundLength; i++) {
 			lastMass = lastMass - mass[i];
@@ -142,7 +150,7 @@ empiricalSubmit.onmousedown = function() {
 		name.push("8");
 		mass.push(lastMass);
 	}
-
+	
 	//convert mass of elements to Mols
 	var mol = [];
 	for (var i = 0; i < elementLength; i++) {
