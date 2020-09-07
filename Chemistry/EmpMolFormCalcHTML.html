@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Emperical/Molecular Formula Calculator</title>
+</head>
+<body>
+	<h1>Empirical and Molecular Formula Calculator</h1>
+	<h3>Input Number Of Elements And Compounds. Click Set When Done.</h3>
+	<input type="text" id="elementLength" placeholder="Elements" size="10">
+	<input type="text" id="compoundLength" placeholder="Compounds" size="10">
+	<button id="setLength">Set</button>
+	<h3>Input The Total Mass Reacted(Only For Combustion Reactions)</h3>
+	<input type="text" id="totalMass" placeholder="Total Mass" size="10">
+	<h2>How To Input Data</h2>
+	<h4>For the elements/compounds, input the atomic number of each element in the compound 
+	follow by amount of element is in the compound. i.e. The compound CO2(Carbon Dioxide)
+	would be written as "6 1 8 1".</h4>
+	<h4>For the mass, write the mass of the compound in grams. Do not add units!</h4>
+	<h3 id="1Head">First Compound</h3>
+	<input type="text" id="empiricalElement1Name" placeholder="Atomic Number(s)" size="13">
+	<input type="text" id="empiricalElement1Mass" placeholder="Mass" size="4">
+	<h3 id="2Head">Second Compound</h3>
+	<input type="text" id="empiricalElement2Name" placeholder="Atomic Number(s)" size="13">
+	<input type="text" id="empiricalElement2Mass" placeholder="Mass" size="4">
+	<h3 id="3Head">Third Compound</h3>
+	<input type="text" id="empiricalElement3Name" placeholder="Atomic Number(s)" size="13">
+	<input type="text" id="empiricalElement3Mass" placeholder="Mass" size="4">
+	<h3 id="4Head">Fourth Compound</h3>
+	<input type="text" id="empiricalElement4Name" placeholder="Atomic Number(s)" size="13">
+	<input type="text" id="empiricalElement4Mass" placeholder="Mass" size="4">
+	<h3>Grams Per Mol(For Calculating The Molecular Formula, No Units)</h3>
+	<input type="text" id="gramPerMol" placeholder="g/mol" size="4">
+	<br><br>
+	<button id="empiricalSubmit">Submit</button>
+	<h5 id="empiricalOutput"></h5>
+	<script type="text/javascript" src="EmpMolFormCalcJS.js"></script>
+</body>
+</html>

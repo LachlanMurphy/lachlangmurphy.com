@@ -134,13 +134,15 @@ empiricalSubmit.onmousedown = function() {
 		name.push(document.getElementById("empiricalElement" + (i + 1) + "Name").value.split(/[\s,]+/)[0]);
 	}
 
-	var lastMass = document.getElementById("totalMass").value;
-	for (var i = 0; i < compoundLength; i++) {
-		lastMass = lastMass - mass[i];
+	if (compoundLength > elementLength) {
+		var lastMass = document.getElementById("totalMass").value;
+		for (var i = 0; i < compoundLength; i++) {
+			lastMass = lastMass - mass[i];
+		}
+		name.push("8");
+		mass.push(lastMass);
 	}
-	name.push("8");
-	mass.push(lastMass);
-	
+
 	//convert mass of elements to Mols
 	var mol = [];
 	for (var i = 0; i < elementLength; i++) {
@@ -148,9 +150,10 @@ empiricalSubmit.onmousedown = function() {
 	}
 
 	//devide by lowest to find amount of element
+	var molecularMultiplier = 1;
 	for (var i = 0; i < elementLength; i++) {
 		if (mol[i] / Math.min.apply(null, mol) > Math.round(mol[i] / Math.min.apply(null, mol)) + .01 || mol[i] / Math.min.apply(null, mol) < Math.round(mol[i] / Math.min.apply(null, mol)) - .01) {
-			var molecularMultiplier = 1;
+			molecularMultiplier = 1;
 			var molTemp = mol[i];
 			while (molTemp / Math.min.apply(null, mol) > Math.round(molTemp / Math.min.apply(null, mol)) + .01 || molTemp / Math.min.apply(null, mol) < Math.round(molTemp / Math.min.apply(null, mol)) - .01) {
 				molecularMultiplier = molecularMultiplier + 1;
@@ -160,23 +163,25 @@ empiricalSubmit.onmousedown = function() {
 			}
 		}
 	}
-	console.log(molecularMultiplier);
+
 	var element = [];
 	if (molecularMultiplier > 1) {
 		for (var i = 0; i < elementLength; i++) {
 			element.push(Math.round(mol[i] / Math.min.apply(null, mol) * molecularMultiplier));
 		}
 	} else {
-		element.push(Math.round(mol[i] / Math.min.apply(null, mol)));
+		for (var i = 0; i < elementLength; i++) {
+			element.push(Math.round(mol[i] / Math.min.apply(null, mol)));
+		}
 	}
-	console.log(element);
+
 	var molecularMass = 0;
 	for (var i = 0; i < elementLength; i++) {
 		molecularMass = molecularMass + Element[name[i]].atomicMass * element[i];
 	}
-	console.log(molecularMass)
+
 	var molecularMultiple = Math.round(document.getElementById("gramPerMol").value / molecularMass);
-	console.log(molecularMultiple);
+
 	//Forming the Formula
 	var empiricalFormula = '';
 	var molecularFormula = '';
