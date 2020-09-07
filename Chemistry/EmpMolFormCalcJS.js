@@ -150,7 +150,7 @@ empiricalSubmit.onmousedown = function() {
 		name.push("8");
 		mass.push(lastMass);
 	}
-	
+
 	//convert mass of elements to Mols
 	var mol = [];
 	for (var i = 0; i < elementLength; i++) {
