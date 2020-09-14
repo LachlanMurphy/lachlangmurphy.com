@@ -1,0 +1,56 @@
+body {
+	padding: 0; 
+	margin: 0;
+	height: 100%; 
+	background-image: 
+	url('Home_Assets/Home_Background.jpg'); 
+	background-repeat: 
+	no-repeat; 
+	background-attachment: 
+	fixed; background-size: cover; 
+	background-position: center;
+}
+
+.links {
+	padding: 25px;
+	margin: 25px;
+	text-align: center;
+}
+
+#chemistryLink {
+	background-color: black;
+	padding: 25px 5%;
+	margin: 25px 10px;
+	border-radius: 25px;
+	color: rgba(168, 87, 168, 1);
+	font-size: 30px;
+	text-decoration: none;
+	transition: .5s;
+}
+
+#chemistryLink:hover {
+	background-color: black;
+	padding: 25px 25%;
+	margin: 25px 30px;
+	border-radius: 25px;
+	color: rgba(0,255,255);
+	font-size: 30px;
+	text-decoration: none;
+	transition: .5s;
+}
+
+#Home_Title {
+	text-align: center;
+	font-size: 50px;
+	color: white;
+	text-shadow: 5px 5px 5px black;
+	margin: 25px 5px;
+}
+
+#Home_Subtitle {
+	text-align: center;
+	font-size: 40px;
+	color: white;
+	text-shadow: 5px 5px 5px black;
+	margin: 25px 5px;
+}
