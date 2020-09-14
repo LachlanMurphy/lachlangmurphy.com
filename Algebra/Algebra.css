@@ -18,9 +18,10 @@ body {
 }
 
 .links ul a {
+	display: inline-block;
 	background-color: black;
 	padding: 25px 5%;
-	margin: 25px 10px;
+	margin: 10px 30px;
 	border-radius: 25px;
 	color: rgba(168, 87, 168, 1);
 	font-size: 30px;
@@ -29,9 +30,10 @@ body {
 }
 
 .links ul a:hover {
+	display: inline-block;
 	background-color: black;
-	padding: 25px 25%;
-	margin: 25px 30px;
+	padding: 40px 25%;
+	margin: 10px 30px;
 	border-radius: 25px;
 	color: rgba(0,255,255);
 	font-size: 30px;
