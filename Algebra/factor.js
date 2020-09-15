@@ -22,7 +22,6 @@ function boxUpdate() {
 	var R = 0;
 	var Z = 0;
 	var theta = 0;
-	while 
 	console.log(factors);
 }
 
