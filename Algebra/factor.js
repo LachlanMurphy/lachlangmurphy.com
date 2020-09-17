@@ -95,13 +95,10 @@ function boxUpdate() {
 		answer += "X" + (i+1) + ": " + Xintercepts[i] + " ";
 	}
 	if (answer === '') {
-		answer = "Error: 220";
+		answer = "";
 	}
 	if (constant === 0) {
 		answer = "Divide by 0 Error";
 	}
 	document.getElementById("box").innerHTML = simpPoly.slice(0, -1) + " = " + answer;
-}
-function factor() {
-
 }
