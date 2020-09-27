@@ -2,12 +2,10 @@ body {
 	padding: 0; 
 	margin: 0;
 	height: 100%; 
-	background-image: 
-	url('Algebra_Assets/Algebra_Background.jpg'); 
-	background-repeat: 
-	no-repeat; 
-	background-attachment: 
-	fixed; background-size: cover; 
+	background-image: url('Algebra_Assets/Algebra_Background.jpg'); 
+	background-repeat: no-repeat; 
+	background-attachment: fixed; 
+	background-size: cover; 
 	background-position: center;
 }
 
