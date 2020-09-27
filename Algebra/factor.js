@@ -1,44 +1,69 @@
 function boxUpdate() {
-	let polynomial = document.getElementById("factor").value.split('+');
+	var polynomial = document.getElementById("factor").value.split('+'|'-');
 	var simpPoly = '';
+	var visualEquation = '';
 	for (var i = 0; i < polynomial.length; i++) {
 		var number = polynomial[i].split('');
 		for (var t = 0; t < number.length; t++) {
-			if (String(number[t-1]) == "^") {
-				number[t] = number[t].sup();
-				number.splice(t+1,1);
-				number.splice(t-1,1);
+			if (String(number[t]) == 'x') {
+				number[t] = "X";
+			}
+			if (String(number[t]) == "-") {
+				simpPoly += "+-";
+			} else {
+				simpPoly += number[t];
+			}
+			if (String(number[t-1]) == '^') {
+				visualEquation += number[t].sup();
+				visualEquation = visualEquation.replace(/\^/g, '');
+			} else {
+				visualEquation += number[t];
 			}
 		}
-		for (var z = 0; z < number.length; z++) {
-			simpPoly += number[z];
-		}
-		simpPoly = simpPoly + '+';
 	}
-	document.getElementById("box").innerHTML = simpPoly.slice(0, -1);
-	var coefficeints = simpPoly.slice(0, -1).split('+');
+	document.getElementById("box").innerHTML = visualEquation;
+	var coefficients = simpPoly.split('+');
 	var leadingCoefficient;
 	var constant;
-	if (coefficeints[0].slice(0, 1) != 'X') {
-		leadingCoefficient = parseInt(coefficeints[0]);
+	if (coefficients[coefficients.length - 1].includes('X') === true) {
+		var zeroForm = true;
+		var newFormula = [];
+		for (var i = 0; i < coefficients.length; i++) {
+			var newNumber = '';
+			var coefficientsTemp = coefficients[i].split('');
+			if (isNaN(parseInt(coefficientsTemp[coefficientsTemp.length - 1] - 1)) === false) {
+				coefficientsTemp[coefficientsTemp.length - 1] = parseInt(coefficientsTemp[coefficientsTemp.length - 1] - 1);
+			} else {
+				coefficientsTemp[coefficientsTemp.length - 1] = coefficientsTemp[coefficientsTemp.length - 1].replace("X", '');
+			}
+			for (var t = 0; t < coefficientsTemp.length; t++) {
+				newNumber += coefficientsTemp[t];
+			}
+			newFormula.push(newNumber);
+		}
+		coefficients = newFormula;
+	}
+	constant = parseInt(coefficients[coefficients.length - 1]);
+	if (coefficients[0].slice(0, 1) != 'X') {
+		if (coefficients[0].slice(0, 1) == '-' && coefficients[0].slice(1, 2) == "X") {
+			leadingCoefficient = -1;
+		} else {
+			leadingCoefficient = parseInt(coefficients[0]);
+		}
 	} else {
 		leadingCoefficient = 1;
 	}
-	if (coefficeints[coefficeints.length - 1].includes('X') === false) {
-		constant = parseInt(coefficeints[coefficeints.length - 1]);
-	} else {
-		constant = 0;
-	}
+	
 	var leadingCoefficientfactors = [];
-	for (var i = 0; i < leadingCoefficient; i++) {
-		if (leadingCoefficient % (i + 1) === 0) {
-			leadingCoefficientfactors.push(i+1);
+	for (var i = 0; i < Math.abs(leadingCoefficient); i++) {
+		if (Math.abs(leadingCoefficient) % (i + 1) === 0) {
+			leadingCoefficientfactors.push((i+1)*(leadingCoefficient/Math.abs(leadingCoefficient)));
 		}
 	}
 	var constantfactors = [];
 	for (var i = 0; i < Math.abs(constant); i++) {
 		if (Math.abs(constant) % (i + 1) === 0) {
-			constantfactors.push(i+1);
+			constantfactors.push((i+1)*(constant/Math.abs(constant)));
 		}
 	}
 	var potentialX = [];
@@ -47,7 +72,7 @@ function boxUpdate() {
 			potentialX.push(constantfactors[t] / leadingCoefficientfactors[i]);
 		}
 	}
-	var preFormula = document.getElementById("factor").value.split('');
+	var preFormula = coefficients.join("+").split('');
 	for (var i = 0; i < preFormula.length; i++) {
 		if (preFormula[i] === '^') {
 			var power = '';
@@ -94,11 +119,14 @@ function boxUpdate() {
 	for (var i = 0; i < Xintercepts.length; i++) {
 		answer += "X" + (i+1) + ": " + Xintercepts[i] + " ";
 	}
-	if (answer === '') {
-		answer = "";
+	if (zeroForm === true) {
+		answer += "X" + (i+1) + ": 0"
 	}
 	if (constant === 0) {
 		answer = "Divide by 0 Error";
 	}
-	document.getElementById("box").innerHTML = simpPoly.slice(0, -1) + " = " + answer;
+	if (Xintercepts == '') {
+		answer = "The computer is unable to compute this eqation.";
+	}
+	document.getElementById("box").innerHTML = visualEquation + " = " + answer;
 }
