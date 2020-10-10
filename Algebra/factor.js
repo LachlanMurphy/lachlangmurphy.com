@@ -7,13 +7,17 @@ function boxUpdate() {
 	//We must first get what the user has inputted and simplify it for the computer to read.
 	//The user input is split by + and - into an array. 
 	var polynomial = document.getElementById("factor").value.split('+'|'-');
-
 	/*Unfortunately the computer doesn't read the input the same we humans do, 
 	so we must translate it into a language the computer can understand. The 
 	version of the formula that the computer will read will be stored as the 
 	variable simpPoly*/
 	var simpPoly = '';
 	var visualEquation = ''; //What the user sees is different. So what the user sees will be stored as visualEquation.
+
+	//Cmputer wont notice a floating 0 for the constant. i.e 30 as a constant. So we must add one for it.
+	if (polynomial[polynomial.length-1] == '') {
+		polynomial.splice(polynomial.length, 0, '0');
+	}
 
 	/*Each individual part of the equation is seperated. Each little part is torn into
 	smaller peices to be analyzed. This loop analysis the equation for simpPoly and visualEquation.*/
@@ -43,6 +47,7 @@ function boxUpdate() {
 		}
 	}
 
+	localStorage.setItem('visualEquation', visualEquation);
 	//Once the equation has been simplified we can display it to the user.
 	document.getElementById("box").innerHTML = visualEquation;
 
@@ -96,7 +101,7 @@ function boxUpdate() {
 	/*Now we must find the leading coeffiecient. The hard part about this is that the user
 	may just put X or -X instead of 1X or -1X. So we check to see if there is no leading
 	coefficient and if so, make it a 1 or negitive 1.*/
-	if (coefficients[0].charAt(0) != 'X' || coefficients[0].slice(0, 2) != '-X') {
+	if (String(coefficients[0].charAt(0)) != 'X' && String(coefficients[0].slice(0, 2)) != '-X') {
 		if (coefficients[0].slice(0, 1) == '-' && coefficients[0].slice(1, 2) == "X") {
 			leadingCoefficient = -1;
 		} else {
@@ -172,7 +177,11 @@ function boxUpdate() {
 	for (var i = 0; i < preFormula.length; i++) {
 		//Computer can't read nX, so we change to n * X.
 		if (preFormula[i+1] === "X") {
-			formula += preFormula[i] + " * ";
+			if (preFormula[i] === '+' || preFormula[i] === '-') {
+				formula += preFormula[i] + "1 * "
+			} else {
+				formula += preFormula[i] + " * ";
+			}
 		} else {
 			formula += preFormula[i];
 		}
@@ -183,18 +192,14 @@ function boxUpdate() {
 	If that turns out to equal 0, then it's a root.*/
 	var Xintercepts = [];
 	for (var i = 0; i < potentialX.length; i++) {
+		var repeatCheck = false;
 		var X = potentialX[i]; 
 		if (eval(formula) === 0 ) {
-			if (X != Xintercepts[Xintercepts.length-1]) {
-				Xintercepts.push(X);
-			}
+			Xintercepts.push(X);
 		}
-
 		var X = (potentialX[i] * -1); //We must test both the positive and negitives of the potential X's.
 		if (eval(formula) === 0 ) {
-			if (X != Xintercepts[Xintercepts.length-1]) {
-				Xintercepts.push(X);
-			}
+			Xintercepts.push(X);
 		}
 	}
 
@@ -211,10 +216,119 @@ function boxUpdate() {
 	}
 	
 	//Like I said earlier, the rational root test doesn't always work, so if there are no roots, then we tell the user it doesn't work.
+	localStorage.setItem('formulaCheck', 'false');
 	if (Xintercepts == '') {
 		answer = "The computer is unable to compute this equation.";
+		localStorage.setItem('polynomial', polynomial);
+		polynomialFunctions();
 	}
 
 	//Displaying the answer with the equation.
-	document.getElementById("box").innerHTML = visualEquation + " = " + answer;
+	if (localStorage.getItem('formulaCheck') === 'false') {
+		document.getElementById("box").innerHTML = visualEquation + " = " + answer;
+	}
+}
+
+function polynomialFunctions() {
+	var polynomial = localStorage.getItem('polynomial').split('');
+	var polynomialTemp = '';
+	for (var i = 0; i < polynomial.length; i++) {
+		if (polynomial[i] == "-") {
+			polynomialTemp += "+-"
+		} else {
+			polynomialTemp += polynomial[i];
+		}
+	}
+	polynomial = polynomialTemp.split("+");
+	if (polynomial[0] == '') {
+		polynomial.shift();
+	}
+	var coefficients = [];
+	var powers = [];
+	var polynomialTemp = '';
+	for (var i = 0; i < polynomial.length; i++) {
+		var polyString = '';
+		var polyPart = polynomial[i].split('');
+		for (var t = 0; t < polyPart.length; t++) {
+			if (polyPart[t] == "x") {
+				polyPart[t] = "X";
+			}
+			if (polyPart[t] != "X") {
+				if (polyPart[t] == "-") {
+					polyString += "-";
+				} else {
+					polyString += polyPart[t];
+				}
+			} else {
+				if (polyPart[t-1] == '-') {
+					coefficients.push(-1)
+				} else if (t === 0) {
+					coefficients.push(1);
+				} else {
+					coefficients.push(polyString);
+				}
+				if (polyPart[t+1] == "^") {
+					powers.push(polyPart[t+2]);
+				} else {
+					powers.push("1");
+				}
+			}
+		}
+	}
+	polynomial.shift();
+	if (polynomial[polynomial.length-1].includes("X") === false && polynomial[polynomial.length-1].includes("x") === false) {
+		coefficients.push(parseInt(polynomial[polynomial.length-1]));
+	} else {
+		coefficients.push("0");
+	}
+	powers.push("0");
+	if (parseInt(powers[0]) === 2) {
+		var a = parseInt(coefficients[0]);
+		if (parseInt(powers[1]) === 1) {
+			var b = parseInt(coefficients[1]);
+		} else {
+			var b = "0"
+		}
+		if (parseInt(powers[2]) === 0) {
+			var c = parseInt(coefficients[2]);
+		} else {
+			var c = "0"
+		}
+		quadraticFormula(a, b, c);
+	} if (parseInt(powers[0]) === 3) {
+		var a = parseInt(coefficients[0]);
+		if (parseInt(powers[1]) === 2) {
+			var b = parseInt(coefficients[1]);
+		} else {
+			var b = "0"
+		}
+		if (parseInt(powers[2]) === 1) {
+			var c = parseInt(coefficients[2]);
+		} else {
+			var c = "0"
+		}
+		if (parseInt(powers[3]) === 0) {
+			var d = parseInt(coefficients[3]);
+		} else {
+			var d = "0";
+		}
+		cubicFormula(a, b, c, d);
+	} 
+};
+
+function quadraticFormula(a, b, c) {
+	var s = 1;
+	var X1 = (-b+s*Math.sqrt(Math.pow(b, 2)-4*a*c))/(2*a);
+	var s = -1;
+	var X2 = (-b+s*Math.sqrt(Math.pow(b, 2)-4*a*c))/(2*a);
+	if (isNaN(X1) === false || isNaN(X2) === false) {
+		document.getElementById("box").innerHTML = localStorage.getItem('visualEquation') + " = " + "X1: " + X1 + " X2: " + X2;
+		localStorage.setItem('formulaCheck', 'true');
+	} else {
+		localStorage.setItem('formulaCheck', 'false');
+	}
+}
+
+function cubicFormula(a, b, c, d) {
+	console.log(a, b, c, d);
 }
