@@ -1,0 +1,46 @@
+<html>
+<head>
+    <title>Tetris</title>
+    <link rel="icon" href="http:/lachlangmurphy.com/Home_Assets/Web-IconHome.png">
+    <style>
+      body {
+        background: #202028;
+        color: #fff;
+        font-family: sans-serif;
+        font-size: 2em;
+        text-align: center;
+      }
+      canvas {
+        border: solid .2em #fff;
+        height: 90vh;
+      }
+      #pause {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 150px;
+        height: 150px;
+        margin-top: -75px;
+        margin-left: -75px;
+        visibility: hidden;
+      }
+      #gameOver {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 150px;
+        height: 150px;
+        margin-top: -75px;
+        margin-left: -75px;
+        visibility: hidden;
+      }
+    </style>
+</head>
+<body>
+    <div id="score"></div><div id="level"></div>
+    <img src="Tetris_Assets/PauseButton.png" id="pause">
+    <h1 id="gameOver">Game Over</h1>
+    <canvas id="tetris" width="240" height="400" />
+    <script src="tetris.js"></script>
+</body>
+</html>
