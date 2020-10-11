@@ -214,7 +214,7 @@ function update(time = 0) {
 }
 
 function updateScore() {
-    player.level = Math.floor(player.score / 20) + 1;
+    player.level = Math.floor(player.score / 10) + 1;
     document.getElementById('score').innerText = "Score: " + player.score + " Level: " + player.level;
 }
 
