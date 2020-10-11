@@ -1,6 +1,7 @@
 const canvas = document.getElementById('tetris');
 const context = canvas.getContext('2d');
 var pause = false;
+var resetCheck = false;
 
 context.scale(20, 20);
 
@@ -92,11 +93,15 @@ function createPiece(type)
     }
 }
 
-function drawMatrix(matrix, offset) {
+function drawMatrix(matrix, offset, ghost) {
     matrix.forEach((row, y) => {
         row.forEach((value, x) => {
             if (value !== 0) {
-                context.fillStyle = colors[value];
+                if (ghost === 1) {
+                    context.fillStyle = 'white';
+                } else {
+                    context.fillStyle = colors[value];
+                }
                 context.fillRect(x + offset.x,
                                  y + offset.y,
                                  1, 1);
@@ -110,7 +115,7 @@ function draw() {
     context.fillRect(0, 0, canvas.width, canvas.height);
 
     drawMatrix(arena, {x: 0, y: 0});
-    drawMatrix(player.matrix, player.pos);
+    drawMatrix(player.matrix, player.pos, 0);
 }
 
 function merge(arena, player) {
@@ -165,6 +170,7 @@ function playerMove(offset) {
 function playerReset() {
     const pieces = 'TJLOSZI';
     player.matrix = createPiece(pieces[pieces.length * Math.random() | 0]);
+    ghostPlayer.matrix = player.matrix;
     player.pos.y = 0;
     player.pos.x = (arena[0].length / 2 | 0) -
                    (player.matrix[0].length / 2 | 0);
@@ -173,6 +179,10 @@ function playerReset() {
         arena.forEach(row => row.fill(0));
         document.getElementById("gameOver").style.visibility = "visible";
         pause = true;
+    }
+
+    if (resetCheck === true) {
+        resetCheck = false;
     }
 }
 
@@ -192,13 +202,18 @@ function playerRotate(dir) {
 }
 
 let dropCounter = 0;
+var speedDrop = false;
 
 let lastTime = 0;
 function update(time = 0) {
     if (pause !== true) {
 
-        let dropInterval = 1000 * (1.050 - (.070 * player.level));
-
+        if (speedDrop === true) {
+            var dropInterval = 0;
+            speedDrop = false;
+        } else {
+            var dropInterval = 1000 * (1.050 - (.070 * player.level));
+        }
         const deltaTime = time - lastTime;
 
         dropCounter += deltaTime;
@@ -209,12 +224,24 @@ function update(time = 0) {
         lastTime = time;
 
         draw();
+        const ghostPlayer = {
+            pos: {x: player.pos.x, y: player.pos.y},
+            matrix: player.matrix,
+            score: player.score,
+            level: player.level,
+        }
+        while (collide(arena, ghostPlayer) === false) {
+            ghostPlayer.pos.y++;
+        }
+        ghostPlayer.pos.y--;
+        localStorage.setItem('ghostPlayer.pos.y', ghostPlayer.pos.y);
+        drawMatrix(ghostPlayer.matrix, ghostPlayer.pos, 1);
         requestAnimationFrame(update);
     }
 }
 
 function updateScore() {
-    player.level = Math.floor(player.score / 10) + 1;
+    player.level = Math.floor(player.score / 20) + 1;
     document.getElementById('score').innerText = "Score: " + player.score + " Level: " + player.level;
 }
 
@@ -252,6 +279,13 @@ const player = {
     level: 1,
 };
 
+const ghostPlayer = {
+    pos: {x: 0, y: 0},
+    matrix: null,
+    score: -1,
+    level: 1,
+}
+
 playerReset();
 updateScore();
 update();
@@ -267,6 +301,19 @@ document.onkeydown = function(event) {
                 document.getElementById("pause").style.visibility = 'hidden';
                 update();
             }
+        }
+    }
+
+    if (event.keyCode === 32) {
+        player.pos.y = localStorage.getItem('ghostPlayer.pos.y');
+        console.log(player.pos.y);
+        speedDrop = true;
+    }
+
+    if (event.keyCode === 67) {
+        if (resetCheck === false) {
+            playerReset();
+            resetCheck = true;
         }
     }
 }
