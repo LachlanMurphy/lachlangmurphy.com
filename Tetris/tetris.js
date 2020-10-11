@@ -216,12 +216,15 @@ var speedDrop = false;
 let lastTime = 0;
 function update(time = 0) {
     if (pause !== true) {
-
         if (speedDrop === true) {
             var dropInterval = 0;
             speedDrop = false;
         } else {
-            var dropInterval = 1000 * (1.050 - (.070 * player.level));
+            if (player.score >= 320) {
+                var dropInterval = 70;
+            } else {
+                var dropInterval = 1000 * (1.050 - (.060 * player.level));
+            }
         }
         const deltaTime = time - lastTime;
 
@@ -301,7 +304,6 @@ playerReset();
 updateScore();
 document.getElementById("gameStart").onmousedown = function() {
     if (gameStart === false) {
-        console.log("hey");
         player.score = 0;
         player.level = 1
         context.clearRect(0, 0, canvas.width, canvas.height);
@@ -330,7 +332,6 @@ document.onkeydown = function(event) {
 
         if (event.keyCode === 32) {
             player.pos.y = localStorage.getItem('ghostPlayer.pos.y');
-            console.log(player.pos.y);
             speedDrop = true;
         }
 
