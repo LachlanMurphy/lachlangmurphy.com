@@ -3,7 +3,7 @@
     <title>Tetris</title>
     <link rel="icon" href="Tetris_Assets/Web-IconTetris.png">
     <style>
-      body {
+      #game {
         background: #202028;
         color: #fff;
         font-family: sans-serif;
@@ -16,7 +16,7 @@
       }
       #pause {
         position: absolute;
-        top: 50%;
+        top: 600px;
         left: 50%;
         width: 150px;
         height: 150px;
@@ -26,7 +26,7 @@
       }
       #gameOver {
         position: absolute;
-        top: 50%;
+        top: 600px;
         left: 50%;
         width: 150px;
         height: 150px;
@@ -37,10 +37,13 @@
     </style>
 </head>
 <body>
-    <div id="score"></div><div id="level"></div>
-    <img src="Tetris_Assets/PauseButton.png" id="pause">
-    <h1 id="gameOver">Game Over</h1>
-    <canvas id="tetris" width="240" height="400" />
-    <script src="tetris.js"></script>
+    <div id="game">
+        <img src="Tetris_Assets/PauseButton.png" id="pause">
+        <h1 id="gameOver">Game Over</h1>
+        <p>Controls<br> Left Arrow Key -- move peice left<br> Right Arrow Key -- move peice right<br> Down Arrow Key -- speed up drop of peice<br> Up Arrow Key -- rotate peice clockwise<br> Spacebar -- imedietly drop the peice<br> Esc -- pause<br> <a id="gameStart" style="cursor: pointer;"><b><u>Play</u></b></a></p>
+        <div id="score"></div><div id="level"></div>
+        <canvas id="tetris" width="240" height="400" />
+        <script src="tetris.js"></script>
+    </div>
 </body>
 </html>

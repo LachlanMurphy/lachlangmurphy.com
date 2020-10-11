@@ -1,7 +1,15 @@
+window.addEventListener("keydown", function(e) {
+    // space and arrow keys
+    if([32, 37, 38, 39, 40].indexOf(e.keyCode) > -1) {
+        e.preventDefault();
+    }
+}, false);
+
 const canvas = document.getElementById('tetris');
 const context = canvas.getContext('2d');
 var pause = false;
 var resetCheck = false;
+var gameStart = false;
 
 context.scale(20, 20);
 
@@ -179,6 +187,7 @@ function playerReset() {
         arena.forEach(row => row.fill(0));
         document.getElementById("gameOver").style.visibility = "visible";
         pause = true;
+        gameStart = false;
     }
 
     if (resetCheck === true) {
@@ -246,16 +255,18 @@ function updateScore() {
 }
 
 document.addEventListener('keydown', event => {
-    if (event.keyCode === 37) {
-        playerMove(-1);
-    } else if (event.keyCode === 39) {
-        playerMove(1);
-    } else if (event.keyCode === 40) {
-        playerDrop();
-    } else if (event.keyCode === 81) {
-        playerRotate(-1);
-    } else if (event.keyCode === 38) {
-        playerRotate(1);
+    if (gameStart === true) {
+        if (event.keyCode === 37) {
+            playerMove(-1);
+        } else if (event.keyCode === 39) {
+            playerMove(1);
+        } else if (event.keyCode === 40) {
+            playerDrop();
+        } else if (event.keyCode === 81) {
+            playerRotate(-1);
+        } else if (event.keyCode === 38) {
+            playerRotate(1);
+        }        
     }
 });
 
@@ -288,32 +299,46 @@ const ghostPlayer = {
 
 playerReset();
 updateScore();
-update();
+document.getElementById("gameStart").onmousedown = function() {
+    if (gameStart === false) {
+        console.log("hey");
+        player.score = 0;
+        player.level = 1
+        context.clearRect(0, 0, canvas.width, canvas.height);
+        gameStart = true;
+        document.getElementById("gameOver").style.visibility = "hidden";
+        pause = false;
+        updateScore();
+        update();
+    }
+}
 
 document.onkeydown = function(event) {
-    if (document.getElementById("gameOver").style.visibility != "visible") {
-        if (event.keyCode === 27) {
-            if (pause === false) {
-                pause = true;
-                document.getElementById("pause").style.visibility = 'visible';
-            } else {
-                pause = false;
-                document.getElementById("pause").style.visibility = 'hidden';
-                update();
+    if (gameStart === true) {
+        if (document.getElementById("gameOver").style.visibility != "visible") {
+            if (event.keyCode === 27) {
+                if (pause === false) {
+                    pause = true;
+                    document.getElementById("pause").style.visibility = 'visible';
+                } else {
+                    pause = false;
+                    document.getElementById("pause").style.visibility = 'hidden';
+                    update();
+                }
             }
         }
-    }
 
-    if (event.keyCode === 32) {
-        player.pos.y = localStorage.getItem('ghostPlayer.pos.y');
-        console.log(player.pos.y);
-        speedDrop = true;
-    }
+        if (event.keyCode === 32) {
+            player.pos.y = localStorage.getItem('ghostPlayer.pos.y');
+            console.log(player.pos.y);
+            speedDrop = true;
+        }
 
-    if (event.keyCode === 67) {
-        if (resetCheck === false) {
-            playerReset();
-            resetCheck = true;
+        if (event.keyCode === 67) {
+            if (resetCheck === false) {
+                playerReset();
+                resetCheck = true;
+            }
         }
     }
 }
