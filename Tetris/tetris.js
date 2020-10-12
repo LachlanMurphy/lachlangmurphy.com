@@ -233,7 +233,7 @@ function update(time = 0) {
             speedDrop = false;
         } else {
             if (player.score >= 380) {
-                var dropInterval = 80;
+                var dropInterval = 90;
             } else {
                 var dropInterval = 1000 * (1.050 - (.050 * player.level));
             }
@@ -356,6 +356,7 @@ document.onkeydown = function(event) {
                 resetCheck = false;
                 playerReset();
             } else {
+                console.log(localStorage.getItem('savedPieceMatrix'))
                 if (localStorage.getItem('savedPieceMatrix') == '0,7,0,7,7,7,0,0,0') {
                     localStorage.setItem('savedPieceValue', 'T');
                 } else if (localStorage.getItem('savedPieceMatrix') == '0,2,0,0,2,0,0,2,2') {
