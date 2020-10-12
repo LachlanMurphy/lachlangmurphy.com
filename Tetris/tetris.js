@@ -7,11 +7,16 @@ window.addEventListener("keydown", function(e) {
 
 const canvas = document.getElementById('tetris');
 const context = canvas.getContext('2d');
+const canvas2 = document.getElementById('savedPiece');
+const context2 = canvas2.getContext('2d');
+
 var pause = false;
 var resetCheck = false;
 var gameStart = false;
+var savedPieceCheck = false;
 
 context.scale(20, 20);
+context2.scale(40, 40);
 
 function arenaSweep() {
     let rowCount = 1;
@@ -176,9 +181,15 @@ function playerMove(offset) {
 }
 
 function playerReset() {
+
     const pieces = 'TJLOSZI';
-    player.matrix = createPiece(pieces[pieces.length * Math.random() | 0]);
+    if (resetCheck === false) {
+        player.matrix = createPiece(pieces[pieces.length * Math.random() | 0]);
+    } else {
+        player.matrix = createPiece(localStorage.getItem('savedPieceValue'));
+    }
     ghostPlayer.matrix = player.matrix;
+
     player.pos.y = 0;
     player.pos.x = (arena[0].length / 2 | 0) -
                    (player.matrix[0].length / 2 | 0);
@@ -188,10 +199,6 @@ function playerReset() {
         document.getElementById("gameOver").style.visibility = "visible";
         pause = true;
         gameStart = false;
-    }
-
-    if (resetCheck === true) {
-        resetCheck = false;
     }
 }
 
@@ -216,12 +223,17 @@ var speedDrop = false;
 let lastTime = 0;
 function update(time = 0) {
     if (pause !== true) {
+        if (resetCheck === true) {
+            changeNextPiece(player.matrix, player.pos);
+            localStorage.setItem('savedPieceMatrix', player.matrix);
+        }
+
         if (speedDrop === true) {
             var dropInterval = 0;
             speedDrop = false;
         } else {
             if (player.score >= 380) {
-                var dropInterval = 70;
+                var dropInterval = 80;
             } else {
                 var dropInterval = 1000 * (1.050 - (.050 * player.level));
             }
@@ -336,10 +348,48 @@ document.onkeydown = function(event) {
         }
 
         if (event.keyCode === 67) {
-            if (resetCheck === false) {
-                playerReset();
+            if (savedPieceCheck === false) {
+                context2.clearRect(0, 0, canvas.width, canvas.height);
+                savedPieceCheck = true;
                 resetCheck = true;
+                update();
+                playerReset();
+                resetCheck = false;
+            } else {
+                if (localStorage.getItem('savedPieceMatrix') == '0,7,0,7,7,7,0,0,0') {
+                    localStorage.setItem('savedPieceValue', 'T');
+                } else if (localStorage.getItem('savedPieceMatrix') == '0,2,0,0,2,0,0,2,2') {
+                    localStorage.setItem('savedPieceValue', 'L');
+                } else if (localStorage.getItem('savedPieceMatrix') == '4,4,4,4') {
+                    localStorage.setItem('savedPieceValue', 'O');
+                } else if (localStorage.getItem('savedPieceMatrix') == '0,1,0,0,0,1,0,0,0,1,0,0,0,1,0,0') {
+                    localStorage.setItem('savedPieceValue', 'I');
+                } else if (localStorage.getItem('savedPieceMatrix') == '5,5,0,0,5,5,0,0,0') {
+                    localStorage.setItem('savedPieceValue', 'Z');
+                } else if (localStorage.getItem('savedPieceMatrix') == '0,6,6,6,6,0,0,0,0') {
+                    localStorage.setItem('savedPieceValue', 'S');
+                } else if (localStorage.getItem('savedPieceMatrix') == '0,3,0,0,3,0,3,3,0') {
+                    localStorage.setItem('savedPieceValue', 'J');
+                }
+                resetCheck = true;
+                playerReset();
+                context2.clearRect(0, 0, canvas.width, canvas.height);
+                savedPieceCheck = false;
+                resetCheck = false;
             }
         }
     }
+}
+
+function changeNextPiece(matrix, offset) {
+    context2.fillStyle = '#000';
+    context2.fillRect(0, 0, canvas2.width, canvas2.height)
+    matrix.forEach((row, y) => {
+        row.forEach((value, x) => {
+            if (value !== 0) {
+                context2.fillStyle = colors[value];
+                context2.fillRect(x + 1, y + 1, 1, 1);
+            }
+        });
+    });
 }
