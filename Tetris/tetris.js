@@ -195,7 +195,6 @@ function playerReset() {
                    (player.matrix[0].length / 2 | 0);
     player.score += 1;
     if (collide(arena, player)) {
-        arena.forEach(row => row.fill(0));
         document.getElementById("gameOver").style.visibility = "visible";
         pause = true;
         gameStart = false;
@@ -318,6 +317,7 @@ document.getElementById("gameStart").onmousedown = function() {
     if (gameStart === false) {
         player.score = 0;
         player.level = 1
+        arena.forEach(row => row.fill(0));
         context.clearRect(0, 0, canvas.width, canvas.height);
         gameStart = true;
         document.getElementById("gameOver").style.visibility = "hidden";
@@ -356,7 +356,6 @@ document.onkeydown = function(event) {
                 resetCheck = false;
                 playerReset();
             } else {
-                console.log(localStorage.getItem('savedPieceMatrix'))
                 if (localStorage.getItem('savedPieceMatrix') == '0,7,0,7,7,7,0,0,0') {
                     localStorage.setItem('savedPieceValue', 'T');
                 } else if (localStorage.getItem('savedPieceMatrix') == '0,2,0,0,2,0,0,2,2') {
