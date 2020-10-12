@@ -353,8 +353,8 @@ document.onkeydown = function(event) {
                 savedPieceCheck = true;
                 resetCheck = true;
                 update();
-                playerReset();
                 resetCheck = false;
+                playerReset();
             } else {
                 if (localStorage.getItem('savedPieceMatrix') == '0,7,0,7,7,7,0,0,0') {
                     localStorage.setItem('savedPieceValue', 'T');
