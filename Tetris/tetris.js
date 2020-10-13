@@ -223,7 +223,6 @@ let lastTime = 0;
 function update(time = 0) {
     if (pause !== true) {
         if (resetCheck === true) {
-            changeNextPiece(player.matrix, player.pos);
             localStorage.setItem('savedPieceMatrix', player.matrix);
         }
 
@@ -350,27 +349,23 @@ document.onkeydown = function(event) {
         if (event.keyCode === 67) {
             if (savedPieceCheck === false) {
                 context2.clearRect(0, 0, canvas.width, canvas.height);
+
                 savedPieceCheck = true;
                 resetCheck = true;
                 update();
+
+                const pieces = 'TSZOJLI';
+                var savedMatrix = localStorage.getItem('savedPieceMatrix').split(',');
+                for (var i = 0; i < savedMatrix.length; i++) {
+                    if (parseInt(savedMatrix[i]) !== 0) {
+                        localStorage.setItem('savedPieceValue', pieces[pieces.length - savedMatrix[i]]);
+                    }
+                }
+                changeNextPiece(createPiece(localStorage.getItem('savedPieceValue')), player.pos);
+                
                 resetCheck = false;
                 playerReset();
             } else {
-                if (localStorage.getItem('savedPieceMatrix') == '0,7,0,7,7,7,0,0,0') {
-                    localStorage.setItem('savedPieceValue', 'T');
-                } else if (localStorage.getItem('savedPieceMatrix') == '0,2,0,0,2,0,0,2,2') {
-                    localStorage.setItem('savedPieceValue', 'L');
-                } else if (localStorage.getItem('savedPieceMatrix') == '4,4,4,4') {
-                    localStorage.setItem('savedPieceValue', 'O');
-                } else if (localStorage.getItem('savedPieceMatrix') == '0,1,0,0,0,1,0,0,0,1,0,0,0,1,0,0') {
-                    localStorage.setItem('savedPieceValue', 'I');
-                } else if (localStorage.getItem('savedPieceMatrix') == '5,5,0,0,5,5,0,0,0') {
-                    localStorage.setItem('savedPieceValue', 'Z');
-                } else if (localStorage.getItem('savedPieceMatrix') == '0,6,6,6,6,0,0,0,0') {
-                    localStorage.setItem('savedPieceValue', 'S');
-                } else if (localStorage.getItem('savedPieceMatrix') == '0,3,0,0,3,0,3,3,0') {
-                    localStorage.setItem('savedPieceValue', 'J');
-                }
                 resetCheck = true;
                 playerReset();
                 context2.clearRect(0, 0, canvas.width, canvas.height);
