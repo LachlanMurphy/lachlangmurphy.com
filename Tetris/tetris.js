@@ -376,7 +376,6 @@ document.onkeydown = function(event) {
                         localStorage.setItem('savedPieceValue', pieces[pieces.length - savedMatrix[i]]);
                     }
                 }
-                console.log(localStorage.getItem('savedPieceValue'));
                 changeNextPiece(createPiece(localStorage.getItem('savedPieceValue')), player.pos, 0);
 
                 resetCheck = false;
@@ -393,7 +392,6 @@ document.onkeydown = function(event) {
 }
 
 function changeNextPiece(matrix, offset, yOffset) {
-    console.log(yOffset);
     if (yOffset > 0) {
         context2.clearRect(0, 6, 5, 10);
     } else {
