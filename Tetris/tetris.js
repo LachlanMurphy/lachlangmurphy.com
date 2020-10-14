@@ -10,6 +10,12 @@ const context = canvas.getContext('2d');
 const canvas2 = document.getElementById('savedPiece');
 const context2 = canvas2.getContext('2d');
 
+context2.fillStyle = 'white';
+context2.fillRect(0, 200, 200, 4);
+context2.font = '20px arial';
+context2.fillText('Saved Piece', 50, 20);
+context2.fillText('Next Piece', 55, 225);
+
 var pause = false;
 var resetCheck = false;
 var gameStart = false;
@@ -181,10 +187,17 @@ function playerMove(offset) {
 }
 
 function playerReset() {
-
-    const pieces = 'TJLOSZI';
+localStorage.getItem('savedPieceValue')
     if (resetCheck === false) {
-        player.matrix = createPiece(pieces[pieces.length * Math.random() | 0]);
+        if (player.matrix === null) {
+            player.matrix = createPiece(pieces[pieces.length * Math.random() | 0]);
+            localStorage.setItem('nextPiece', pieces[pieces.length * Math.random() | 0]);
+            changeNextPiece(createPiece(localStorage.getItem('nextPiece')), player.pos, 5);
+        } else {
+            player.matrix = createPiece(localStorage.getItem('nextPiece'));
+            localStorage.setItem('nextPiece', pieces[pieces.length * Math.random() | 0]);
+        changeNextPiece(createPiece(localStorage.getItem('nextPiece')), player.pos, 5);
+        }
     } else {
         player.matrix = createPiece(localStorage.getItem('savedPieceValue'));
     }
@@ -230,10 +243,10 @@ function update(time = 0) {
             var dropInterval = 0;
             speedDrop = false;
         } else {
-            if (player.score >= 380) {
+            if (player.score >= 620) {
                 var dropInterval = 90;
             } else {
-                var dropInterval = 1000 * (1.050 - (.050 * player.level));
+                var dropInterval = 1000 * (1.050 - (.030 * player.level));
             }
         }
         const deltaTime = time - lastTime;
@@ -299,7 +312,7 @@ const arena = createMatrix(12, 20);
 const player = {
     pos: {x: 0, y: 0},
     matrix: null,
-    score: -1,
+    score: 0,
     level: 1,
 };
 
@@ -310,7 +323,9 @@ const ghostPlayer = {
     level: 1,
 }
 
-playerReset();
+const pieces = 'TSZOJLI';
+
+
 updateScore();
 document.getElementById("gameStart").onmousedown = function() {
     if (gameStart === false) {
@@ -321,6 +336,7 @@ document.getElementById("gameStart").onmousedown = function() {
         gameStart = true;
         document.getElementById("gameOver").style.visibility = "hidden";
         pause = false;
+        playerReset();
         updateScore();
         update();
     }
@@ -348,7 +364,7 @@ document.onkeydown = function(event) {
 
         if (event.keyCode === 67) {
             if (savedPieceCheck === false) {
-                context2.clearRect(0, 0, canvas.width, canvas.height);
+                context2.clearRect(0, 1, 5, 4);
 
                 savedPieceCheck = true;
                 resetCheck = true;
@@ -361,14 +377,15 @@ document.onkeydown = function(event) {
                         localStorage.setItem('savedPieceValue', pieces[pieces.length - savedMatrix[i]]);
                     }
                 }
-                changeNextPiece(createPiece(localStorage.getItem('savedPieceValue')), player.pos);
-                
+                console.log(localStorage.getItem('savedPieceValue'));
+                changeNextPiece(createPiece(localStorage.getItem('savedPieceValue')), player.pos, 0);
+
                 resetCheck = false;
                 playerReset();
             } else {
                 resetCheck = true;
                 playerReset();
-                context2.clearRect(0, 0, canvas.width, canvas.height);
+                context2.clearRect(0, 1, 5, 4);
                 savedPieceCheck = false;
                 resetCheck = false;
             }
@@ -376,14 +393,18 @@ document.onkeydown = function(event) {
     }
 }
 
-function changeNextPiece(matrix, offset) {
-    context2.fillStyle = '#000';
-    context2.fillRect(0, 0, canvas2.width, canvas2.height)
+function changeNextPiece(matrix, offset, yOffset) {
+    console.log(yOffset);
+    if (yOffset > 0) {
+        context2.clearRect(0, 6, 5, 10);
+    } else {
+        context2.clearRect(0, 1, 5, 4);
+    }
     matrix.forEach((row, y) => {
         row.forEach((value, x) => {
             if (value !== 0) {
                 context2.fillStyle = colors[value];
-                context2.fillRect(x + 1, y + 1, 1, 1);
+                context2.fillRect(x + 1, y + 1 + yOffset, 1, 1);
             }
         });
     });
