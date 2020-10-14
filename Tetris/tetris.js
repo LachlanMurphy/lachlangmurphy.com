@@ -37,7 +37,7 @@ function arenaSweep() {
         arena.unshift(row);
         ++y;
 
-        player.score += rowCount * 10;
+        player.score += rowCount * 1;
         rowCount *= 2;
     }
 }
@@ -206,7 +206,6 @@ localStorage.getItem('savedPieceValue')
     player.pos.y = 0;
     player.pos.x = (arena[0].length / 2 | 0) -
                    (player.matrix[0].length / 2 | 0);
-    player.score += 1;
     if (collide(arena, player)) {
         document.getElementById("gameOver").style.visibility = "visible";
         pause = true;
@@ -243,7 +242,7 @@ function update(time = 0) {
             var dropInterval = 0;
             speedDrop = false;
         } else {
-            if (player.score >= 620) {
+            if (player.score >= 62) {
                 var dropInterval = 90;
             } else {
                 var dropInterval = 1000 * (1.050 - (.030 * player.level));
@@ -276,7 +275,7 @@ function update(time = 0) {
 }
 
 function updateScore() {
-    player.level = Math.floor(player.score / 20) + 1;
+    player.level = Math.floor(player.score / 2) + 1;
     document.getElementById('score').innerText = "Score: " + player.score + " Level: " + player.level;
 }
 
