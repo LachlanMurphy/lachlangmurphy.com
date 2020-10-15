@@ -210,6 +210,12 @@ localStorage.getItem('savedPieceValue')
         document.getElementById("gameOver").style.visibility = "visible";
         pause = true;
         gameStart = false;
+        if (localStorage.getItem('highScore') === null) {
+            localStorage.setItem('highScore', player.score)
+        } else if (localStorage.getItem('highScore') < player.score) {
+            localStorage.setItem('highScore', player.score)
+        }
+        document.getElementById("gameOver").innerText = "Game Over" + "\nScore: " + player.score + "\nHigh Score: " + localStorage.getItem('highScore');
     }
 }
 
