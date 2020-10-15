@@ -20,6 +20,8 @@ var pause = false;
 var resetCheck = false;
 var gameStart = false;
 var savedPieceCheck = false;
+var moveTimeout = 0;
+var timeout;
 
 context.scale(20, 20);
 context2.scale(40, 40);
@@ -134,7 +136,6 @@ function draw() {
     context.fillRect(0, 0, canvas.width, canvas.height);
 
     drawMatrix(arena, {x: 0, y: 0});
-    drawMatrix(player.matrix, player.pos, 0);
 }
 
 function merge(arena, player) {
@@ -171,10 +172,12 @@ function playerDrop() {
     player.pos.y++;
     if (collide(arena, player)) {
         player.pos.y--;
-        merge(arena, player);
-        playerReset();
-        arenaSweep();
-        updateScore();
+        if (moveTimeout === 0) {
+            merge(arena, player);
+            playerReset();
+            arenaSweep();
+            updateScore();
+        }
     }
     dropCounter = 0;
 }
@@ -263,7 +266,6 @@ function update(time = 0) {
 
         lastTime = time;
 
-        draw();
         const ghostPlayer = {
             pos: {x: player.pos.x, y: player.pos.y},
             matrix: player.matrix,
@@ -275,7 +277,9 @@ function update(time = 0) {
         }
         ghostPlayer.pos.y--;
         localStorage.setItem('ghostPlayer.pos.y', ghostPlayer.pos.y);
+        draw();
         drawMatrix(ghostPlayer.matrix, ghostPlayer.pos, 1);
+        drawMatrix(player.matrix, player.pos, 0);
         requestAnimationFrame(update);
     }
 }
@@ -297,8 +301,11 @@ document.addEventListener('keydown', event => {
             playerRotate(-1);
         } else if (event.keyCode === 38) {
             playerRotate(1);
-        }        
+        }
     }
+    moveTimeout = 1;
+    clearTimeout(timeout);
+    timeout = setTimeout(function() {moveTimeout = 0;}, 200);
 });
 
 const colors = [
@@ -365,6 +372,7 @@ document.onkeydown = function(event) {
         if (event.keyCode === 32) {
             player.pos.y = localStorage.getItem('ghostPlayer.pos.y');
             speedDrop = true;
+            moveTimeout = 0;
         }
 
         if (event.keyCode === 67) {
