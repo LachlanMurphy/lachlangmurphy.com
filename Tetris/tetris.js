@@ -242,10 +242,10 @@ function update(time = 0) {
             var dropInterval = 0;
             speedDrop = false;
         } else {
-            if (player.score >= 62) {
-                var dropInterval = 90;
+            if (player.score >= 70) {
+                var dropInterval = 150;
             } else {
-                var dropInterval = 1000 * (1.050 - (.030 * player.level));
+                var dropInterval = 1000 * (1.050 - (.025 * player.level));
             }
         }
         const deltaTime = time - lastTime;
