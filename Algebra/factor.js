@@ -207,7 +207,9 @@ function boxUpdate() {
 	var answer = '';
 	for (var i = 0; i < Xintercepts.length; i++) {
 		//Smashing all the answers together. I'm not entirely sure but I think it's from left to right relative to the X axis.
-		answer += "X" + (i+1) + ": " + Xintercepts[i] + " ";
+		if (answer.includes(Xintercepts[i]) === false) {
+			answer += "X" + (i+1) + ": " + Xintercepts[i] + " ";
+		}
 	}
 
 	//Remember the check to see if we had to divide by X? Welp here it is. This just adds the 0 root to the answer.
@@ -222,6 +224,8 @@ function boxUpdate() {
 		localStorage.setItem('polynomial', polynomial);
 		polynomialFunctions();
 	}
+
+	console.log(answer);
 
 	//Displaying the answer with the equation.
 	if (localStorage.getItem('formulaCheck') === 'false') {
@@ -330,5 +334,10 @@ function quadraticFormula(a, b, c) {
 }
 
 function cubicFormula(a, b, c, d) {
-	console.log(a, b, c, d);
+	var cubicAnswer = [];
+	for (var i = 0; i < 3; i++) {
+		var n = i;
+		cubicAnswer.push((-2*b+((-1+sqrt(-3))/2)^n*cbrt(4*(-2*b^3+9*a*b*c-27*a^2*d+sqrt((-2*b^3+9*a*b*c-27*a^2*d)^2-4*(b^2-3*a*c)^3)))+((-1-sqrt(-3))/2)^n*cbrt(4*(-2*b^3+9*a*b*c-27*a^2*d-sqrt((-2*b^3+9*a*b*c-27*a^2*d)^2-4*(b^2-3*a*c)^3))))/(6*a));
+	}
+	console.log(cubicAnswer);
 }
