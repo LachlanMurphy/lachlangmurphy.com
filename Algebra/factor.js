@@ -271,10 +271,15 @@ function polynomialFunctions() {
 				} else {
 					coefficients.push(polyString);
 				}
+				console.log(polyPart);
 				if (polyPart[t+1] == "^") {
 					powers.push(polyPart[t+2]);
 				} else {
-					powers.push("1");
+
+					if (powers[powers.length-1] - 1 !== polyPart[t+2]) {
+						powers.push(powers[powers.length-1] - 1);
+					}
+					powers.push(powers[powers.length-1] - 1);
 				}
 			}
 		}
@@ -291,31 +296,33 @@ function polynomialFunctions() {
 		if (parseInt(powers[1]) === 1) {
 			var b = parseInt(coefficients[1]);
 		} else {
-			var b = "0"
+			var b = 0;
 		}
 		if (parseInt(powers[2]) === 0) {
 			var c = parseInt(coefficients[2]);
 		} else {
-			var c = "0"
+			var c = 0;
 		}
 		quadraticFormula(a, b, c);
 	} if (parseInt(powers[0]) === 3) {
+		console.log(coefficients, powers);
 		var a = parseInt(coefficients[0]);
 		if (parseInt(powers[1]) === 2) {
 			var b = parseInt(coefficients[1]);
 		} else {
-			var b = "0"
+			var b = 0;
 		}
 		if (parseInt(powers[2]) === 1) {
 			var c = parseInt(coefficients[2]);
 		} else {
-			var c = "0"
+			var c = 0;
 		}
 		if (parseInt(powers[3]) === 0) {
 			var d = parseInt(coefficients[3]);
 		} else {
-			var d = "0";
+			var d = 0;
 		}
+		console.log(a, b, c, d);
 		cubicFormula(a, b, c, d);
 	} 
 };
@@ -334,6 +341,7 @@ function quadraticFormula(a, b, c) {
 }
 
 function cubicFormula(a, b, c, d) {
+	console.log(a, b, c, d);
 	var cubicAnswer = [];
 	for (var i = 0; i < 3; i++) {
 		var n = i;

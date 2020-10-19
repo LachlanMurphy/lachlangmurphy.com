@@ -252,7 +252,7 @@ function update(time = 0) {
             speedDrop = false;
         } else {
             if (player.score >= 70) {
-                var dropInterval = 150;
+                var dropInterval = 120;
             } else {
                 var dropInterval = 1000 * (1.050 - (.025 * player.level));
             }
