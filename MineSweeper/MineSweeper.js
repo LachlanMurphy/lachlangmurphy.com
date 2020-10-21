@@ -1,3 +1,4 @@
+localStorage.setItem('gameStart', 'false');
 function createMineField(rows, columns) {
     var element = document.getElementById('mineField');
     if (typeof(element) != 'undefined' && element != null) {
@@ -20,6 +21,8 @@ function createMineField(rows, columns) {
         for (var t = 0; columns > t; t++) {
             var cell = document.createElement('div');
             cell.id = "cell" + (i + 1) + "-" + (t + 1);
+            cell.x = t + 1;
+            cell.y = i + 1;
             row.appendChild(cell);
             cell.style.height = "10px";
             cell.style.width = "10px";
@@ -48,7 +51,7 @@ function createMineField(rows, columns) {
         elem.addEventListener("mousedown", function() {
             if (localStorage.getItem('gameStart') != 'true') {
                 localStorage.setItem('gameStart', 'true');
-                gameStart(elem);
+                gameStart(elem, rows, columns, cell.x, cell.y);
             } else {
                 localStorage.setItem('gameStart', 'false');
             }
@@ -56,8 +59,7 @@ function createMineField(rows, columns) {
     });
 }
 
-function gameStart(cell) {
-    console.log(cell);
+function gameStart(cell, rows, columns, x, y) {
     var bombNumbers = [];
     while (bombNumbers.length < Math.round(rows * columns / 8)) {
         var bombTemp = {x: Math.floor(Math.random() * Math.floor(columns)) + 1, y: Math.floor(Math.random() * Math.floor(rows)) + 1};
@@ -67,47 +69,67 @@ function gameStart(cell) {
                 if (bombNumbers[i].x !== bombTemp.x && bombNumbers[i].y !== bombTemp.y) {
                     repeatCheck++;
                 }
-                if (i === bombNumbers.length - 1 && i === repeatCheck) {
+                if (i === bombNumbers.length - 1 && i === repeatCheck && cell.x !== bombTemp.x && cell.y !== bombTemp.y) {
                     bombNumbers.push(bombTemp);
                 }
             }
-        } else {
+        } else if (cell.x !== bombTemp.x && cell.y !== bombTemp.y) {
             bombNumbers.push(bombTemp);
+        }
+
+        if (cell.x !== bombTemp.x && cell.y !== bombTemp.y) {
+            console.log("hey");
         }
     }
 
-    cell.bomb = 0;
-    for (var z = 0; z < bombNumbers.length; z++) {
-        if (bombNumbers[z].x === t + 1 && bombNumbers[z].y === i + 1) {
-            cell.bomb = -1;
+    var assignCheck = false;
+    for (var i = 0; i < rows; i++) {
+        for (var t = 0; t < columns; t++) {
+            for (var z = 0; z < bombNumbers.length; z++) {
+                if (bombNumbers[z].x === document.getElementById('cell' + (i + 1) + '-' + (t + 1)).x && bombNumbers[z].y === document.getElementById('cell' + (i + 1) + '-' + (t + 1)).y) {
+                    document.getElementById('cell' + (i + 1) + '-' + (t + 1)).bomb = -1;
+                    assignCheck = true;
+                } else if (assignCheck === false) {
+                    document.getElementById('cell' + (i + 1) + '-' + (t + 1)).bomb = 0;
+                }
+            }
+            assignCheck = false;
         }
     }
-    if (cell.bomb !== -1) {
-        if (document.getElementById('cell' + i + '-' + (t + 1)).bomb === -1) {
-            cell.bomb++;
-        }
-        if (document.getElementById('cell' + i + '-' + (t + 2)).bomb === -1) {
-            cell.bomb++;
-        }
-        if (document.getElementById('cell' + (i + 1) + '-' + (t + 2)).bomb === -1) {
-            cell.bomb++;
-        }
-        if (document.getElementById('cell' + (i + 2) + '-' + (t + 2)).bomb === -1) {
-            cell.bomb++;
-        }
-        if (document.getElementById('cell' + (i + 2) + '-' + (t + 1)).bomb === -1) {
-            cell.bomb++;
-        }
-        if (document.getElementById('cell' + (i + 2) + '-' + t).bomb === -1) {
-            cell.bomb++;
-        }
-        if (document.getElementById('cell' + (i + 1) + '-' + t).bomb === -1) {
-            cell.bomb++;
-        }
-        if (document.getElementById('cell' + i + '-' + t).bomb === -1) {
-            cell.bomb++;
+
+    for (var i = 0; i < rows; i++) {
+        for (var t = 0; t < columns; t++) {
+            let tempCell = document.getElementById('cell' + (i + 1) + '-' + (t + 1));
+            if (tempCell.bomb !== -1) {
+                if (i !== 0 && document.getElementById('cell' + i + '-' + (t + 1)).bomb === -1) {
+                    tempCell.bomb++;
+                }
+                if (i !== 0 && (t + 1) !== columns && document.getElementById('cell' + i + '-' + (t + 2)).bomb === -1) {
+                    tempCell.bomb++;
+                }
+                if ((t + 1) !== columns && document.getElementById('cell' + (i + 1) + '-' + (t + 2)).bomb === -1) {
+                    tempCell.bomb++;
+                }
+                if ((i + 1) !== rows && (t + 1) !== columns && document.getElementById('cell' + (i + 2) + '-' + (t + 2)).bomb === -1) {
+                    tempCell.bomb++;
+                }
+                if ((i + 1) !== rows && document.getElementById('cell' + (i + 2) + '-' + (t + 1)).bomb === -1) {
+                    tempCell.bomb++;
+                }
+                if ((i + 1) !== rows && t !== 0 && document.getElementById('cell' + (i + 2) + '-' + t).bomb === -1) {
+                    tempCell.bomb++;
+                }
+                if (t !== 0 && document.getElementById('cell' + (i + 1) + '-' + t).bomb === -1) {
+                    tempCell.bomb++;
+                }
+                if (i !== 0 && t !== 0 && document.getElementById('cell' + i + '-' + t).bomb === -1) {
+                    tempCell.bomb++;
+                }
+            }
+            tempCell.innerText = tempCell.bomb;
         }
     }
+
 }
 
 createMineField(8, 10);
