@@ -31,6 +31,7 @@ function createMineField(rows, columns) {
             cell.style.borderBottom = "solid 1px grey";
             cell.style.borderRight = "solid 1px grey";
             cell.style.backgroundColor = "lightgrey";
+            cell.style.userSelect = "none";
             cell.style.float = "left";
             cellArray.push(cell);
         }
@@ -124,6 +125,10 @@ function gameStart(cell, rows, columns, x, y) {
                 }
             }
             tempCell.innerText = tempCell.bomb;
+        }
+
+        if (cell.bomb !== 0) {
+            gameStart(cell, rows, columns, x, y);
         }
     }
 
