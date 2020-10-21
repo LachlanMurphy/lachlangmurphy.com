@@ -6,8 +6,8 @@ function createMineField(rows, columns) {
     var mineField = document.createElement('div');
     mineField.id = "mineField";
     document.body.appendChild(mineField);
-    mineField.style.height = ((rows * 10) + (rows * 2)) + "px";
-    mineField.style.width = ((columns * 10) + (columns * 2)) + "px";
+    mineField.style.height = (rows * 12) + "px";
+    mineField.style.width = (columns * 12) + "px";
     mineField.style.border = "solid 5px black"
 
     var cellArray = [];
@@ -16,7 +16,7 @@ function createMineField(rows, columns) {
         row.id = "row" + (i + 1);
         mineField.appendChild(row);
         row.style.height = "10px";
-        row.style.width = ((columns * 10) + (columns * 3));
+        row.style.width = (columns * 12);
         for (var t = 0; columns > t; t++) {
             var cell = document.createElement('div');
             cell.id = "cell" + (i + 1) + "-" + (t + 1);
