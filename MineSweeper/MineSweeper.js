@@ -16,7 +16,7 @@ function createMineField(rows, columns) {
         row.id = "row" + (i + 1);
         mineField.appendChild(row);
         row.style.height = "10px";
-        row.style.width = mineField.style.width;
+        row.style.width = ((columns * 10) + (columns * 3));
         for (var t = 0; columns > t; t++) {
             var cell = document.createElement('div');
             cell.id = "cell" + (i + 1) + "-" + (t + 1);
