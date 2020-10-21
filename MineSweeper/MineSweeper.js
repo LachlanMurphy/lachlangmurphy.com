@@ -34,22 +34,28 @@ function createMineField(rows, columns) {
             cell.style.userSelect = "none";
             cell.style.float = "left";
             cell.style.fontSize = "10px";
+            cell.style.fontFamily = 'retro';
             cell.style.textAlign = "center";
+            cell.reveal = false;
             cellArray.push(cell);
         }
     }
     cellArray.forEach(function(elem) {
         elem.addEventListener("mouseover", function() {
-            elem.style.borderTop = "solid 1px grey";
-            elem.style.borderLeft = "solid 1px grey";
-            elem.style.borderBottom = "solid 1px lightgrey";
-            elem.style.borderRight = "solid 1px lightgrey";
+            if (elem.reveal === false) {
+                elem.style.borderTop = "solid 1px grey";
+                elem.style.borderLeft = "solid 1px grey";
+                elem.style.borderBottom = "solid 1px lightgrey";
+                elem.style.borderRight = "solid 1px lightgrey";
+            }
         });
         elem.addEventListener("mouseout", function() {
-            elem.style.borderTop = "solid 1px white";
-            elem.style.borderLeft = "solid 1px white";
-            elem.style.borderBottom = "solid 1px grey";
-            elem.style.borderRight = "solid 1px grey";
+            if (elem.reveal === false) {
+                elem.style.borderTop = "solid 1px white";
+                elem.style.borderLeft = "solid 1px white";
+                elem.style.borderBottom = "solid 1px grey";
+                elem.style.borderRight = "solid 1px grey";
+            }
         });
         elem.addEventListener("mousedown", function() {
             if (localStorage.getItem('gameStart') != 'true') {
@@ -126,11 +132,21 @@ function gameStart(cell, rows, columns, x, y) {
                 if (i !== 0 && t !== 0 && document.getElementById('cell' + i + '-' + t).bomb === -1) {
                     tempCell.bomb++;
                 }
-            }
-            if (tempCell.bomb >= 6) {
 
+                if (tempCell.bomb === 1) {
+                    tempCell.style.color = "green";
+                } else if (tempCell.bomb === 2) {
+                    tempCell.style.color = "blue";
+                } else if (tempCell.bomb === 3) {
+                    tempCell.style.color = "orange";
+                } else if (tempCell.bomb === 4) {
+                    tempCell.style.color = "orange";
+                } else if (tempCell.bomb === 5) {
+                    tempCell.style.color = "darkorange";
+                } else if (tempCell.bomb >= 6) {
+                    tempCell.style.color = "red";
+                }
             }
-            tempCell.innerText = tempCell.bomb;
         }
 
         if (cell.bomb !== 0) {
@@ -142,78 +158,129 @@ function gameStart(cell, rows, columns, x, y) {
 }
 
 function clickField(cell, rows, columns) {
-    cell.style.backgroundColor = "green";
+    cell.style.backgroundColor = "ligthgrey";
+    cell.style.borderTop = "solid 1px grey";
+    cell.style.borderLeft = "solid 1px grey";
+    cell.style.borderBottom = "solid 1px lightgrey";
+    cell.style.borderRight = "solid 1px lightgrey";
+    cell.reveal = true;
     var zeroCount = [];
     if (cell.bomb !== -1) {
         var cellThis = document.getElementById('cell' + (cell.y - 1) + '-' + ((cell.x - 1) + 1));
-        if ((cell.y - 1) !== 0 && cellThis.bomb !== -1 && cellThis.style.backgroundColor != "green") {
+        if ((cell.y - 1) !== 0 && cellThis.bomb !== -1 && cellThis.reveal !== true) {
             if (cellThis.bomb === 0) {
                 zeroCount.push(cellThis);
             } else {
-                cellThis.style.backgroundColor = "green";
+                cellThis.style.backgroundColor = "lightgrey";
+                cellThis.style.borderTop = "solid 1px grey";
+                cellThis.style.borderLeft = "solid 1px grey";
+                cellThis.style.borderBottom = "solid 1px lightgrey";
+                cellThis.style.borderRight = "solid 1px lightgrey";
+                cellThis.reveal = true;
+                cellThis.innerText = cellThis.bomb;
             }
         }
 
         var cellThis = document.getElementById('cell' + (cell.y - 1)+ '-' + ((cell.x - 1) + 2));
-        if ((cell.y - 1)!== 0 && ((cell.x - 1) + 1) !== columns && cellThis.bomb !== -1 && cellThis.style.backgroundColor != "green") {
+        if ((cell.y - 1)!== 0 && ((cell.x - 1) + 1) !== columns && cellThis.bomb !== -1 && cellThis.reveal !== true) {
             if (cellThis.bomb === 0) {
                 zeroCount.push(cellThis);
             } else {
-                cellThis.style.backgroundColor = "green";
+                cellThis.style.backgroundColor = "lightgrey";
+                cellThis.style.borderTop = "solid 1px grey";
+                cellThis.style.borderLeft = "solid 1px grey";
+                cellThis.style.borderBottom = "solid 1px lightgrey";
+                cellThis.style.borderRight = "solid 1px lightgrey";
+                cellThis.reveal = true;
+                cellThis.innerText = cellThis.bomb;
             }
         }
 
         var cellThis = document.getElementById('cell' + ((cell.y - 1)+ 1) + '-' + ((cell.x - 1) + 2));
-        if (((cell.x - 1) + 1) !== columns && cellThis.bomb !== -1 && cellThis.style.backgroundColor != "green") {
+        if (((cell.x - 1) + 1) !== columns && cellThis.bomb !== -1 && cellThis.reveal !== true) {
             if (cellThis.bomb === 0) {
                 zeroCount.push(cellThis);
             } else {
-                cellThis.style.backgroundColor = "green";
+                cellThis.style.backgroundColor = "lightgrey";
+                cellThis.style.borderTop = "solid 1px grey";
+                cellThis.style.borderLeft = "solid 1px grey";
+                cellThis.style.borderBottom = "solid 1px lightgrey";
+                cellThis.style.borderRight = "solid 1px lightgrey";
+                cellThis.reveal = true;
             }
         }
 
         var cellThis = document.getElementById('cell' + ((cell.y - 1)+ 2) + '-' + ((cell.x - 1) + 2));
-        if (((cell.y - 1)+ 1) !== rows && ((cell.x - 1) + 1) !== columns && cellThis.bomb !== -1 && cellThis.style.backgroundColor != "green") {
+        if (((cell.y - 1)+ 1) !== rows && ((cell.x - 1) + 1) !== columns && cellThis.bomb !== -1 && cellThis.reveal !== true) {
             if (cellThis.bomb === 0) {
                 zeroCount.push(cellThis);
             } else {
-                cellThis.style.backgroundColor = "green";
+                cellThis.style.backgroundColor = "lightgrey";
+                cellThis.style.borderTop = "solid 1px grey";
+                cellThis.style.borderLeft = "solid 1px grey";
+                cellThis.style.borderBottom = "solid 1px lightgrey";
+                cellThis.style.borderRight = "solid 1px lightgrey";
+                cellThis.reveal = true;
+                cellThis.innerText = cellThis.bomb;
             }
         }
 
         var cellThis = document.getElementById('cell' + ((cell.y - 1)+ 2) + '-' + ((cell.x - 1) + 1));
-        if (((cell.y - 1)+ 1) !== rows && cellThis.bomb !== -1 && cellThis.style.backgroundColor != "green") {
+        if (((cell.y - 1)+ 1) !== rows && cellThis.bomb !== -1 && cellThis.reveal !== true) {
             if (cellThis.bomb === 0) {
                 zeroCount.push(cellThis);
             } else {
-                cellThis.style.backgroundColor = "green";
+                cellThis.style.backgroundColor = "lightgrey";
+                cellThis.style.borderTop = "solid 1px grey";
+                cellThis.style.borderLeft = "solid 1px grey";
+                cellThis.style.borderBottom = "solid 1px lightgrey";
+                cellThis.style.borderRight = "solid 1px lightgrey";
+                cellThis.reveal = true;
+                cellThis.innerText = cellThis.bomb;
             }
         }
 
         var cellThis = document.getElementById('cell' + ((cell.y - 1)+ 2) + '-' + (cell.x - 1));
-        if (((cell.y - 1)+ 1) !== rows && (cell.x - 1) !== 0 && cellThis.bomb !== -1 && cellThis.style.backgroundColor != "green") {
+        if (((cell.y - 1)+ 1) !== rows && (cell.x - 1) !== 0 && cellThis.bomb !== -1 && cellThis.reveal !== true) {
             if (cellThis.bomb === 0) {
                 zeroCount.push(cellThis);
             } else {
-                cellThis.style.backgroundColor = "green";
+                cellThis.style.backgroundColor = "lightgrey";
+                cellThis.style.borderTop = "solid 1px grey";
+                cellThis.style.borderLeft = "solid 1px grey";
+                cellThis.style.borderBottom = "solid 1px lightgrey";
+                cellThis.style.borderRight = "solid 1px lightgrey";
+                cellThis.reveal = true;
+                cellThis.innerText = cellThis.bomb;
             }
         }
 
         var cellThis = document.getElementById('cell' + ((cell.y - 1)+ 1) + '-' + (cell.x - 1));
-        if ((cell.x - 1) !== 0 && cellThis.bomb !== -1 && cellThis.style.backgroundColor != "green") {
+        if ((cell.x - 1) !== 0 && cellThis.bomb !== -1 && cellThis.reveal !== true) {
             if (cellThis.bomb === 0) {
                 zeroCount.push(cellThis);
             } else {
-                cellThis.style.backgroundColor = "green";
+                cellThis.style.backgroundColor = "lightgrey";
+                cellThis.style.borderTop = "solid 1px grey";
+                cellThis.style.borderLeft = "solid 1px grey";
+                cellThis.style.borderBottom = "solid 1px lightgrey";
+                cellThis.style.borderRight = "solid 1px lightgrey";
+                cellThis.reveal = true;
+                cellThis.innerText = cellThis.bomb;
             }
         }
 
         var cellThis = document.getElementById('cell' + (cell.y - 1)+ '-' + (cell.x - 1));
-        if ((cell.y - 1)!== 0 && (cell.x - 1) !== 0 && cellThis.bomb !== -1 && cellThis.style.backgroundColor != "green") {
+        if ((cell.y - 1)!== 0 && (cell.x - 1) !== 0 && cellThis.bomb !== -1 && cellThis.reveal !== true) {
             if (cellThis.bomb === 0) {
                 zeroCount.push(cellThis);
             } else {
-                cellThis.style.backgroundColor = "green";
+                cellThis.style.borderTop = "solid 1px grey";
+                cellThis.style.borderLeft = "solid 1px grey";
+                cellThis.style.borderBottom = "solid 1px lightgrey";
+                cellThis.style.borderRight = "solid 1px lightgrey";
+                cellThis.reveal = true;
+                cellThis.innerText = cellThis.bomb;
             }
         }
     }
