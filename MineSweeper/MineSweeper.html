@@ -2,12 +2,11 @@
 <html>
 <head>
 	<title>MineSweeper</title>
-	<link rel="stylesheet" type="text/css" href="MineSweeper.css">
 </head>
 <body>
 	<input type="text" id="fieldHeight" placeholder="Height">
 	<input type="text" id="fieldWidth" placeholder="Width">
-	<button id="Submit" onmousedown="createMineField(document.getElementById('fieldWidth').value, document.getElementById('fieldHeight').value);">Submit</button>
+	<button id="Submit" onmousedown="createMineField(parseInt(document.getElementById('fieldWidth').value), parseInt(document.getElementById('fieldHeight').value));">Submit</button>
 	<script type="text/javascript" src="MineSweeper.js"></script>
 </body>
 </html>

@@ -1,5 +1,5 @@
-localStorage.setItem('gameStart', 'false');
 function createMineField(rows, columns) {
+    localStorage.setItem('gameStart', 'false');
     var element = document.getElementById('mineField');
     if (typeof(element) != 'undefined' && element != null) {
         element.remove();
@@ -61,24 +61,21 @@ function createMineField(rows, columns) {
 
 function gameStart(cell, rows, columns, x, y) {
     var bombNumbers = [];
-    while (bombNumbers.length < Math.round(rows * columns / 8)) {
+    var bombs = Math.round(rows * columns / 8);
+    while (bombNumbers.length < bombs) {
         var bombTemp = {x: Math.floor(Math.random() * Math.floor(columns)) + 1, y: Math.floor(Math.random() * Math.floor(rows)) + 1};
         if (bombNumbers.length !== 0) {
             var repeatCheck = 0;
             for (var i = 0; i < bombNumbers.length; i++) {
-                if (bombNumbers[i].x !== bombTemp.x && bombNumbers[i].y !== bombTemp.y) {
+                if (bombNumbers[i].x !== bombTemp.x || bombNumbers[i].y !== bombTemp.y) {
                     repeatCheck++;
                 }
-                if (i === bombNumbers.length - 1 && i === repeatCheck && cell.x !== bombTemp.x && cell.y !== bombTemp.y) {
-                    bombNumbers.push(bombTemp);
-                }
+            }
+            if (i === repeatCheck && cell.x !== bombTemp.x && cell.y !== bombTemp.y) {
+                bombNumbers.push(bombTemp);
             }
         } else if (cell.x !== bombTemp.x && cell.y !== bombTemp.y) {
             bombNumbers.push(bombTemp);
-        }
-
-        if (cell.x !== bombTemp.x && cell.y !== bombTemp.y) {
-            console.log("hey");
         }
     }
 
