@@ -33,6 +33,8 @@ function createMineField(rows, columns) {
             cell.style.backgroundColor = "lightgrey";
             cell.style.userSelect = "none";
             cell.style.float = "left";
+            cell.style.fontSize = "10px";
+            cell.style.textAlign = "center";
             cellArray.push(cell);
         }
     }
@@ -51,10 +53,10 @@ function createMineField(rows, columns) {
         });
         elem.addEventListener("mousedown", function() {
             if (localStorage.getItem('gameStart') != 'true') {
-                localStorage.setItem('gameStart', 'true');
+                localStorage.setItem('gameStart', 'false');
                 gameStart(elem, rows, columns, cell.x, cell.y);
             } else {
-                localStorage.setItem('gameStart', 'false');
+                clickField(elem, rows, columns);
             }
         });
     });
@@ -99,6 +101,7 @@ function gameStart(cell, rows, columns, x, y) {
         for (var t = 0; t < columns; t++) {
             let tempCell = document.getElementById('cell' + (i + 1) + '-' + (t + 1));
             if (tempCell.bomb !== -1) {
+                tempCell.bomb = 0;
                 if (i !== 0 && document.getElementById('cell' + i + '-' + (t + 1)).bomb === -1) {
                     tempCell.bomb++;
                 }
@@ -124,6 +127,9 @@ function gameStart(cell, rows, columns, x, y) {
                     tempCell.bomb++;
                 }
             }
+            if (tempCell.bomb >= 6) {
+
+            }
             tempCell.innerText = tempCell.bomb;
         }
 
@@ -131,7 +137,89 @@ function gameStart(cell, rows, columns, x, y) {
             gameStart(cell, rows, columns, x, y);
         }
     }
+    clickField(cell, rows, columns);
+    localStorage.setItem('gameStart', 'true');
+}
 
+function clickField(cell, rows, columns) {
+    cell.style.backgroundColor = "green";
+    var zeroCount = [];
+    if (cell.bomb !== -1) {
+        var cellThis = document.getElementById('cell' + (cell.y - 1) + '-' + ((cell.x - 1) + 1));
+        if ((cell.y - 1) !== 0 && cellThis.bomb !== -1 && cellThis.style.backgroundColor != "green") {
+            if (cellThis.bomb === 0) {
+                zeroCount.push(cellThis);
+            } else if (localStorage.getItem('gameStart') != 'true') {
+                cellThis.style.backgroundColor = "green";
+            }
+        }
+
+        var cellThis = document.getElementById('cell' + (cell.y - 1)+ '-' + ((cell.x - 1) + 2));
+        if ((cell.y - 1)!== 0 && ((cell.x - 1) + 1) !== columns && cellThis.bomb !== -1 && cellThis.style.backgroundColor != "green") {
+            if (cellThis.bomb === 0) {
+                zeroCount.push(cellThis);
+            } else if (localStorage.getItem('gameStart') != 'true') {
+                cellThis.style.backgroundColor = "green";
+            }
+        }
+
+        var cellThis = document.getElementById('cell' + ((cell.y - 1)+ 1) + '-' + ((cell.x - 1) + 2));
+        if (((cell.x - 1) + 1) !== columns && cellThis.bomb !== -1 && cellThis.style.backgroundColor != "green") {
+            if (cellThis.bomb === 0) {
+                zeroCount.push(cellThis);
+            } else if (localStorage.getItem('gameStart') != 'true') {
+                cellThis.style.backgroundColor = "green";
+            }
+        }
+
+        var cellThis = document.getElementById('cell' + ((cell.y - 1)+ 2) + '-' + ((cell.x - 1) + 2));
+        if (((cell.y - 1)+ 1) !== rows && ((cell.x - 1) + 1) !== columns && cellThis.bomb !== -1 && cellThis.style.backgroundColor != "green") {
+            if (cellThis.bomb === 0) {
+                zeroCount.push(cellThis);
+            } else if (localStorage.getItem('gameStart') != 'true') {
+                cellThis.style.backgroundColor = "green";
+            }
+        }
+
+        var cellThis = document.getElementById('cell' + ((cell.y - 1)+ 2) + '-' + ((cell.x - 1) + 1));
+        if (((cell.y - 1)+ 1) !== rows && cellThis.bomb !== -1 && cellThis.style.backgroundColor != "green") {
+            if (cellThis.bomb === 0) {
+                zeroCount.push(cellThis);
+            } else if (localStorage.getItem('gameStart') != 'true') {
+                cellThis.style.backgroundColor = "green";
+            }
+        }
+
+        var cellThis = document.getElementById('cell' + ((cell.y - 1)+ 2) + '-' + (cell.x - 1));
+        if (((cell.y - 1)+ 1) !== rows && (cell.x - 1) !== 0 && cellThis.bomb !== -1 && cellThis.style.backgroundColor != "green") {
+            if (cellThis.bomb === 0) {
+                zeroCount.push(cellThis);
+            } else if (localStorage.getItem('gameStart') != 'true') {
+                cellThis.style.backgroundColor = "green";
+            }
+        }
+
+        var cellThis = document.getElementById('cell' + ((cell.y - 1)+ 1) + '-' + (cell.x - 1));
+        if ((cell.x - 1) !== 0 && cellThis.bomb !== -1 && cellThis.style.backgroundColor != "green") {
+            if (cellThis.bomb === 0) {
+                zeroCount.push(cellThis);
+            } else if (localStorage.getItem('gameStart') != 'true') {
+                cellThis.style.backgroundColor = "green";
+            }
+        }
+
+        var cellThis = document.getElementById('cell' + (cell.y - 1)+ '-' + (cell.x - 1));
+        if ((cell.y - 1)!== 0 && (cell.x - 1) !== 0 && cellThis.bomb !== -1 && cellThis.style.backgroundColor != "green") {
+            if (cellThis.bomb === 0) {
+                zeroCount.push(cellThis);
+            } else if (localStorage.getItem('gameStart') != 'true') {
+                cellThis.style.backgroundColor = "green";
+            }
+        }
+    }
+    for (var i = 0; i < zeroCount.length; i++) {
+        clickField(zeroCount[i], rows, columns);
+    }
 }
 
 createMineField(8, 10);
