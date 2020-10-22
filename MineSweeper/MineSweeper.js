@@ -18,8 +18,8 @@ function createMineField(rows, columns) {
     var mineField = document.createElement('div');
     mineField.id = "mineField";
     document.body.appendChild(mineField);
-    mineField.style.height = (rows * 12) + "px";
-    mineField.style.width = (columns * 12) + "px";
+    mineField.style.height = (rows * 22) + "px";
+    mineField.style.width = (columns * 22) + "px";
     mineField.style.border = "solid 5px black";
     mineField.style.backgroundColor = "lightgrey";
     mineField.style.marginLeft = "auto";
@@ -31,15 +31,15 @@ function createMineField(rows, columns) {
         row.id = "row" + (i + 1);
         mineField.appendChild(row);
         row.style.height = "10px";
-        row.style.width = (columns * 12);
+        row.style.width = (columns * 22) + "px";
         for (var t = 0; columns > t; t++) {
             var cell = document.createElement('div');
             cell.id = "cell" + (i + 1) + "-" + (t + 1);
             cell.x = t + 1;
             cell.y = i + 1;
             row.appendChild(cell);
-            cell.style.height = "10px";
-            cell.style.width = "10px";
+            cell.style.height = "20px";
+            cell.style.width = "20px";
             cell.style.borderTop = "solid 1px white";
             cell.style.borderLeft = "solid 1px white";
             cell.style.borderBottom = "solid 1px grey";
@@ -47,7 +47,7 @@ function createMineField(rows, columns) {
             cell.style.backgroundColor = "lightgrey";
             cell.style.userSelect = "none";
             cell.style.float = "left";
-            cell.style.fontSize = "10px";
+            cell.style.fontSize = "20px";
             cell.style.fontFamily = 'retro';
             cell.style.textAlign = "center";
             cell.reveal = false;
