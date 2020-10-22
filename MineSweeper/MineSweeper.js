@@ -221,28 +221,10 @@ function clickField(cell, rows, columns) {
         cell.style.borderLeft = "solid 1px grey";
         cell.style.borderBottom = "solid 1px lightgrey";
         cell.style.borderRight = "solid 1px lightgrey";
-        cell.reveal = true;
-        if (cell.bomb === -1 && cell.innerText != "F") {
-            for (var i = 0; i < rows; i++) {
-                for (var t = 0; t < columns; t++) {
-                    let cellThis = document.getElementById('cell' + (i + 1) + '-' + (t + 1));
-                    if (cellThis.bomb === -1) {
-                        cellThis.style.backgroundColor = "lightgrey";
-                        cellThis.style.borderTop = "solid 1px grey";
-                        cellThis.style.borderLeft = "solid 1px grey";
-                        cellThis.style.borderBottom = "solid 1px lightgrey";
-                        cellThis.style.borderRight = "solid 1px lightgrey";
-                        cellThis.reveal = true;
-                        cellThis.innerText = "";
-                        var img = document.createElement('img');
-                        img.src = "bomb.png";
-                        cellThis.appendChild(img);
-                    }
-                }
-            }
-            document.getElementById('errorMessage').innerText = "Board Failed";
-            localStorage.setItem('gameEnd', 'true');
-        } else if (cell.bomb > 0) {
+        if (cell.bomb === -1) {
+            endGame(rows, columns);
+        } else if (cell.bomb > 0 && cell.reveal === false) {
+            cell.reveal = true;
             cell.innerText = cell.bomb;
             var winCheck = 0;
             for (var i = 0; i < rows; i++) {
@@ -257,6 +239,22 @@ function clickField(cell, rows, columns) {
                 document.getElementById('errorMessage').innerText = "Game Finsihed";
             }
         } else {
+            cell.reveal = true;
+            if (document.getElementById('checkBox').checked === true && cell.bomb !== 0) {
+                cell.innerText = cell.bomb;
+                var winCheck = 0;
+                for (var i = 0; i < rows; i++) {
+                    for (var t = 0; t < columns; t++) {
+                        if (document.getElementById('cell' + (i + 1) + '-' + (t + 1)).reveal === true) {
+                            winCheck++;
+                        }
+                    }
+                }
+                if (winCheck === (rows * columns) - parseInt(localStorage.getItem('bombAmount'))) {
+                    localStorage.setItem('gameEnd', 'true');
+                    document.getElementById('errorMessage').innerText = "Game Finsihed";
+                }
+            }
             var zeroCount = [];
             if (cell.bomb !== -1) {
                 var cellThis = document.getElementById('cell' + (cell.y - 1) + '-' + ((cell.x - 1) + 1));
@@ -272,10 +270,12 @@ function clickField(cell, rows, columns) {
                         cellThis.reveal = true;
                         cellThis.innerText = cellThis.bomb;
                     }
+                } else if ((cell.y - 1) !== 0 && document.getElementById('checkBox').checked === true && cellThis.innerText != "F" && cellThis.bomb === -1) {
+                    endGame(rows, columns);
                 }
 
                 var cellThis = document.getElementById('cell' + (cell.y - 1)+ '-' + ((cell.x - 1) + 2));
-                if ((cell.y - 1)!== 0 && ((cell.x - 1) + 1) !== columns && cellThis.bomb !== -1 && cellThis.reveal !== true) {
+                if ((cell.y - 1) !== 0 && cell.x !== columns && cellThis.bomb !== -1 && cellThis.reveal !== true) {
                     if (cellThis.bomb === 0) {
                         zeroCount.push(cellThis);
                     } else {
@@ -287,10 +287,12 @@ function clickField(cell, rows, columns) {
                         cellThis.reveal = true;
                         cellThis.innerText = cellThis.bomb;
                     }
+                } else if ((cell.y - 1) !== 0 && cell.x !== columns && document.getElementById('checkBox').checked === true && cellThis.innerText != "F" && cellThis.bomb === -1) {
+                    endGame(rows, columns);
                 }
 
-                var cellThis = document.getElementById('cell' + ((cell.y - 1)+ 1) + '-' + ((cell.x - 1) + 2));
-                if (((cell.x - 1) + 1) !== columns && cellThis.bomb !== -1 && cellThis.reveal !== true) {
+                var cellThis = document.getElementById('cell' + ((cell.y - 1) + 1) + '-' + ((cell.x - 1) + 2));
+                if (cell.x !== columns && cellThis.bomb !== -1 && cellThis.reveal !== true) {
                     if (cellThis.bomb === 0) {
                         zeroCount.push(cellThis);
                     } else {
@@ -302,10 +304,12 @@ function clickField(cell, rows, columns) {
                         cellThis.reveal = true;
                         cellThis.innerText = cellThis.bomb;
                     }
+                } else if (cell.x !== columns && document.getElementById('checkBox').checked === true && cellThis.innerText != "F" && cellThis.bomb === -1) {
+                    endGame(rows, columns);
                 }
 
                 var cellThis = document.getElementById('cell' + ((cell.y - 1)+ 2) + '-' + ((cell.x - 1) + 2));
-                if (((cell.y - 1)+ 1) !== rows && ((cell.x - 1) + 1) !== columns && cellThis.bomb !== -1 && cellThis.reveal !== true) {
+                if (cell.y !== rows && cell.x !== columns && cellThis.bomb !== -1 && cellThis.reveal !== true) {
                     if (cellThis.bomb === 0) {
                         zeroCount.push(cellThis);
                     } else {
@@ -317,10 +321,12 @@ function clickField(cell, rows, columns) {
                         cellThis.reveal = true;
                         cellThis.innerText = cellThis.bomb;
                     }
+                } else if (cell.y !== rows && ((cell.x - 1) + 1) !== columns && document.getElementById('checkBox').checked === true && cellThis.innerText != "F" && cellThis.bomb === -1) {
+                    endGame(rows, columns);
                 }
 
                 var cellThis = document.getElementById('cell' + ((cell.y - 1)+ 2) + '-' + ((cell.x - 1) + 1));
-                if (((cell.y - 1)+ 1) !== rows && cellThis.bomb !== -1 && cellThis.reveal !== true) {
+                if (cell.y !== rows && cellThis.bomb !== -1 && cellThis.reveal !== true) {
                     if (cellThis.bomb === 0) {
                         zeroCount.push(cellThis);
                     } else {
@@ -332,10 +338,12 @@ function clickField(cell, rows, columns) {
                         cellThis.reveal = true;
                         cellThis.innerText = cellThis.bomb;
                     }
+                } else if (cell.y !== rows && document.getElementById('checkBox').checked === true && cellThis.innerText != "F" && cellThis.bomb === -1) {
+                    endGame(rows, columns);
                 }
 
                 var cellThis = document.getElementById('cell' + ((cell.y - 1)+ 2) + '-' + (cell.x - 1));
-                if (((cell.y - 1)+ 1) !== rows && (cell.x - 1) !== 0 && cellThis.bomb !== -1 && cellThis.reveal !== true) {
+                if (cell.y !== rows && (cell.x - 1) !== 0 && cellThis.bomb !== -1 && cellThis.reveal !== true) {
                     if (cellThis.bomb === 0) {
                         zeroCount.push(cellThis);
                     } else {
@@ -347,6 +355,8 @@ function clickField(cell, rows, columns) {
                         cellThis.reveal = true;
                         cellThis.innerText = cellThis.bomb;
                     }
+                } else if (cell.y !== rows && (cell.x - 1) !== 0 && document.getElementById('checkBox').checked === true && cellThis.innerText != "F" && cellThis.bomb === -1) {
+                    endGame(rows, columns);
                 }
 
                 var cellThis = document.getElementById('cell' + ((cell.y - 1)+ 1) + '-' + (cell.x - 1));
@@ -362,10 +372,12 @@ function clickField(cell, rows, columns) {
                         cellThis.reveal = true;
                         cellThis.innerText = cellThis.bomb;
                     }
+                } else if ((cell.x - 1) !== 0 && document.getElementById('checkBox').checked === true && cellThis.innerText != "F" && cellThis.bomb === -1) {
+                    endGame(rows, columns);
                 }
 
                 var cellThis = document.getElementById('cell' + (cell.y - 1)+ '-' + (cell.x - 1));
-                if ((cell.y - 1)!== 0 && (cell.x - 1) !== 0 && cellThis.bomb !== -1 && cellThis.reveal !== true) {
+                if ((cell.y - 1) !== 0 && (cell.x - 1) !== 0 && cellThis.bomb !== -1 && cellThis.reveal !== true) {
                     if (cellThis.bomb === 0) {
                         zeroCount.push(cellThis);
                     } else {
@@ -376,6 +388,8 @@ function clickField(cell, rows, columns) {
                         cellThis.reveal = true;
                         cellThis.innerText = cellThis.bomb;
                     }
+                } else if ((cell.y - 1) !== 0 && (cell.x - 1) !== 0 && document.getElementById('checkBox').checked === true && cellThis.innerText != "F" && cellThis.bomb === -1) {
+                    endGame(rows, columns);
                 }
             }
             for (var i = 0; i < zeroCount.length; i++) {
@@ -419,6 +433,28 @@ document.getElementById('Submit').onmousedown = function() {
     }
 
     createMineField(rows, columns);
+}
+
+function endGame(rows, columns) {
+    for (var i = 0; i < rows; i++) {
+        for (var t = 0; t < columns; t++) {
+            let cellThis = document.getElementById('cell' + (i + 1) + '-' + (t + 1));
+            if (cellThis.bomb === -1) {
+                cellThis.style.backgroundColor = "lightgrey";
+                cellThis.style.borderTop = "solid 1px grey";
+                cellThis.style.borderLeft = "solid 1px grey";
+                cellThis.style.borderBottom = "solid 1px lightgrey";
+                cellThis.style.borderRight = "solid 1px lightgrey";
+                cellThis.reveal = true;
+                cellThis.innerText = "";
+                var img = document.createElement('img');
+                img.src = "bomb.png";
+                cellThis.appendChild(img);
+            }
+        }
+    }
+    document.getElementById('errorMessage').innerText = "Board Failed";
+    localStorage.setItem('gameEnd', 'true');
 }
 
 createMineField(8, 10);
