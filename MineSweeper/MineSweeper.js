@@ -1,5 +1,5 @@
 function createMineField(rows, columns) {
-    document.getElementById('timer').innerText = "00:00:00";
+    document.getElementById('timer').innerText = "00h:00m:00s";
     if (rows * columns <= 9 || rows < 4 || columns < 4) {
         document.getElementById('errorMessage').innerText = "Width Or Height Values Too Low.";
         return;
