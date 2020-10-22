@@ -392,7 +392,6 @@ function timerStart() {
     var countDownDate = new Date().getTime();
     var x = setInterval(function() {
         if (localStorage.getItem('gameEnd') != 'true' && localStorage.getItem('gameRestart') == 'false') {
-            console.log(localStorage.getItem('gameEnd'));
             var now = new Date().getTime();
             var distance = now - countDownDate;
             var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
