@@ -1,5 +1,5 @@
 function createMineField(rows, columns) {
-    document.getElementById('timer').innerText = "0:0:0";
+    document.getElementById('timer').innerText = "00:00:00";
     if (rows * columns <= 9 || rows < 4 || columns < 4) {
         document.getElementById('errorMessage').innerText = "Width Or Height Values Too Low.";
         return;
@@ -147,17 +147,18 @@ function gameStart(cell, rows, columns, x, y) {
             if (tempCell.bomb !== -1) {
                 tempCell.bomb = 0;
                 var cellSurroundings = [
-                    {x: 0, y: 0},
+                    {x: -1, y: -1},
+                    {x: 0, y: -1},
+                    {x: 1, y: -1},
                     {x: 1, y: 0},
-                    {x: 2, y: 0},
-                    {x: 2, y: 1},
-                    {x: 2, y: 2},
-                    {x: 1, y: 2},
-                    {x: 0, y: 2},
-                    {x: 0, y: 1}
+                    {x: 1, y: 1},
+                    {x: 0, y: 1},
+                    {x: -1, y: 1},
+                    {x: -1, y: 0}
                 ]
+                
                 for (var z = 0; z < 8; z++) {
-                    if (i !== 0 && (i + 1) !== rows && t !== 0 && (t + 1) !== columns && document.getElementById('cell' + (i + cellSurroundings[z].y) + '-' + (t + cellSurroundings[z].x)).bomb === -1) {
+                    if ((i + 1 + cellSurroundings[z].y) !== 0 && (t + 1 + cellSurroundings[z].x) !== 0 && (i + cellSurroundings[z].y) !== rows && (t + cellSurroundings[z].x) !== columns && document.getElementById('cell' + (i + 1 + cellSurroundings[z].y) + '-' + (t + 1 + cellSurroundings[z].x)).bomb === -1) {
                         tempCell.bomb++;
                     }
                 }
@@ -199,7 +200,6 @@ function clickField(cell, rows, columns) {
 function timerStart() {
     localStorage.setItem('gameRestart', 'false');
     let timer = document.getElementById('timer');
-    timer.innerText = "0:0:0"
     var countDownDate = new Date().getTime();
     var x = setInterval(function() {
         if (localStorage.getItem('gameEnd') != 'true' && localStorage.getItem('gameRestart') == 'false') {
@@ -208,7 +208,7 @@ function timerStart() {
             var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
             var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
             var seconds = Math.floor((distance % (1000 * 60)) / 1000);
-            timer.innerText = hours + ":" + minutes + ":" + seconds;
+            timer.innerText = ('0' + hours).slice(-2) + ":" + ('0' + minutes).slice(-2) + ":" + ('0' + seconds).slice(-2);
         } else {
             clearInterval(x);
         }
@@ -301,7 +301,7 @@ function checkSurroundings(cell, rows, columns) {
 
     for (var i = 0; i < 8; i++) {
         let cellThis = document.getElementById('cell' + (cell.y + surroundingCell[i].y) + '-' + (cell.x + surroundingCell[i].x));
-        if ((cell.y - 1) !== 0 && (cell.x - 1) !== 0 && cell.y !== rows && cell.x !== columns && cellThis.bomb !== -1 && cellThis.reveal !== true && cellThis.innerText != "F") {
+        if ((cell.y + surroundingCell[i].y) !== 0 && (cell.x + surroundingCell[i].x) !== 0 && (cell.y - 1 + surroundingCell[i].y) !== rows && (cell.x - 1 + surroundingCell[i].x) !== columns && cellThis.bomb !== -1 && cellThis.reveal !== true && cellThis.innerText != "F") {
             if (cellThis.bomb === 0) {
                 checkSurroundings(cellThis, rows, columns);
             } else {
