@@ -208,7 +208,7 @@ function timerStart() {
             var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
             var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
             var seconds = Math.floor((distance % (1000 * 60)) / 1000);
-            timer.innerText = ('0' + hours).slice(-2) + ":" + ('0' + minutes).slice(-2) + ":" + ('0' + seconds).slice(-2);
+            timer.innerText = ('0' + hours).slice(-2) + "h:" + ('0' + minutes).slice(-2) + "m:" + ('0' + seconds).slice(-2) + "s";
         } else {
             clearInterval(x);
         }
