@@ -141,7 +141,6 @@ function gameStart(cell, rows, columns, x, y) {
     for (var i = 0; i < rows; i++) {
         for (var t = 0; t < columns; t++) {
             let tempCell = document.getElementById('cell' + (i + 1) + '-' + (t + 1));
-            console.log(tempCell);
             if (tempCell.bomb !== -1) {
                 tempCell.bomb = 0;
                 if (i !== 0 && document.getElementById('cell' + i + '-' + (t + 1)).bomb === -1) {
@@ -150,7 +149,6 @@ function gameStart(cell, rows, columns, x, y) {
                 if (i !== 0 && (t + 1) !== columns && document.getElementById('cell' + i + '-' + (t + 2)).bomb === -1) {
                     tempCell.bomb++;
                 }
-                console.log(t, columns);
                 if ((t + 1) !== columns && document.getElementById('cell' + (i + 1) + '-' + (t + 2)).bomb === -1) {
                     tempCell.bomb++;
                 }
