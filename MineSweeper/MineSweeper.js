@@ -1,7 +1,7 @@
 function createMineField(rows, columns) {
     document.getElementById('timer').innerText = "0:0:0";
-    if (rows * columns <= 6) {
-        document.getElementById('errorMessage').innerText = "Width and Height Values Too Low.";
+    if (rows * columns <= 9 || rows < 4 || columns < 4) {
+        document.getElementById('errorMessage').innerText = "Width Or Height Values Too Low.";
         return;
     } else if (document.getElementById('bombAmount').value >= rows * columns / 2) {
         document.getElementById('errorMessage').innerText = "Number of bombs exceeds number of cells.";
