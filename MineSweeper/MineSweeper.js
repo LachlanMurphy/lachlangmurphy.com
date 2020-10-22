@@ -195,7 +195,7 @@ function gameStart(cell, rows, columns, x, y) {
 }
 
 function clickField(cell, rows, columns) {
-    if (event.button === 2) {
+    if (event.button === 2 && cell.reveal === false) {
         if (cell.innerText == "F") {
             cell.innerText = "";
             if (cell.bomb === 1) {
