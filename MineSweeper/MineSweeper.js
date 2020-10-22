@@ -177,9 +177,9 @@ function gameStart(cell, rows, columns, x, y) {
                 } else if (tempCell.bomb === 3) {
                     tempCell.style.color = "orange";
                 } else if (tempCell.bomb === 4) {
-                    tempCell.style.color = "orange";
+                    tempCell.style.color = "purple";
                 } else if (tempCell.bomb === 5) {
-                    tempCell.style.color = "darkorange";
+                    tempCell.style.color = "black";
                 } else if (tempCell.bomb >= 6) {
                     tempCell.style.color = "red";
                 }
@@ -205,9 +205,9 @@ function clickField(cell, rows, columns) {
             } else if (cell.bomb === 3) {
                 cell.style.color = "orange";
             } else if (cell.bomb === 4) {
-                cell.style.color = "orange";
+                cell.style.color = "purple";
             } else if (cell.bomb === 5) {
-                cell.style.color = "darkorange";
+                cell.style.color = "black";
             } else if (cell.bomb >= 6) {
                 cell.style.color = "red";
             }
