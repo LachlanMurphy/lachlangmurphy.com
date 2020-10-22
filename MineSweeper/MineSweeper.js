@@ -11,6 +11,7 @@ function createMineField(rows, columns) {
     }
     localStorage.setItem('gameStart', 'false');
     localStorage.setItem('gameEnd', 'false');
+    localStorage.setItem('gameRestart', 'true');
     var element = document.getElementById('mineField');
     if (typeof(element) != 'undefined' && element != null) {
         element.remove();
@@ -258,7 +259,7 @@ function clickField(cell, rows, columns) {
             var zeroCount = [];
             if (cell.bomb !== -1) {
                 var cellThis = document.getElementById('cell' + (cell.y - 1) + '-' + ((cell.x - 1) + 1));
-                if ((cell.y - 1) !== 0 && cellThis.bomb !== -1 && cellThis.reveal !== true) {
+                if ((cell.y - 1) !== 0 && cellThis.bomb !== -1 && cellThis.reveal !== true && cellThis.innerText != "F") {
                     if (cellThis.bomb === 0) {
                         zeroCount.push(cellThis);
                     } else {
@@ -275,7 +276,7 @@ function clickField(cell, rows, columns) {
                 }
 
                 var cellThis = document.getElementById('cell' + (cell.y - 1)+ '-' + ((cell.x - 1) + 2));
-                if ((cell.y - 1) !== 0 && cell.x !== columns && cellThis.bomb !== -1 && cellThis.reveal !== true) {
+                if ((cell.y - 1) !== 0 && cell.x !== columns && cellThis.bomb !== -1 && cellThis.reveal !== true && cellThis.innerText != "F") {
                     if (cellThis.bomb === 0) {
                         zeroCount.push(cellThis);
                     } else {
@@ -292,7 +293,7 @@ function clickField(cell, rows, columns) {
                 }
 
                 var cellThis = document.getElementById('cell' + ((cell.y - 1) + 1) + '-' + ((cell.x - 1) + 2));
-                if (cell.x !== columns && cellThis.bomb !== -1 && cellThis.reveal !== true) {
+                if (cell.x !== columns && cellThis.bomb !== -1 && cellThis.reveal !== true && cellThis.innerText != "F") {
                     if (cellThis.bomb === 0) {
                         zeroCount.push(cellThis);
                     } else {
@@ -309,7 +310,7 @@ function clickField(cell, rows, columns) {
                 }
 
                 var cellThis = document.getElementById('cell' + ((cell.y - 1)+ 2) + '-' + ((cell.x - 1) + 2));
-                if (cell.y !== rows && cell.x !== columns && cellThis.bomb !== -1 && cellThis.reveal !== true) {
+                if (cell.y !== rows && cell.x !== columns && cellThis.bomb !== -1 && cellThis.reveal !== true && cellThis.innerText != "F") {
                     if (cellThis.bomb === 0) {
                         zeroCount.push(cellThis);
                     } else {
@@ -326,7 +327,7 @@ function clickField(cell, rows, columns) {
                 }
 
                 var cellThis = document.getElementById('cell' + ((cell.y - 1)+ 2) + '-' + ((cell.x - 1) + 1));
-                if (cell.y !== rows && cellThis.bomb !== -1 && cellThis.reveal !== true) {
+                if (cell.y !== rows && cellThis.bomb !== -1 && cellThis.reveal !== true && cellThis.innerText != "F") {
                     if (cellThis.bomb === 0) {
                         zeroCount.push(cellThis);
                     } else {
@@ -343,7 +344,7 @@ function clickField(cell, rows, columns) {
                 }
 
                 var cellThis = document.getElementById('cell' + ((cell.y - 1)+ 2) + '-' + (cell.x - 1));
-                if (cell.y !== rows && (cell.x - 1) !== 0 && cellThis.bomb !== -1 && cellThis.reveal !== true) {
+                if (cell.y !== rows && (cell.x - 1) !== 0 && cellThis.bomb !== -1 && cellThis.reveal !== true && cellThis.innerText != "F") {
                     if (cellThis.bomb === 0) {
                         zeroCount.push(cellThis);
                     } else {
@@ -360,7 +361,7 @@ function clickField(cell, rows, columns) {
                 }
 
                 var cellThis = document.getElementById('cell' + ((cell.y - 1)+ 1) + '-' + (cell.x - 1));
-                if ((cell.x - 1) !== 0 && cellThis.bomb !== -1 && cellThis.reveal !== true) {
+                if ((cell.x - 1) !== 0 && cellThis.bomb !== -1 && cellThis.reveal !== true && cellThis.innerText != "F") {
                     if (cellThis.bomb === 0) {
                         zeroCount.push(cellThis);
                     } else {
@@ -377,7 +378,7 @@ function clickField(cell, rows, columns) {
                 }
 
                 var cellThis = document.getElementById('cell' + (cell.y - 1)+ '-' + (cell.x - 1));
-                if ((cell.y - 1) !== 0 && (cell.x - 1) !== 0 && cellThis.bomb !== -1 && cellThis.reveal !== true) {
+                if ((cell.y - 1) !== 0 && (cell.x - 1) !== 0 && cellThis.bomb !== -1 && cellThis.reveal !== true && cellThis.innerText != "F") {
                     if (cellThis.bomb === 0) {
                         zeroCount.push(cellThis);
                     } else {
