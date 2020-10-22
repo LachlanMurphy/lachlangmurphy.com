@@ -386,11 +386,13 @@ function clickField(cell, rows, columns) {
 }
 
 function timerStart() {
+    localStorage.setItem('gameRestart', 'false');
     let timer = document.getElementById('timer');
     timer.innerText = "0:0:0"
     var countDownDate = new Date().getTime();
     var x = setInterval(function() {
-        if (localStorage.getItem('gameEnd') != 'true') {
+        if (localStorage.getItem('gameEnd') != 'true' && localStorage.getItem('gameRestart') == 'false') {
+            console.log(localStorage.getItem('gameEnd'));
             var now = new Date().getTime();
             var distance = now - countDownDate;
             var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
@@ -404,6 +406,7 @@ function timerStart() {
 }
 
 document.getElementById('Submit').onmousedown = function() {
+    localStorage.setItem('gameRestart', 'true');
     if (document.getElementById('fieldWidth').value == "") {
         var columns = 30;
     } else {
