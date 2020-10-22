@@ -238,7 +238,7 @@ function clickField(cell, rows, columns) {
                 localStorage.setItem('gameEnd', 'true');
                 document.getElementById('errorMessage').innerText = "Game Finsihed";
             }
-        } else {
+        } else if (event.button !== 2) {
             cell.reveal = true;
             if (document.getElementById('checkBox').checked === true && cell.bomb !== 0) {
                 cell.innerText = cell.bomb;
