@@ -96,7 +96,6 @@ function createMineField(rows, columns) {
 }
 
 function gameStart(cell, rows, columns, x, y) {
-    timerStart();
     var bombNumbers = [];
     if (document.getElementById('bombAmount').value == "") {
         if (rows === 16 && columns === 30) {
@@ -171,6 +170,7 @@ function gameStart(cell, rows, columns, x, y) {
     }
     clickField(cell, rows, columns);
     localStorage.setItem('gameStart', 'true');
+    timerStart();
 }
 
 function clickField(cell, rows, columns) {
