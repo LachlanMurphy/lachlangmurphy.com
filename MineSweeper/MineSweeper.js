@@ -238,6 +238,7 @@ function endGame(rows, columns) {
             let cellThis = document.getElementById('cell' + (i + 1) + '-' + (t + 1));
             if (cellThis.bomb === -1) {
                 cellReveal(cellThis);
+                cellThis.innerText = "";
                 var img = document.createElement('img');
                 img.src = "bomb.png";
                 cellThis.appendChild(img);
