@@ -312,7 +312,9 @@ function checkSurroundings(cell, rows, columns) {
             endGame(rows, columns);
         }
     }
-    gameWin(cell, rows, columns);
+    if (cell.bomb > 0) {
+        gameWin(cell, rows, columns);
+    }
 }
 
 function cellReveal(cell) {
