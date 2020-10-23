@@ -312,6 +312,7 @@ function checkSurroundings(cell, rows, columns) {
             endGame(rows, columns);
         }
     }
+    gameWin(cell, rows, columns);
 }
 
 function cellReveal(cell) {
