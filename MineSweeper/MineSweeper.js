@@ -328,4 +328,4 @@ function cellReveal(cell) {
     }
 }
 
-createMineField(8, 10);
+createMineField(16, 30);
