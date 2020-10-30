@@ -201,6 +201,7 @@ function timerStart() {
     localStorage.setItem('gameRestart', 'false');
     let timer = document.getElementById('timer');
     var countDownDate = new Date().getTime();
+    clearInterval(x);
     var x = setInterval(function() {
         if (localStorage.getItem('gameEnd') != 'true' && localStorage.getItem('gameRestart') == 'false') {
             var now = new Date().getTime();
