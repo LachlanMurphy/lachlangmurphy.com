@@ -212,6 +212,7 @@ function timerStart() {
             timer.innerText = ('0' + hours).slice(-2) + "h:" + ('0' + minutes).slice(-2) + "m:" + ('0' + seconds).slice(-2) + "s";
         } else {
             clearInterval(x);
+            var countDownDate = null;
         }
     }, 1000);
 }
