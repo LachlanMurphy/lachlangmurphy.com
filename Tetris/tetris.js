@@ -5,6 +5,35 @@ window.addEventListener("keydown", function(e) {
     }
 }, false);
 
+if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+    function preventDefault(e) {
+      e.preventDefault();
+    }
+
+    var supportsPassive = false;
+    try {
+      window.addEventListener("test", null, Object.defineProperty({}, 'passive', {
+        get: function () { supportsPassive = true; } 
+      }));
+    } catch(e) {}
+
+    var wheelOpt = supportsPassive ? { passive: false } : false;
+    var wheelEvent = 'onwheel' in document.createElement('div') ? 'wheel' : 'mousewheel';
+    window.addEventListener(wheelEvent, preventDefault, wheelOpt);
+    window.addEventListener('touchmove', preventDefault, wheelOpt);
+
+    let game = document.getElementById('game');
+    game.style.transform = "scale(0.5)";
+    game.style.transformOrigin = "0 0";
+    game.style.marginLeft = "calc(50% - 280px)";
+    let game1 = document.getElementById('savedPiece');
+    game1.style.position = "absolute";
+    game1.style.top = "0px";
+    game1.style.left = "1155px"
+} else {
+    let game = document.getElementById('game');
+    game.style.marginLeft = "calc(50% - 190px)";
+}
 const canvas = document.getElementById('tetris');
 const context = canvas.getContext('2d');
 const canvas2 = document.getElementById('savedPiece');
@@ -376,31 +405,7 @@ document.onkeydown = function(event) {
         }
 
         if (event.keyCode === 67) {
-            if (savedPieceCheck === false) {
-                context2.clearRect(0, 1, 5, 4);
-
-                savedPieceCheck = true;
-                resetCheck = true;
-                update();
-
-                const pieces = 'TSZOJLI';
-                var savedMatrix = localStorage.getItem('savedPieceMatrix').split(',');
-                for (var i = 0; i < savedMatrix.length; i++) {
-                    if (parseInt(savedMatrix[i]) !== 0) {
-                        localStorage.setItem('savedPieceValue', pieces[pieces.length - savedMatrix[i]]);
-                    }
-                }
-                changeNextPiece(createPiece(localStorage.getItem('savedPieceValue')), player.pos, 0);
-
-                resetCheck = false;
-                playerReset();
-            } else {
-                resetCheck = true;
-                playerReset();
-                context2.clearRect(0, 1, 5, 4);
-                savedPieceCheck = false;
-                resetCheck = false;
-            }
+            savePiece();
         }
     }
 }
@@ -419,4 +424,98 @@ function changeNextPiece(matrix, offset, yOffset) {
             }
         });
     });
+}
+
+document.addEventListener('touchstart', handleTouchStart, false);        
+document.addEventListener('touchmove', handleTouchMove, false);
+
+var xDown = null;                                                        
+var yDown = null;
+
+function getTouches(evt) {
+  return evt.touches ||             // browser API
+         evt.originalEvent.touches; // jQuery
+}                                                     
+
+function handleTouchStart(evt) {
+    const firstTouch = getTouches(evt)[0];                                      
+    xDown = firstTouch.clientX;                                      
+    yDown = firstTouch.clientY;                                      
+};                                                
+
+function handleTouchMove(evt) {
+    if ( ! xDown || ! yDown ) {
+        return;
+    }
+
+    var xUp = evt.touches[0].clientX;                                    
+    var yUp = evt.touches[0].clientY;
+
+    var xDiff = xDown - xUp;
+    var yDiff = yDown - yUp;
+
+    if ( Math.abs( xDiff ) > Math.abs( yDiff ) ) {/*most significant*/
+        if ( xDiff > 0 ) {
+            /* left swipe */ 
+            if (gameStart === true) {
+                playerMove(-1);
+            }
+        } else {
+            /* right swipe */
+            if (gameStart === true) {
+                playerMove(1);
+            }
+        }                       
+    } else {
+        if ( yDiff > 0 ) {
+            /* up swipe */
+            if (gameStart === true) {
+                savePiece();
+            } 
+        } else { 
+            /* down swipe */
+            if (gameStart === true) {
+                player.pos.y = localStorage.getItem('ghostPlayer.pos.y');
+                speedDrop = true;
+                moveTimeout = 0;
+            }
+        }                                                                 
+    }
+    /* reset values */
+    xDown = null;
+    yDown = null;                                             
+};
+
+function savePiece() {
+    if (savedPieceCheck === false) {
+        context2.clearRect(0, 1, 5, 4);
+
+        savedPieceCheck = true;
+        resetCheck = true;
+        update();
+
+        const pieces = 'TSZOJLI';
+        var savedMatrix = localStorage.getItem('savedPieceMatrix').split(',');
+        for (var i = 0; i < savedMatrix.length; i++) {
+            if (parseInt(savedMatrix[i]) !== 0) {
+                localStorage.setItem('savedPieceValue', pieces[pieces.length - savedMatrix[i]]);
+            }
+        }
+        changeNextPiece(createPiece(localStorage.getItem('savedPieceValue')), player.pos, 0);
+
+        resetCheck = false;
+        playerReset();
+    } else {
+        resetCheck = true;
+        playerReset();
+        context2.clearRect(0, 1, 5, 4);
+        savedPieceCheck = false;
+        resetCheck = false;
+    }
+}
+
+document.getElementById('tetris').onmousedown = function() {
+    if (gameStart === true) {
+        playerRotate(1);
+    }
 }

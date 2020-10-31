@@ -38,15 +38,10 @@
       #savedPiece {
         border: solid .2em #fff;
       }
-      #game {
-         text-align: center;  
-      }
-      #game2 {
-         margin-left: 190px;
-      }
     </style>
 </head>
-<body>
+<body id="body">
+    <meta name='viewport' content='user-scalable=0' >
     <div id="info">
         <img src="Tetris_Assets/PauseButton.png" id="pause">
         <h1 id="gameOver">Game Over</h1>
@@ -54,10 +49,8 @@
         <div id="score"></div><div id="level"></div>
     </div>
     <div id="game">
-        <div id="game2">
-            <canvas id="tetris" width="240" height="400" style="background-color: black;"></canvas>
-            <canvas id="savedPiece" width="200" height="400" style="background-color: black;"></canvas>
-        </div>
+      <canvas id="tetris" width="240" height="400" style="background-color: black;"></canvas>
+      <canvas id="savedPiece" width="200" height="400" style="background-color: black;"></canvas>  
     </div>
     <script src="tetris.js"></script>
 </body>
