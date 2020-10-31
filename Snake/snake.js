@@ -79,7 +79,7 @@ document.getElementById('play').onmousedown = function() {
 			inputDelay += 1;
 			for (var i = 0; i < snake.length; i++) {
 				let snakethis = snake[snake.length - 1 - i];
-				if ((snake[0].pos.x < 24 && snake[0].pos.y < 24 && snake[0].pos.x > 0 && snake[0].pos.y > 0) && !(arena[snake[0].pos.x + momentum.x][snake[0].pos.y + momentum.y] > 0)) {
+				if (((snake[0].pos.x < 24 || momentum.x !== 1) && (snake[0].pos.y < 24 || momentum.y !== 1) && (snake[0].pos.x > 0 || momentum.x !== -1) && (snake[0].pos.y > 0 || momentum.y !== -1)) && !(arena[snake[0].pos.x + momentum.x][snake[0].pos.y + momentum.y] > 0)) {
 					if (i === 0 || appleEat === true) {
 						if (appleEat === true) {
 							snake.push(new snakeClass(snake[snake.length - 1].pos.x, snake[snake.length - 1].pos.y, snake.length + 1));
