@@ -74,7 +74,7 @@ function update() {
 
 window.setInterval(function() {
 	update();
-}, 200);
+}, 150);
 
 document.onkeydown = function(event) {
 	if (event.key == 'w' && momentum.y !== 1) {
