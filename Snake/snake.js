@@ -29,7 +29,7 @@ document.getElementById('play').onmousedown = function() {
 		var inputDelay = 0;
 		var score = 6;
 
-		var arena = createMatrix(25, 25);
+		var arena = createMatrix(25, 40);
 
 		var momentum = {
 			x: 1,
@@ -52,10 +52,10 @@ document.getElementById('play').onmousedown = function() {
 			snake.push(new snakeClass(6 - i, 1, i + 1));
 		}
 
-		var randomX = Math.floor((Math.random() * 24) + 1);
+		var randomX = Math.floor((Math.random() * 39) + 1);
 		var randomY = Math.floor((Math.random() * 24) + 1);
 		while (arena[randomX][randomY] > 1) {
-			randomX = Math.floor((Math.random() * 24) + 1);
+			randomX = Math.floor((Math.random() * 39) + 1);
 			randomY = Math.floor((Math.random() * 24) + 1);
 		}
 		arena[randomX][randomY] = -1;
@@ -82,7 +82,7 @@ document.getElementById('play').onmousedown = function() {
 					}
 					context.fillRect(x, y, 1, 1);
 					if (value === 1) {
-						context.fillStyle = 'purple';
+						context.fillStyle = 'cyan';
 					} else if (value > 0) {
 						context.fillStyle = 'red';
 					}
@@ -95,7 +95,7 @@ document.getElementById('play').onmousedown = function() {
 			inputDelay += 1;
 			for (var i = 0; i < snake.length; i++) {
 				let snakethis = snake[snake.length - 1 - i];
-				if (((snake[0].pos.x < 24 || momentum.x !== 1) && (snake[0].pos.y < 24 || momentum.y !== 1) && (snake[0].pos.x > 0 || momentum.x !== -1) && (snake[0].pos.y > 0 || momentum.y !== -1)) && !(arena[snake[0].pos.x + momentum.x][snake[0].pos.y + momentum.y] > 0)) {
+				if (((snake[0].pos.x < 39 || momentum.x !== 1) && (snake[0].pos.y < 24 || momentum.y !== 1) && (snake[0].pos.x > 0 || momentum.x !== -1) && (snake[0].pos.y > 0 || momentum.y !== -1)) && !(arena[snake[0].pos.x + momentum.x][snake[0].pos.y + momentum.y] > 0)) {
 					if (i === 0 || appleEat === true) {
 						if (appleEat === true) {
 							snake.push(new snakeClass(snake[snake.length - 1].pos.x, snake[snake.length - 1].pos.y, snake.length + 1));
