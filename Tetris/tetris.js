@@ -16,7 +16,7 @@ if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(naviga
     }, false);
 
     document.getElementById('pause').style.top = "1400px";
-    
+
     function preventDefault(e) {
       e.preventDefault();
     }
@@ -41,7 +41,7 @@ if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(naviga
     let game1 = document.getElementById('savedPiece');
     game1.style.position = "absolute";
     game1.style.top = "0px";
-    game1.style.left = "1155px"
+    game1.style.left = (document.getElementById('game').style.left + 1160) + "px";
 
     let controls = document.getElementById('controls').innerText = "Controls\nSwipe Left or Right to Move Piece\nSwipe Down to Instantly Drop Piece\nTap To Rotate\nSwipe Up To Save/Use Saved Piece";
 
