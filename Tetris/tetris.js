@@ -21,10 +21,6 @@ if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(naviga
 
     document.getElementById('pause').style.top = "1400px";
 
-    function preventDefault(e) {
-      e.preventDefault();
-    }
-
     var supportsPassive = false;
     try {
       window.addEventListener("test", null, Object.defineProperty({}, 'passive', {
