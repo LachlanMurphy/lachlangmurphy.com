@@ -524,11 +524,11 @@ function savePiece() {
     }
 }
 
-document.getElementById('tetris').addEventListener('touchend', function(event) {
+document.getElementById('body').onmouseup = function(event) {
     if (gameStart === true && localStorage.getItem('moveCheck') == 'false' && event.path[2].id != "pauseButton" && pause === false) {
         playerRotate(1);
     }
-});
+}
 
 document.getElementById('pauseButton').onmousedown = function() {
     if (pause === false && gameStart === true) {
