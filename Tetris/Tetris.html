@@ -16,7 +16,7 @@
       }
       #pause {
         position: absolute;
-        top: 600px;
+        top: 1000px;
         left: 50%;
         width: 150px;
         height: 150px;
@@ -34,6 +34,7 @@
       }
       body {
         background-color: #202028;
+        touch-action: manipulation;
       }
       #savedPiece {
         border: solid .2em #fff;
@@ -41,17 +42,24 @@
     </style>
 </head>
 <body id="body">
-    <meta name='viewport' content='user-scalable=0' >
+    <meta name='viewport' content='user-scalable=0'>
     <div id="info">
-        <img src="Tetris_Assets/PauseButton.png" id="pause">
         <h1 id="gameOver">Game Over</h1>
-        <p><b>Controls</b><br> Left Arrow Key -- Move Piece Left<br> Right Arrow Key -- Move Piece Right<br> Down Arrow Key -- Speed Up Drop Of Piece<br> Up Arrow Key -- Rotate Piece Clockwise<br> Spacebar -- Imedietly Drop The Piece<br> Esc -- Pause<br> C -- Save Piece<br> <a id="gameStart" style="cursor: pointer;"><b><u>Play</u></b></a> <br> <b><a href="http:/lachlangmurphy.com/" style="color: white;">Back To Home</a></b> <p style="text-align: center; color: green; font-size: 25px; font-family: Courier New; padding: 0px;">Updated as of October 15, 2020, 1:22 PM</p></p>
+        <p id="controls"><b>Controls</b><br> Left Arrow Key -- Move Piece Left<br> Right Arrow Key -- Move Piece Right<br> Down Arrow Key -- Speed Up Drop Of Piece<br> Up Arrow Key -- Rotate Piece Clockwise<br> Spacebar -- Imedietly Drop The Piece<br> Esc -- Pause<br> C -- Save Piece</p>
+        <p style="color: green;">-----------------------------------</p>
+        <p id="gameStart" style="cursor: pointer;"><b><u>Play</u></b></p>
+        <p onclick="href='http:/lachlangmurphy.com/'" style="color: white; cursor: pointer;"><b><u>Back To Home</u></b></p>
+        <p style="color: green;">-----------------------------------</p>
+        <p id="pauseButton" style="color: white; cursor: pointer;"><b><u>Pause</u></b></p>
+        <p style="text-align: center; color: green; font-size: 25px; font-family: Courier New; padding: 0px;">Updated as of October 15, 2020, 1:22 PM</p>
+
         <div id="score"></div><div id="level"></div>
     </div>
     <div id="game">
       <canvas id="tetris" width="240" height="400" style="background-color: black;"></canvas>
       <canvas id="savedPiece" width="200" height="400" style="background-color: black;"></canvas>  
     </div>
+    <img src="Tetris_Assets/PauseButton.png" id="pause">
     <script src="tetris.js"></script>
 </body>
 </html>

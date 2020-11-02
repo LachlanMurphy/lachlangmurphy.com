@@ -6,6 +6,7 @@ window.addEventListener("keydown", function(e) {
 }, false);
 
 if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+    document.getElementById('pause').style.top = "1400px";
     function preventDefault(e) {
       e.preventDefault();
     }
@@ -26,10 +27,14 @@ if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(naviga
     game.style.transform = "scale(0.5)";
     game.style.transformOrigin = "0 0";
     game.style.marginLeft = "calc(50% - 280px)";
+
     let game1 = document.getElementById('savedPiece');
     game1.style.position = "absolute";
     game1.style.top = "0px";
     game1.style.left = "1155px"
+
+    let controls = document.getElementById('controls').innerText = "Controls\nSwipe Left or Right to Move Piece\nSwipe Down to Instantly Drop Piece\nTap To Rotate\nSwipe Up To Save/Use Saved Piece";
+
 } else {
     let game = document.getElementById('game');
     game.style.marginLeft = "calc(50% - 190px)";
@@ -459,24 +464,24 @@ function handleTouchMove(evt) {
     if ( Math.abs( xDiff ) > Math.abs( yDiff ) ) {/*most significant*/
         if ( xDiff > 0 ) {
             /* left swipe */ 
-            if (gameStart === true) {
+            if (gameStart === true && pause === false) {
                 playerMove(-1);
             }
         } else {
             /* right swipe */
-            if (gameStart === true) {
+            if (gameStart === true && pause === false) {
                 playerMove(1);
             }
         }                       
     } else {
         if ( yDiff > 0 ) {
             /* up swipe */
-            if (gameStart === true) {
+            if (gameStart === true && pause === false) {
                 savePiece();
             } 
         } else { 
             /* down swipe */
-            if (gameStart === true) {
+            if (gameStart === true && pause === false) {
                 player.pos.y = localStorage.getItem('ghostPlayer.pos.y');
                 speedDrop = true;
                 moveTimeout = 0;
@@ -516,8 +521,19 @@ function savePiece() {
     }
 }
 
-document.addEventListener('touchend', function() {
-    if (gameStart === true && localStorage.getItem('moveCheck') == 'false') {
+document.addEventListener('touchend', function(event) {
+    if (gameStart === true && localStorage.getItem('moveCheck') == 'false' && event.path[2].id != "pauseButton" && pause === false) {
         playerRotate(1);
     }
 });
+
+document.getElementById('pauseButton').onmousedown = function() {
+    if (pause === false && gameStart === true) {
+        pause = true;
+        document.getElementById("pause").style.visibility = 'visible';
+    } else {
+        pause = false;
+        document.getElementById("pause").style.visibility = 'hidden';
+        update();
+    }
+}
