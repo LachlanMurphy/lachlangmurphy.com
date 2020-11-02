@@ -438,12 +438,14 @@ function getTouches(evt) {
 }                                                     
 
 function handleTouchStart(evt) {
+    localStorage.setItem('moveCheck', 'false')
     const firstTouch = getTouches(evt)[0];                                      
     xDown = firstTouch.clientX;                                      
-    yDown = firstTouch.clientY;                                      
+    yDown = firstTouch.clientY;
 };                                                
 
 function handleTouchMove(evt) {
+    localStorage.setItem('moveCheck', 'true');
     if ( ! xDown || ! yDown ) {
         return;
     }
@@ -514,8 +516,8 @@ function savePiece() {
     }
 }
 
-document.getElementById('tetris').onmousedown = function() {
-    if (gameStart === true) {
+document.addEventListener('touchend', function() {
+    if (gameStart === true && localStorage.getItem('moveCheck') == 'false') {
         playerRotate(1);
     }
-}
+});
