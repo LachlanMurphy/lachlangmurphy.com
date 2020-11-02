@@ -524,7 +524,7 @@ function savePiece() {
     }
 }
 
-document.addEventListener('touchend', function(event) {
+window.addEventListener('touchend', function(event) {
     if (gameStart === true && localStorage.getItem('moveCheck') == 'false' && event.path[2].id != "pauseButton" && pause === false) {
         playerRotate(1);
     }
