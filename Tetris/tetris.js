@@ -6,7 +6,17 @@ window.addEventListener("keydown", function(e) {
 }, false);
 
 if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+    var lastTouchEnd = 0;
+    document.addEventListener('touchend', function (event) {
+        var now = (new Date()).getTime();
+        if (now - lastTouchEnd <= 300) {
+            event.preventDefault();
+        }
+        lastTouchEnd = now;
+    }, false);
+
     document.getElementById('pause').style.top = "1400px";
+    
     function preventDefault(e) {
       e.preventDefault();
     }

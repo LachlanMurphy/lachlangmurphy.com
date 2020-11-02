@@ -14,6 +14,15 @@ var wheelEvent = 'onwheel' in document.createElement('div') ? 'wheel' : 'mousewh
 window.addEventListener(wheelEvent, preventDefault, wheelOpt);
 window.addEventListener('touchmove', preventDefault, wheelOpt);
 
+var lastTouchEnd = 0;
+document.addEventListener('touchend', function (event) {
+    var now = (new Date()).getTime();
+    if (now - lastTouchEnd <= 300) {
+        event.preventDefault();
+    }
+    lastTouchEnd = now;
+}, false);
+
 let canvas = document.getElementById('gameBoard');
 let context = canvas.getContext('2d');
 context.scale(20, 20);
