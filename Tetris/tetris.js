@@ -6,20 +6,12 @@ window.addEventListener("keydown", function(e) {
 }, false);
 
 if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
-    document.addEventListener('touchend', function (event) {
-        var mylatesttap;
-        function doubletap() {
-
-            var now = new Date().getTime();
-            var timesince = now - mylatesttap;
-            if((timesince < 600) && (timesince > 0)){
-                event.preventDefault();
-            }
-            mylatesttap = new Date().getTime();
-        }
-    });
 
     document.getElementById('pause').style.top = "1400px";
+
+    function preventDefault(e) {
+      e.preventDefault();
+    }
 
     var supportsPassive = false;
     try {
