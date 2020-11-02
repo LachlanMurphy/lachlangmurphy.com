@@ -33,7 +33,7 @@ if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(naviga
     let game1 = document.getElementById('savedPiece');
     game1.style.position = "absolute";
     game1.style.top = "0px";
-    game1.style.left = (document.getElementById('game').style.left + 1160) + "px";
+    game1.style.left = (document.getElementById('game').style.left + 900) + "px";
 
     let controls = document.getElementById('controls').innerText = "Controls\nSwipe Left or Right to Move Piece\nSwipe Down to Instantly Drop Piece\nTap To Rotate\nSwipe Up To Save/Use Saved Piece";
 
