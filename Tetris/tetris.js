@@ -6,14 +6,18 @@ window.addEventListener("keydown", function(e) {
 }, false);
 
 if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
-    var lastTouchEnd = 0;
     document.addEventListener('touchend', function (event) {
-        var now = (new Date()).getTime();
-        if (now - lastTouchEnd <= 300) {
-            event.preventDefault();
+        var mylatesttap;
+        function doubletap() {
+
+            var now = new Date().getTime();
+            var timesince = now - mylatesttap;
+            if((timesince < 600) && (timesince > 0)){
+                event.preventDefault();
+            }
+            mylatesttap = new Date().getTime();
         }
-        lastTouchEnd = now;
-    }, false);
+    });
 
     document.getElementById('pause').style.top = "1400px";
 
