@@ -5,10 +5,22 @@
 	<link rel="icon" href="Web-IconSnake.png">
 </head>
 <body style="background-color: black; text-align: center; touch-action: manipulation;">
+	<style type="text/css">
+		button {
+			border-radius: 5px;
+			border-width: 3px;
+			height: 40px;
+			width: 120px;
+			font-size: 20px;
+			background-color: white;
+			border-color: blue;
+			color: blue;
+		}
+	</style>
 	<meta name='viewport' content='user-scalable=0'>
-	<a href='http:/lachlangmurphy.com/' style="color: white; cursor: pointer;"><b><u>Back To Home</u></b></a>
+	<a href='http:/lachlangmurphy.com/' style="color: white; cursor: pointer; font-size: 20px;"><b><u>Back To Home</u></b></a>
 	<h1 id="message" style="color: lightblue; margin: 5px;">Snake</h1>
-	<button id="play" style="height: 30px; width: 90px; margin-bottom: 5px;">Play</button>
+	<button id="play" style="margin-bottom: 5px;">Play</button>
 	<h1 id="score" style="color: white; margin-bottom: 5px; margin-top: 0px;">Length: 6</h1>
 	<div id="game">
 		<canvas height="500" width="800" style="border: solid 5px white; background-color: rgb(55, 55, 55);" id="gameBoard"></canvas>
