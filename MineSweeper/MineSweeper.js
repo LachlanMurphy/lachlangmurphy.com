@@ -217,7 +217,7 @@ function timerStart() {
 
 document.getElementById('Submit').onmousedown = function() {
     localStorage.setItem('gameRestart', 'true');
-    timer();
+    timerStart();
     if (document.getElementById('fieldWidth').value == "") {
         var columns = 30;
     } else {
