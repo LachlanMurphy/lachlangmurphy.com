@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<link rel="icon" href="Chemistry_Assets/Web-IconChemistry.png">
+	<link rel="icon" href="../Assets/Web-Icon.png">
 	<title>Chemistry</title>
 	<link rel="stylesheet" type="text/css" href="Chemistry.css">
 </head>
@@ -9,10 +9,19 @@
 	<h1>Chemistry</h1>
 	<div class="links">
 		<ul>
-		<a href="EmpMolFormCalcHTML.html">Emperical And Molecular Formula Calculator</a>
-		<br>
-		<a href="http:/lachlangmurphy.com/">Home</a>
+			<a onclick="relocate('EmpericalCalc');">Emperical And Molecular Formula Calculator</a>
+			<br>
+			<a onclick="relocate('Home');">Home</a>
 		</ul>
 	</div>
+
+	<script type="text/javascript">
+		function relocate(destination) {
+			var elem = document.createElement('meta');
+			elem.setAttribute('http-equiv', 'refresh');
+			elem.setAttribute('content', '0; url=https://lachlangmurphy.com/' + destination + '/');
+			document.getElementsByTagName('head')[0].appendChild(elem);
+		}
+	</script>
 </body>
 </html>
