@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<link rel="icon" href="Home_Assets/Web-IconHome.png">
+	<title>Lachlan Murphy</title>
+	<link rel="stylesheet" type="text/css" href="index.css">
+</head>
+<body>
+	<h1>Lachlan G Murphy</h1>
+	<h2>Table Of Contents</h2>
+	<div class="links">
+		<ul>
+		<a onclick="relocate('Chemistry');">Chemistry</a>
+		<br>
+		<a onclick="relocate('Mathamatics');">Mathamatics</a>
+		<br>
+		<a onclick="relocate('Tetris');">Tetris</a>
+		<br>
+		<a onclick="relocate('MineSweeper');">Mine Sweeper</a>
+		<br>
+		<a onclick="relocate('Snake');">Snake</a>
+		</ul>
+	</div>
+
+	<script type="text/javascript">
+		function relocate(destination) {
+			var elem = document.createElement('meta');
+			elem.setAttribute('http-equiv', 'refresh');
+			elem.setAttribute('content', '0; url=https://lachlangmurphy.com/' + destination + '/');
+			document.getElementsByTagName('head')[0].appendChild(elem);
+		}
+	</script>
+</body>
+</html>
