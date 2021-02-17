@@ -25,6 +25,7 @@ body {
 	font-size: 30px;
 	text-decoration: none;
 	transition: .5s;
+	cursor: pointer;
 }
 
 .links ul a:hover {
