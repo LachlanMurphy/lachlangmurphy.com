@@ -219,7 +219,7 @@ document.getElementById('play').onmousedown = function() {
 					gamePause = true;
 					document.getElementById('pause').innerText = "Paused";
 				}
-			} else if (event.srcElement !== document.getElementById('play') && gamePause === false)  {
+			} else if (event.srcElement !== document.getElementById('play') && gamePause === false && gameOn === true)  {
 				moveMomentum('click');
 			}
 		}
