@@ -100,7 +100,9 @@ document.getElementById('play').onmousedown = function() {
 			});
 		}
 
-		function update() {
+		var gameSpeed = 150;
+		var	gamePause = false;
+		function update(time = 0) {
 			inputDelay += 1;
 			for (var i = 0; i < snake.length; i++) {
 				let snakethis = snake[snake.length - 1 - i];
@@ -134,19 +136,22 @@ document.getElementById('play').onmousedown = function() {
 					}
 					arena[snakethis.pos.x][snakethis.pos.y] = snakethis.value;
 				} else {
-					clearInterval(gameFlow);
 					document.getElementById('message').innerText = 'Game End';
 					gameOn = false;
 				}
 			}
 			drawArena();
+			window.setTimeout(function() {
+				if (gameOn !== false && gamePause === false) {requestAnimationFrame(update);}
+			}, gameSpeed);
 		}
 
-		var gameFlow = window.setInterval(function() {
-			update();
-		}, 150);
+		update();
+		//var gameFlow = window.setInterval(function() {update()}, gameSpeed);
 
+		var speedCooldown = false;
 		function moveMomentum(event) {
+			console.log(event);
 			if ((event.key == 'w' || event == 'w') && momentum.y !== 1) {
 				momentum.y = -1;
 				momentum.x = 0;
@@ -159,8 +164,24 @@ document.getElementById('play').onmousedown = function() {
 			} else if ((event.key == 'a' || event == 'a') && momentum.x !== 1) {
 				momentum.y = 0;
 				momentum.x = -1;
+			} else if (event.key == " " || event == "click") {
+				if (gameSpeed !== 50 && speedCooldown === false) {
+					document.getElementById('speedBurst').innerText = "NOT READY";
+					document.getElementById('speedBurst').style.color = "red"
+					gameSpeed = 40;
+					window.setTimeout(function() {
+						gameSpeed = 150;
+						speedCooldown = true;
+						window.setTimeout(function() {
+							speedCooldown = false;
+							document.getElementById('speedBurst').innerText = "READY";
+							document.getElementById('speedBurst').style.color = "green"
+						}, 1500);
+					}, 500);
+				}
 			}
 		}
+
 		document.onkeydown = function(event) {
 			if (inputDelay !== parseInt(localStorage.getItem('inputDelay'))) {
 				moveMomentum(event);
@@ -187,7 +208,21 @@ document.getElementById('play').onmousedown = function() {
 		    const firstTouch = getTouches(evt)[0];                                      
 		    xDown = firstTouch.clientX;                                      
 		    yDown = firstTouch.clientY;                                      
-		};                                                
+		};      
+
+		document.onmousedown = function() {
+			if (event.srcElement.id == "pause") {
+				if (gamePause === true) {
+					gamePause = false; update();
+					document.getElementById('pause').innerText = "Pause";
+				} else if (gamePause === false) {
+					gamePause = true;
+					document.getElementById('pause').innerText = "Paused";
+				}
+			} else if (event.srcElement !== document.getElementById('play') && gamePause === false)  {
+				moveMomentum('click');
+			}
+		}
 
 		function handleTouchMove(evt) {
 		    if ( ! xDown || ! yDown ) {
@@ -199,6 +234,7 @@ document.getElementById('play').onmousedown = function() {
 
 		    var xDiff = xDown - xUp;
 		    var yDiff = yDown - yUp;
+
 
 		    if ( Math.abs( xDiff ) > Math.abs( yDiff ) ) {/*most significant*/
 		        if ( xDiff > 0 ) {

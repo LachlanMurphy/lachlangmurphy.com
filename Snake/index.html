@@ -6,6 +6,9 @@
 </head>
 <body style="background-color: black; text-align: center; touch-action: manipulation;">
 	<style type="text/css">
+		* {
+			margin: 2px;
+		}
 		button {
 			border-radius: 5px;
 			border-width: 3px;
@@ -22,7 +25,9 @@
 	<a href='http:/lachlangmurphy.com/' style="color: white; cursor: pointer; font-size: 20px;"><b><u>Back To Home</u></b></a>
 	<h1 id="message" style="color: lightblue; margin: 5px;">Snake</h1>
 	<button id="play" style="margin-bottom: 5px;">Play</button>
+	<h1 style="color:blue; text-decoration: underline; cursor: pointer;" id="pause">Pause</h1>
 	<h1 id="score" style="color: white; margin-bottom: 5px; margin-top: 0px;">Length: 6</h1>
+	<h1 style="color: white"> Speed Burst(Space/Tap): <span id="speedBurst" style="color:green">READY</span> </h1>
 	<div id="game">
 		<canvas height="500" width="800" style="border: solid 5px white; background-color: rgb(55, 55, 55);" id="gameBoard"></canvas>
 	</div>
