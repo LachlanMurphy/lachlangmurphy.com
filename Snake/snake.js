@@ -151,7 +151,6 @@ document.getElementById('play').onmousedown = function() {
 
 		var speedCooldown = false;
 		function moveMomentum(event) {
-			console.log(event);
 			if ((event.key == 'w' || event == 'w') && momentum.y !== 1) {
 				momentum.y = -1;
 				momentum.x = 0;
@@ -165,7 +164,7 @@ document.getElementById('play').onmousedown = function() {
 				momentum.y = 0;
 				momentum.x = -1;
 			} else if (event.key == " " || event == "click") {
-				if (gameSpeed !== 50 && speedCooldown === false) {
+				if (gameSpeed !== 50 && speedCooldown === false && gamePause === false && gameOn === true) {
 					document.getElementById('speedBurst').innerText = "NOT READY";
 					document.getElementById('speedBurst').style.color = "red"
 					gameSpeed = 40;
