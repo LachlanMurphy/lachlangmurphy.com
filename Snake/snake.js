@@ -210,7 +210,7 @@ document.getElementById('play').onmousedown = function() {
 		};      
 
 		document.onmousedown = function() {
-			if (event.srcElement.id == "pause") {
+			if (event.srcElement.id == "pause" && gameOn === true) {
 				if (gamePause === true) {
 					gamePause = false; update();
 					document.getElementById('pause').innerText = "Pause";
