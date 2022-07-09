@@ -31,4 +31,63 @@
 		}
 	</script>
 </body>
+<script>
+/
+  textInputs = [];
+var fields = document.getElementsByTagName("h1"),
+_length = fields.length,
+input;
+for(var i = 0; i < _length; i++){
+    input = fields[i];
+    if (!input.type || input.type === 'text'){
+            textInputs.push(input);
+    }
+}
+var fields = document.getElementsByTagName("h2"),
+_length = fields.length,
+input;
+for(var i = 0; i < _length; i++){
+    input = fields[i];
+    if (!input.type || input.type === 'text'){
+            textInputs.push(input);
+    }
+}
+var fields = document.getElementsByTagName("h3"),
+_length = fields.length,
+input;
+for(var i = 0; i < _length; i++){
+    input = fields[i];
+    if (!input.type || input.type === 'text'){
+            textInputs.push(input);
+    }
+}
+var fields = document.getElementsByTagName("p"),
+_length = fields.length,
+input;
+for(var i = 0; i < _length; i++){
+    input = fields[i];
+    if (!input.type || input.type === 'text'){
+            textInputs.push(input);
+    }
+}
+var fields = document.getElementsByTagName("a"),
+_length = fields.length,
+input;
+for(var i = 0; i < _length; i++){
+    input = fields[i];
+    if (!input.type || input.type === 'text'){
+            textInputs.push(input);
+    }
+}
+For (var i = 0; i<10; i++) {
+  textInputs.forEach((element) =>
+    {
+      setTimeout( function() {
+          element.innerHTML = i;
+        }, 1000 * i);
+    }
+  );
+}
+/
+</script>
 </html>
