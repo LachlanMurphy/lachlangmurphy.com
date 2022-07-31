@@ -1,5 +1,5 @@
 function createMineField(rows, columns) {
-    document.getElementById('timer').innerText = "00h:00m:00s";
+    document.getElementById('timer').innerText = "00h:00m:00s:00ms";
     if (rows * columns <= 9 || rows < 4 || columns < 4) {
         document.getElementById('errorMessage').innerText = "Width Or Height Values Too Low.";
         return;
@@ -208,29 +208,32 @@ function timerStart() {
             var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
             var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
             var seconds = Math.floor((distance % (1000 * 60)) / 1000);
-            timer.innerText = ('0' + hours).slice(-2) + "h:" + ('0' + minutes).slice(-2) + "m:" + ('0' + seconds).slice(-2) + "s";
+            var miliseconds = distance;
+            timer.innerText = ('0' + hours).slice(-2) + "h:" + ('0' + minutes).slice(-2) + "m:" + ('0' + seconds).slice(-2) + "s:" + ('000' + miliseconds).slice(-3) + "ms";
         } else {
             clearInterval(x);
         }
-    }, 1000);
+    }, 1);
 }
 
 document.getElementById('Submit').onmousedown = function() {
-    localStorage.setItem('gameRestart', 'true');
-    timerStart();
-    if (document.getElementById('fieldWidth').value == "") {
-        var columns = 30;
-    } else {
-        var columns = parseInt(document.getElementById('fieldWidth').value);
-    }
+    if (localStorage.getItem('gameStart') == "true") {
+        localStorage.setItem('gameRestart', 'true');
+        timerStart();
+        if (document.getElementById('fieldWidth').value == "") {
+            var columns = 30;
+        } else {
+            var columns = parseInt(document.getElementById('fieldWidth').value);
+        }
 
-    if (document.getElementById('fieldHeight').value == "") {
-        var rows = 16;
-    } else {
-        var rows = parseInt(document.getElementById('fieldHeight').value);
-    }
+        if (document.getElementById('fieldHeight').value == "") {
+            var rows = 16;
+        } else {
+            var rows = parseInt(document.getElementById('fieldHeight').value);
+        }
 
-    createMineField(rows, columns);
+        createMineField(rows, columns);
+    }
 }
 
 function endGame(rows, columns) {
