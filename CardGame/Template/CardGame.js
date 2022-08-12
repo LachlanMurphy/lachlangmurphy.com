@@ -80,7 +80,7 @@ function shuffle(deck) {
  		//styling atributes for the card elements
  		div.style.width = "62px";
  		div.style.height = "95px";
- 		div.style.backgroundImage = "url(Assets/cardImage.jpg)";
+ 		div.style.backgroundImage = "url(../Template/Assets/cardImage.jpg)";
  		div.style.backgroundPosition = "-142px -422px";
  		div.style.float = "left";
  		div.id = deck[i].cardID;//id assign for later use
@@ -99,11 +99,11 @@ function shuffle(deck) {
  			if (event.button == "2") {
  				//right click to reveal/hide by using sprites
  				if (card.style.backgroundPosition == newDeck[parseInt(card.id) - 1].imageX + " " + newDeck[parseInt(card.id) - 1].imageY) {
- 					card.style.backgroundPosition = div.style.backgroundPosition = "-142px -422px";
+ 					card.style.backgroundPosition = "-142px -422px";
  				} else {
 					card.style.backgroundPosition = newDeck[parseInt(card.id) - 1].imageX + " " + newDeck[parseInt(card.id) - 1].imageY;
  				}
- 			} else {
+ 			} else if (event.button == "0") {
  				//left click to move card around the screen
 	 			let offsetX = event.clientX - parseInt(card.style.left);
 	 			let offsetY = event.clientY - parseInt(card.style.top);
@@ -124,10 +124,14 @@ function shuffle(deck) {
  	}
  }
 
+//The newDeck array has to be declared before the function for some reason \('-')/
+
+
+
 //Function that creates a new deck and shuffles it for playing a game
 document.getElementById("newDeckButton").onmousedown = function() {
 	//construct deck array
-	var newDeck = []
+	newDeck = [];
 
 	for (var i = 0; i <= 51; i++) {
 		newDeck.push(new card(i));
