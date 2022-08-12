@@ -114,11 +114,11 @@ function shuffle(deck) {
 	 			}
 
 	 			document.addEventListener("mousemove", mouseMove);
-
-	 			card.onmouseup = function() {
+	 			
+	 			addEventListener('mouseup', (event) => {
 	 				document.removeEventListener("mousemove", mouseMove);
 	 				card.onmouseup = null;
-	 			}
+	 			});
 	 		}
 		};
  	}
