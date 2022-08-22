@@ -209,7 +209,7 @@ document.getElementById('play').onmousedown = function() {
 		    yDown = firstTouch.clientY;                                      
 		};      
 
-		document.onmousedown = function() {
+		function pauseGame() {
 			if (event.srcElement.id == "pause" && gameOn === true) {
 				if (gamePause === true) {
 					gamePause = false; update();
@@ -221,6 +221,14 @@ document.getElementById('play').onmousedown = function() {
 			} else if (event.srcElement !== document.getElementById('play') && gamePause === false && gameOn === true)  {
 				moveMomentum('click');
 			}
+		}
+
+		document.onmousedown = function() {
+			pauseGame();
+		}
+
+		document.onkeydown = function(event) {
+			if (event.keyCode === 27) {pauseGame();}
 		}
 
 		function handleTouchMove(evt) {
