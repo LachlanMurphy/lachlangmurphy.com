@@ -111,8 +111,6 @@ body {
 }
 
 #subPieces {
-	border: solid 1px black;
-	border-radius: 5px;
 	position: absolute;
 	top: 56px;
 	left: calc(-100% - 10px);
@@ -121,7 +119,9 @@ body {
 }
 
 #subPieces ul {
+	border: solid 1px black;
 	background-color: white;
+	border-radius: 5px;
 }
 
 #subPieces ul p {
