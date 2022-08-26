@@ -9,6 +9,11 @@ const figures = [
 		[0, 1, 1, 1, 0],
 		[1, 1, 0, 1, 1],
 		[1, 1, 0, 1, 1],
+	],
+	[
+		[0, 0, 1, 0, 0],
+		[0, 0, 1, 0, 0],
+		[0, 0, 1, 0, 0],
 	]
 ]
 
@@ -23,9 +28,14 @@ function createMatrix(w, h) {
 var arena = createMatrix(100, 100);
 
 const spaceShip = {
-	pos: {x: 1, y: 1},
+	pos: {x: 0, y: 90},
 	matrix: figures[0],
 
+}
+
+var bullet = {
+	pos: {x: 0, y: 87},
+	matrix: figures[1],
 }
 
 function insert(matrix, offset) {
@@ -67,16 +77,41 @@ drawArena();
 
 document.onkeydown = function(event) {
 	shipClear();
-	if (event.keyCode === 38) {
-		spaceShip.pos.y--;
-	} if (event.keyCode === 39) {
-		spaceShip.pos.x++;
-	} if (event.keyCode === 40) {
-		spaceShip.pos.y++;
+	if (event.keyCode === 39) {
+		if (spaceShip.pos.x < 94) {
+			spaceShip.pos.x = spaceShip.pos.x + 2;
+			bullet.pos.x = bullet.pos.x + 2;
+		}
 	} if (event.keyCode === 37) {
-		spaceShip.pos.x--;
+		if (spaceShip.pos.x > 0) {
+			spaceShip.pos.x = spaceShip.pos.x - 2;
+			bullet.pos.x = bullet.pos.x - 2;
+		}
+	} if (event.keyCode === 32) {
+		var bulletX = spaceShip.pos.x;
+		var bulletY = 90;
+		
+		for (var i = 0; i <= 90; i++) {
+			var x = setTimeout(function () {
+				if (bulletY > 0) {
+					bulletY--;
+					arena[bulletY][bulletX] = 1;
+					arena[bulletY + 1][bulletX] = 0;
+				} else {
+					console.log(bulletY)
+					arena[0][bulletX] = 0;
+				}
+				update();
+			}, 5 * i);
+		}
+		
 	}
 	update();
+}
+
+function bulletUpdate() {
+	insert(bullet.matrix, bullet.pos);
+	drawArena();
 }
 
 function update() {
@@ -101,6 +136,8 @@ function shipInsert() {
 		}
 	}
 }
+
+
 
 update();
 
