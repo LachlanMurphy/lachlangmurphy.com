@@ -1,0 +1,12 @@
+#gameBoard {
+	position: absolute;
+	height: 500px;
+	width: 500px;
+	border: 5px solid indianred;
+	left: calc(50% - 250px);
+	background: url(Assets/space.jpg);
+}
+#spaceShip {
+	position: absolute;
+	transform: scale(0.5);
+}

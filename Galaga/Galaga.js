@@ -1,143 +1,216 @@
-let context = document.getElementById('gameField').getContext('2d');
+let spaceShip = document.getElementById('spaceShip');
+let gameBoard = document.getElementById('gameBoard');
+var bulletCheck = false;
 
-context.scale(5, 5);
+gameBoard.style.left = "calc(50% - 250px)";
 
-const figures = [
-	[
-		[0, 0, 1, 0, 0],
-		[0, 1, 1, 1, 0],
-		[0, 1, 1, 1, 0],
-		[1, 1, 0, 1, 1],
-		[1, 1, 0, 1, 1],
-	],
-	[
-		[0, 0, 1, 0, 0],
-		[0, 0, 1, 0, 0],
-		[0, 0, 1, 0, 0],
-	]
+spaceShip.style.left = "20px";
+spaceShip.style.top = "425px";
+
+var enemyOneDeath = new Audio("Assets/enemyOneDeath.mp3");
+var enemyTwoDeath = new Audio("Assets/enemyTwoDeath.mp3");
+var enemyThreeDeath = new Audio("Assets/enemyThreeDeath.mp3");
+
+
+
+// Keyboard input with customisable repeat (set to 0 for no key repeat)
+//
+function KeyboardController(keys, repeat) {
+    // Lookup of key codes to timer ID, or null for no repeat
+    //
+    var timers= {};
+
+    // When key is pressed and we don't already think it's pressed, call the
+    // key action callback and set a timer to generate another one after a delay
+    //
+    document.onkeydown= function(event) {
+        var key= (event || window.event).keyCode;
+        if (!(key in keys))
+            return true;
+        if (!(key in timers)) {
+            timers[key]= null;
+            keys[key]();
+            if (repeat!==0)
+                timers[key]= setInterval(keys[key], repeat);
+        }
+        return false;
+    };
+
+    // Cancel timeout and mark key as released on keyup
+    //
+    document.onkeyup= function(event) {
+        var key= (event || window.event).keyCode;
+        if (key in timers) {
+            if (timers[key]!==null)
+                clearInterval(timers[key]);
+            delete timers[key];
+        }
+    };
+
+    // When window is unfocused we may not get key events. To prevent this
+    // causing a key to 'get stuck down', cancel all held keys
+    //
+    window.onblur= function() {
+        for (key in timers)
+            if (timers[key]!==null)
+                clearInterval(timers[key]);
+        timers= {};
+    };
+};
+
+// Arrow key movement.
+//
+KeyboardController({
+    37: function() {
+    	if (parseInt(spaceShip.style.left) > 5) {
+			spaceShip.style.left = parseInt(spaceShip.style.left) - 4 + "px";
+		}
+    },
+    39: function() {
+    	if (parseInt(spaceShip.style.left) < 435) {
+			spaceShip.style.left = parseInt(spaceShip.style.left) + 4 + "px";
+		}
+    },
+    32: function() {
+    	if (bulletCheck === false) {
+    		//Creates the individual bullet
+	    	var bullet = document.createElement("div");
+			bullet.style.backgroundColor = "red";
+			bullet.style.width = "5px";
+			bullet.style.height = "10px";
+			bullet.style.position = "absolute";
+			bullet.style.top = spaceShip.style.top;
+			bullet.style.left = parseInt(spaceShip.style.left) + 27.5 + "px";
+			gameBoard.appendChild(bullet);
+			
+			var pew = new Audio("Assets/pew.mp3");
+			pew.play();
+
+
+			for (var i = 0; i <= 434; i++) {
+				var x = setTimeout(() => {
+					bullet.style.top = parseInt(bullet.style.top) - 1 + "px";
+					
+					var hitCheck = checkHit(bullet);
+
+					if (hitCheck.tf === true) {
+
+						clearTimeout(x);
+						hitCheck.elem.remove();
+						bullet.remove();
+						
+						if (hitCheck.elem.classList[0] == "One") {
+							enemyOneDeath.play();
+						} if (hitCheck.elem.classList[0] == "Two") {
+							enemyTwoDeath.play();
+						} if (hitCheck.elem.classList[0] == "Three") {
+							enemyThreeDeath.play();
+						}
+					}
+				}, 1 * i);
+			}
+
+			var x = setTimeout(() => {
+				bullet.remove();
+			}, 435);
+
+			//250ms is the forced fire cap
+			bulletCheck = true;
+			var y = setTimeout(() => {bulletCheck = false;}, 250);
+		}
+    }
+}, 10);
+
+function checkHit(bullet) {
+	var checkTrue;
+	var elem = false;
+	enemies.forEach(element => {
+		const bulletRect = bullet.getBoundingClientRect();
+		const enemyRect = element.getBoundingClientRect();
+
+		if (bulletRect.top > enemyRect.bottom || bulletRect.right < enemyRect.left || bulletRect.bottom < enemyRect.top || bulletRect.left > enemyRect.right === true) {
+			if (checkTrue !== true) {
+				checkTrue = false;
+			}
+		} else {
+			checkTrue = true;
+			elem = element;
+		}
+	});
+
+	if (checkTrue === true) {
+		return {
+			tf: true,
+			elem: elem
+		}
+	} else {
+		return {
+			tf: false,
+			elem: null
+		}
+	}
+}
+
+var enemies = [];
+const enemyPos = [
+	{top: 50, left: 50, class: "One"},
+	{top: 50, left: 150, class: "One"},
+	{top: 50, left: 250, class: "One"},
+	{top: 50, left: 350, class: "One"},
+	{top: 100, left: 50, class: "Two"},
+	{top: 100, left: 100, class: "Two"},
+	{top: 100, left: 150, class: "Two"},
+	{top: 100, left: 200, class: "Two"},
+	{top: 100, left: 250, class: "Two"},
+	{top: 100, left: 300, class: "Two"},
+	{top: 100, left: 350, class: "Two"},
+	{top: 150, left: 50, class: "Three"},
+	{top: 150, left: 100, class: "Three"},
+	{top: 150, left: 150, class: "Three"},
+	{top: 150, left: 200, class: "Three"},
+	{top: 150, left: 250, class: "Three"},
+	{top: 150, left: 300, class: "Three"},
+	{top: 150, left: 350, class: "Three"},
+	
 ]
 
-function createMatrix(w, h) {
-	const matrix = [];
-	while (h--) {
-		matrix.push(new Array(w).fill(0));
-	}
-	return matrix;
-}
+function levelOne() {
 
-var arena = createMatrix(100, 100);
+	for (var i = 0; i <= 17; i++) {
+		var enemy = document.createElement("div");
+		enemy.style.position = "absolute";
+		enemy.style.top = enemyPos[i].top + "px";
+		enemy.style.left = enemyPos[i].left + "px";
+		enemy.style.backgroundImage = "url(Assets/enemy" + enemyPos[i].class + ".png)";
+		enemy.style.width = "60px";
+		enemy.style.height = "60px";
+		enemy.style.transform = "scale(calc(1/3))";
+		enemy.classList.add(enemyPos[i].class);
+		gameBoard.appendChild(enemy);
 
-const spaceShip = {
-	pos: {x: 0, y: 90},
-	matrix: figures[0],
+		enemies.push(enemy);
 
-}
-
-var bullet = {
-	pos: {x: 0, y: 87},
-	matrix: figures[1],
-}
-
-function insert(matrix, offset) {
-	matrix.forEach((row, y) => {
-		row.forEach((value, x) => {
-			if (value === 1) {
-				arena[y + offset.y][x + offset.x] = 1;
-			}
-		});
-	});
-}
-
-insert(spaceShip.matrix, spaceShip.pos);
-
-function drawArena() {
-	arena.forEach((row, y) => {
-		row.forEach((value, x) => {
-			if (value === 1) {
-				context.fillStyle = 'white';
-			} else if (value === 0) {
-				context.fillStyle = 'grey';
-			}
-			context.fillRect(x, y, 1, 1);
-		});
-	});
-}
-
-function arenaClear() {
-	arena.forEach((row, y) => {
-		row.forEach((value, x) => {
-			context.fillStyle = 'grey';
-			context.fillRect(x, y, 1, 1);
-			arena[y][x] = 0;
-		});
-	});
-}
-
-drawArena();
-
-document.onkeydown = function(event) {
-	shipClear();
-	if (event.keyCode === 39) {
-		if (spaceShip.pos.x < 94) {
-			spaceShip.pos.x = spaceShip.pos.x + 2;
-			bullet.pos.x = bullet.pos.x + 2;
-		}
-	} if (event.keyCode === 37) {
-		if (spaceShip.pos.x > 0) {
-			spaceShip.pos.x = spaceShip.pos.x - 2;
-			bullet.pos.x = bullet.pos.x - 2;
-		}
-	} if (event.keyCode === 32) {
-		var bulletX = spaceShip.pos.x;
-		var bulletY = 90;
-		
-		for (var i = 0; i <= 90; i++) {
-			var x = setTimeout(function () {
-				if (bulletY > 0) {
-					bulletY--;
-					arena[bulletY][bulletX] = 1;
-					arena[bulletY + 1][bulletX] = 0;
-				} else {
-					console.log(bulletY)
-					arena[0][bulletX] = 0;
-				}
-				update();
-			}, 5 * i);
-		}
-		
-	}
-	update();
-}
-
-function bulletUpdate() {
-	insert(bullet.matrix, bullet.pos);
-	drawArena();
-}
-
-function update() {
-	insert(spaceShip.matrix, spaceShip.pos);
-	drawArena();
-}
-
-function shipClear() {
-	for (var i = 0; i < 5; i++) {
-		for (var t = 0; t < 5; t++) {
-			arena[i + spaceShip.pos.y][t + spaceShip.pos.x] = 0;
-		}
+		enemyMove(enemy);
+		setInterval(enemyMove, 4000, enemy);
 	}
 }
 
-function shipInsert() {
-	for (var i = 0; i < 5; i++) {
-		for (var t = 0; t < 5; t++) {
-			if (figures[0][i][t] === 1) {
-				arena[i + spaceShip.pos.x][t + spaceShip.pos.y] = 1;
-			}
-		}
-	}
+function enemyMove(enemy) {
+	var a = setTimeout(() => {
+		enemy.style.left = parseInt(enemy.style.left) + 20 + "px";
+	}, 1000);
+
+	var b = setTimeout(() => {
+		enemy.style.top = parseInt(enemy.style.top) + 20 + "px";
+	}, 2000);
+
+	var c = setTimeout(() => {
+		enemy.style.left = parseInt(enemy.style.left) - 20 + "px";
+	}, 3000);
+
+	var d = setTimeout(() => {
+		enemy.style.top = parseInt(enemy.style.top) - 20 + "px";
+	}, 4000);
 }
 
-
-
-update();
-
+levelOne();
