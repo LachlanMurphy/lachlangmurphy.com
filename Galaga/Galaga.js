@@ -174,6 +174,11 @@ const enemyPos = [
 	
 ]
 
+
+var enemyMovePatterns = [];
+var enemyAttackPatterns = [];
+const globalTimerIntervals = [20, -20, -20, 20];
+
 function levelOne() {
 
 	for (var i = 0; i <= 17; i++) {
@@ -185,31 +190,92 @@ function levelOne() {
 		enemy.style.width = "60px";
 		enemy.style.height = "60px";
 		enemy.style.transform = "scale(calc(1/3))";
+		enemy.id = i.toString();
 		enemy.classList.add(enemyPos[i].class);
 		gameBoard.appendChild(enemy);
 
 		enemies.push(enemy);
 
 		enemyMove(enemy);
-		setInterval(enemyMove, 4000, enemy);
+		enemyMovePatterns.push(setInterval(enemyMove, 4000, enemy));
+
+		enemyAttack(enemy);
+		enemyAttackPatterns.push(setInterval(enemyAttack, 1000, enemy));
 	}
+	timer = 0;
+	setInterval(() => {
+		timer = timer + 1;
+		globalTimer = timer % 4;
+	}, 1000);
+}
+
+function enemyAttack(enemy) {
+	if (Math.random() * 100 > 99) {
+		clearInterval(enemyAttackPatterns[enemy.id]);
+		attackAnimation(enemy);
+	}
+}
+
+function attackAnimation(enemy) {
+	enemy.style.transform = "rotate(180deg) scale(calc(1/3))";
+	enemy.id = enemy.id + "attacking";
+
+	let y = enemy.style.top;
+	let x = enemy.style.left;
+
+	var slope = Math.random() + 1 * 5;
+	var b = parseInt(y) - (slope * parseInt(x));
+
+	var enemyAttacking = setInterval(() => {
+		enemy.style.top = parseInt(enemy.style.top) + 2 + "px";
+		enemy.style.left = (parseInt(enemy.style.top) - b) / slope + "px";
+
+		if (parseInt(enemy.style.top) >= 500) {
+			enemy.id = parseInt(enemy.id).toString();
+			clearInterval(enemyAttacking);
+			enemy.style.transform = "scale(calc(1/3))";
+			enemy.style.top = "-20px";
+
+			var enemyFall = setInterval(() => {
+
+				enemy.style.top = parseInt(enemy.style.top) + 1 + "px";
+				if (globalTimer === 1 || globalTimer === 2) {
+					enemy.style.left = parseInt(enemyPos[enemy.id].left) + 20 + "px";
+				} if (globalTimer === 3 || globalTimer === 0) {
+					enemy.style.left = parseInt(enemyPos[enemy.id].left) - 20 + "px";
+				}
+
+				if (parseInt(enemy.style.top) >= enemyPos[enemy.id].top) {
+					clearInterval(enemyFall);
+				}
+			}, 10)
+		}
+	}, 10);
 }
 
 function enemyMove(enemy) {
 	var a = setTimeout(() => {
-		enemy.style.left = parseInt(enemy.style.left) + 20 + "px";
+		if (enemy.id.includes("attacking") === false) {
+			enemy.style.left = parseInt(enemyPos[enemy.id].left) + 20 + "px";
+		}
 	}, 1000);
 
 	var b = setTimeout(() => {
-		enemy.style.top = parseInt(enemy.style.top) + 20 + "px";
+		if (enemy.id.includes("attacking") === false) {
+			enemy.style.top = parseInt(enemyPos[enemy.id].top) + 20 + "px";
+		}
 	}, 2000);
 
 	var c = setTimeout(() => {
-		enemy.style.left = parseInt(enemy.style.left) - 20 + "px";
+		if (enemy.id.includes("attacking") === false) {
+			enemy.style.left = parseInt(enemyPos[enemy.id].left) - 20 + "px";
+		}
 	}, 3000);
 
 	var d = setTimeout(() => {
-		enemy.style.top = parseInt(enemy.style.top) - 20 + "px";
+		if (enemy.id.includes("attacking") === false) {
+			enemy.style.top = parseInt(enemyPos[enemy.id].top) - 20 + "px";
+		}
 	}, 4000);
 }
 
