@@ -63,6 +63,20 @@ body {
 	transition: 500ms;
 }
 
+#sideBar a {
+	cursor: pointer;
+	color: white;
+	text-decoration: none;
+	font-size: 30px;
+	font-family: arial;
+	transition: 500ms;
+}
+
+#sideBar a:hover {
+	color: blue;
+	transition: 500ms;
+}
+
 #sideBar .toggle-btn {
 	width: 60px;
 	height: 60px;
