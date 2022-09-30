@@ -185,6 +185,8 @@ document.getElementById('play').onmousedown = function() {
 			if (inputDelay !== parseInt(localStorage.getItem('inputDelay'))) {
 				moveMomentum(event);
 				localStorage.setItem('inputDelay', inputDelay);
+			} else if (event.keyCode === 27) {
+				pauseGame();
 			} else {
 				window.setTimeout(function() {
 					moveMomentum(event);
@@ -225,10 +227,6 @@ document.getElementById('play').onmousedown = function() {
 
 		document.onmousedown = function() {
 			pauseGame();
-		}
-
-		document.onkeydown = function(event) {
-			if (event.keyCode === 27) {pauseGame();}
 		}
 
 		function handleTouchMove(evt) {
