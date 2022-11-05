@@ -122,7 +122,7 @@ document.getElementById('play').onmousedown = function() {
 						if (arena[snakethis.pos.x + momentum.x][snakethis.pos.y + momentum.y] === -1) {
 							var randomX = Math.floor((Math.random() * 24) + 1);
 							var randomY = Math.floor((Math.random() * 24) + 1);
-							while (arena[randomX][randomY] > 1) {
+							while (arena[randomX][randomY] >= 1) {
 								randomX = Math.floor((Math.random() * 24) + 1);
 								randomY = Math.floor((Math.random() * 24) + 1);
 							}
