@@ -19,8 +19,8 @@ class Input {
 
   addContent(k,code) {
     if (this.selected) {
-      if (k == BACKSPACE && this.content.length() != 0)
-        this.content = this.content.substring(0, this.content.length() - 1);
+      if (code === BACKSPACE && this.content.length != 0)
+        this.content = this.content.substring(0, this.content.length - 1);
       else if (code != 16 && k != ENTER && k != BACKSPACE)
         this.content += k;
     }
