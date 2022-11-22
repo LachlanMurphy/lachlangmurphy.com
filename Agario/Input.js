@@ -11,9 +11,12 @@ class Input {
     textSize(70);
     if (this.selected)
       stroke(0,255,0);
+    else
+      noStroke();
     strokeWeight(4);
     rect(this.pos.x-this.w/2,this.pos.y-this.h/2,this.w,this.h);
     fill(255);
+    noStroke();
     text(this.content,this.pos.x,this.pos.y);
   }
 
