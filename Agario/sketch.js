@@ -60,7 +60,7 @@ function drawGame() {
   // Player score
   fill(0);
   textSize(90);
-  text(floor(player.r),width/2,20);
+  text(floor(player.r),width/2,50);
   
   // The offset is the player's position reversed
   let offSet = player.pos.copy().mult(-1);
@@ -105,27 +105,24 @@ function drawGame() {
      game = false;
     }
   }
-  
+
   // Player commands
-  player.display();
-  player.edges(arena);
-  player.friction();
-  player.collect(food);
-  player.eat(enemies);
-  
-  // Controls the player
-  if (keys.includes(83))
-    player.vel.y += 1;
-  if (keys.includes(87))
-    player.vel.y -= 1;
-  if (keys.includes(68))
-    player.vel.x += 1;
-  if (keys.includes(65))
-    player.vel.x -= 1;
-  
-  if (!game) {
-    background(255,0,0);
-    noLoop();
+  if (game) {
+    player.display();
+    player.edges(arena);
+    player.friction();
+    player.collect(food);
+    player.eat(enemies);
+
+    let mouse = createVector(mouseX,mouseY);
+    let dir = p5.Vector.sub(mouse,createVector(width/2,height/2));
+    player.vel.add(dir.setMag(0.5)); // Player max speed
+  } else {
+    // What happens locally if the game ends
+    fill(255,0,0);
+    textSize(50);
+    text("You died", player.pos.x,player.pos.y-100);
+    text("Press space to restart!", player.pos.x,player.pos.y+100);
   }
 }
 
@@ -140,19 +137,19 @@ function mousePressed() {
     if (playButton.contains(mouseX,mouseY)) {
       player = new Player(width/2,height/2,random(50,75), playerName.content);
       screenId = 2;
+      game = true;
     }
   }
 }
 
 function keyPressed() {
-  if (!keys.includes(keyCode))
-    keys.push(keyCode);
-  if (screenId == 1) {
-    playerName.addContent(key, keyCode);
+  // Add to gameMenu inputs
+  if (screenId === 1 && playerName.selected) {
+    playerName.addContent(key,keyCode);
   }
-}
 
-function keyReleased() {
-  let index = keys.indexOf(keyCode);
-  keys.splice(index,1);
+  // Restart game
+  if (keyCode === 32 && !game) {
+    screenId = 1;
+  }
 }

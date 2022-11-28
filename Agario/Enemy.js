@@ -23,7 +23,7 @@ class Enemy extends Particle {
       }
     }
     
-    if (p5.Vector.sub(player.pos,this.pos).mag() < player.r+this.r+1000 && player.r/this.r < 0.9) {
+    if (p5.Vector.sub(player.pos,this.pos).mag() < player.r+this.r+1000 && player.r/this.r < 0.9 && game) {
       attractor = player.pos.copy();
     }
 
