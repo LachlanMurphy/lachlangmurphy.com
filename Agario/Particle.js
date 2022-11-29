@@ -9,7 +9,7 @@ class Particle {
   }
   
   display() {
-    this.vel.limit(2000/this.r+3); // Balence size to speed
+    this.vel.limit(200/(this.r-50)+1); // Balence size to speed
     this.vel.add(this.acc);
     this.pos.add(this.vel);
     
