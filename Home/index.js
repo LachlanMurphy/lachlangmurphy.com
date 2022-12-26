@@ -13,7 +13,7 @@ function togglePieces() {
 
 // Acount stuff
 // const io = require("socket.io-client");
-const socket = io("https://vps.lachlangmurphy.com", {withCredentials: true});
+const socket = io("https://vps.lachlangmurphy.com");
 
 let user = null;
 if (sessionStorage.getItem('user') !== null) {
