@@ -10,6 +10,12 @@ body {
 	-ms-user-select: none;
 }
 
+#account {
+	position: absolute;
+	right: 20px;
+	top: 20px;
+}
+
 #tt {
 	height: calc(100% - 100px);
 	overflow: auto;

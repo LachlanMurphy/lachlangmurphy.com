@@ -1,3 +1,5 @@
+let socket = io.connect('vps.lachlangmurphy.com');
+
 function toggleSidebar() {
 	document.getElementById("sideBar").classList.toggle("active");
 	document.getElementById("burger").classList.toggle("active");
@@ -9,4 +11,18 @@ function toggleSidebar() {
 
 function togglePieces() {
 	document.getElementById("subPieces").classList.toggle("active");
+}
+
+// Acount stuff
+let user = null;
+if (sessionStorage.getItem('user') !== null) {
+	socket.emit('getUserData', sessionStorage.getItem('user'));
+}
+
+socket.on('sendUserData', data => {
+	user = data;
+});
+
+function account() {
+
 }

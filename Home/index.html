@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html>
 <head>
+	<script src="https://cdn.socket.io/4.5.3/socket.io.min.js" integrity="sha384-WPFUvHkB1aHA5TDSZi6xtDgkF0wXJcIIxXhC6h8OT8EH3fC5PWro5pWJ1THjcfEi" crossorigin="anonymous"></script>
+
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>Home</title>
@@ -16,7 +18,7 @@
 		<ul id="mainList">
 			<h1>Work In Progress</h1>
 			<li><p onmousedown="togglePieces();">Cards</p></li>
-			<h1>Finshed Projects</h1>
+			<h1>Finished Projects</h1>
 			<li><p onclick="location.href='../Galaga/index.html'">Galaga</p></li>
 			<li><p onclick="location.href='../MineSweeper/index.html'">Mine Sweeper</p></li>
 			<li><p onclick="location.href='../Snake/index.html'">Snake</p></li>
@@ -53,6 +55,8 @@
 			Born some time ago, I have learned to love many things in life. The most obvious is computer science. I mean you're looking at it right now. I built this site and posted my projects here to keep record of progress and also to have a place to "steal" code from whenever I have forgotten how to do something (which happens quite often). If my lack of memory doesn't kill me it'll probably be my love for climbing. And before you think of it, no I have not climbed without a rope. But I have had my fair share  of sketchy belay partners. Climbing really doesn't achieve anything except providing an opportunity for people to waste money on gear. You can never have too many carabiners.  Another great thing to throw money away on is records. Though vinyls are "out of date", they make great shelf fillers. Speaking of music, making music is pretty dope! Guitar has been a hobby of mine since 2017. Since then I've grown a lot and have come to appreciate many more genres of music than before. What tops all of my hobbies is my love for being involved. In reality, being "involved" is just glorified FOMO. I love to contribute to anything I can to every extent. In a more academic vein, I love to write. Specifically I love to write in an academic context. I love researching and the process of peer-review. The scientific method can truly be applied to every little topic. Especially math! While other kids loath memorizing trig identities, I do too. Trig wasn't my favorite. But calculus on the other hand was amazing! I've learned to love the concept (yes concept, not the number) of infinity. It explains things that could never before been explained. Thanks old math dudes. On this site are a variety of projects I mentioned earlier. Feel free to check them out! Just a warning, there are some unfinished/archived ones. So don't be angry if they don't work right.
 		</p>
 	</div>
+
+	<div id="account" onclick="account()">Log in</div>
 
 <script type="text/javascript" src="index.js"></script>
 </body>
