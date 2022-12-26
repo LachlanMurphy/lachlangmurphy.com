@@ -1,4 +1,4 @@
-let socket = io.connect('vps.lachlangmurphy.com');
+let socket = io.connect('https://vps.lachlangmurphy.com');
 
 function toggleSidebar() {
 	document.getElementById("sideBar").classList.toggle("active");
