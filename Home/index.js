@@ -17,11 +17,11 @@ const socket = io("https://vps.lachlangmurphy.com");
 
 let user = null;
 if (sessionStorage.getItem('user') !== null) {
-	socket.emit('userData', sessionStorage.getItem('user'));
+	socket.emit('getUserData', sessionStorage.getItem('user'));
 	console.log("Sent");
 }
 
-socket.on('sendUserData', data => {
+socket.on('userData', data => {
 	user = data;
 	console.log(user);
 });
