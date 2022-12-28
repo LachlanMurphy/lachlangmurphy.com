@@ -28,8 +28,17 @@ let user;
 socket.on('keyMatch', data => {
 	user = data;
 	localStorage.setItem('user', user.email); // Save the user data for this device
+
+	document.getElementById('account').value = user.firstName;
 });
 
 socket.on('noKeyMatch', () => {
 	console.log("Login failed: Key match not found.");
 });
+
+function account() {
+	if (user != null)
+		// TODO: send to account page
+	else
+		window.location.replace("https://account.lachlangmurphy.com/");
+}
