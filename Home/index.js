@@ -30,7 +30,7 @@ socket.on('keyMatch', data => {
 	user = data;
 	localStorage.setItem('user', user.email); // Save the user data for this device
 
-	document.getElementById('account').value = user.firstName;
+	document.getElementById('account').innerHTML = user.firstName;
 });
 
 socket.on('noKeyMatch', () => {
@@ -42,7 +42,7 @@ socket.on('noKeyMatch', () => {
 
 socket.on('userData', data => {
 	user = data;
-	document.getElementById('account').value = user.firstName;
+	document.getElementById('account').innerHTML = user.firstName;
 });
 
 function account() {
