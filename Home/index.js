@@ -12,7 +12,6 @@ function togglePieces() {
 }
 
 // Acount stuff
-// const io = require("socket.io-client");
 const socket = io("https://account.lachlangmurphy.com");
 
 // Grab the user from the login stuff
@@ -45,9 +44,16 @@ socket.on('userData', data => {
 	document.getElementById('account').innerHTML = user.firstName;
 });
 
+socket.on('sendKey', key => {
+	let param = new URLSearchParams();
+	param.append('user', key);
+	let url = "https://account.lachlangmurphy.com/account/?" + param.toString();
+	window.location.replace(url);
+});
+
 function account() {
 	if (user != null)
-		return; // TODO: send to account page
+		socket.emit('requestKey', user.email);
 	else
 		window.location.replace("https://account.lachlangmurphy.com/signin/");
 }
