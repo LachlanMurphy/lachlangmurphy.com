@@ -45,7 +45,7 @@ socket.on('userData', data => {
 
 function account() {
 	if (user != null)
-		// TODO: send to account page
+		return; // TODO: send to account page
 	else
 		window.location.replace("https://account.lachlangmurphy.com/");
 }
