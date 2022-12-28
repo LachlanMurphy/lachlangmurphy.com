@@ -16,6 +16,7 @@ body {
 	top: 20px;
 	color: black;
 	transition: 0.25s;
+	cursor: pointer;
 }
 
 #account:hover {
