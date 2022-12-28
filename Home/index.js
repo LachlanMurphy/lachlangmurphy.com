@@ -33,7 +33,14 @@ socket.on('keyMatch', data => {
 });
 
 socket.on('noKeyMatch', () => {
-	console.log("Login failed: Key match not found.");
+	if (localStorage.getItem('user') !== null)
+		socket.emit('getUserData', localStorage.getItem('user'));
+	else
+		console.log("Login failed: Key match not found.");
+});
+
+socket.on('userData', data => {
+	user = data;
 });
 
 function account() {
