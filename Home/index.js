@@ -27,6 +27,9 @@ if (key !== null) {
 let user;
 socket.on('keyMatch', data => {
 	user = data;
-	console.log(user);
-	localStorage.setItem('user', user); // Save the user data for this device
+	localStorage.setItem('user', user.email); // Save the user data for this device
+});
+
+socket.on('noKeyMatch', () => {
+	console.log("Login failed: Key match not found.");
 });
