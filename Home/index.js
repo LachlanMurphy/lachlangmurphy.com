@@ -40,6 +40,7 @@ socket.on('noKeyMatch', () => {
 });
 
 socket.on('userData', data => {
+	console.log(data);
 	user = data;
 });
 
@@ -47,5 +48,5 @@ function account() {
 	if (user != null)
 		return; // TODO: send to account page
 	else
-		window.location.replace("https://account.lachlangmurphy.com/");
+		window.location.replace("https://account.lachlangmurphy.com/signin/");
 }
