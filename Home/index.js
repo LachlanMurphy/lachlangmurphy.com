@@ -21,7 +21,6 @@ let key = param.get("user");
 
 if (key !== null) {
 	socket.emit('getKeyMatch', key);
-	console.log("Sent");
 } else if (localStorage.getItem('user') !== null) {
 	socket.emit('getUserData', localStorage.getItem('user'));
 }
@@ -42,8 +41,8 @@ socket.on('noKeyMatch', () => {
 });
 
 socket.on('userData', data => {
-	console.log(data);
 	user = data;
+	document.getElementById('account').value = user.firstName;
 });
 
 function account() {
