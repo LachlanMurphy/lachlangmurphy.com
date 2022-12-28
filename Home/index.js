@@ -16,7 +16,6 @@ function togglePieces() {
 const socket = io("https://account.lachlangmurphy.com");
 
 // let user = null;
-console.log(user);
 if (localStorage.getItem('user') !== null) {
 	socket.emit('getUserData', localStorage.getItem('user'));
 	console.log("Sent");
