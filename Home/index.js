@@ -40,6 +40,8 @@ socket.on('noKeyMatch', () => {
 });
 
 socket.on('userData', data => {
+	if (data == null)
+		return; // No user found
 	user = data;
 	document.getElementById('account').innerHTML = user.firstName;
 });
