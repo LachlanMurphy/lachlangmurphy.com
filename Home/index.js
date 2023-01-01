@@ -50,12 +50,12 @@ socket.on('sendKey', key => {
 	let param = new URLSearchParams();
 	param.append('user', key);
 	let url = "https://account.lachlangmurphy.com/account/?" + param.toString();
-	window.location.replace(url);
+	window.location.href = url;
 });
 
 function account() {
 	if (user != null)
 		socket.emit('requestKey', user.email);
 	else
-		window.location.replace("https://account.lachlangmurphy.com/signin/");
+		window.location.href = "https://account.lachlangmurphy.com/signin/";
 }
