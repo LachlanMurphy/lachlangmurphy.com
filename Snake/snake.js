@@ -2,6 +2,35 @@ function preventDefault(e) {
   e.preventDefault();
 }
 
+const socket = io('https://account.lachlangmurphy.com');
+let user;
+if (localStorage.getItem('user') != null) {
+    socket.emit('getUserData', localStorage.getItem('user'));
+}
+
+socket.on('userData', data => {
+    user = data;
+    document.getElementById('account').innerHTML = user.firstName;
+});
+
+socket.on('failedSetHigh', () => {
+    console.log("Could not set high score.");
+});
+
+socket.on('sendKey', key => {
+	let param = new URLSearchParams();
+	param.append('user', key);
+	let url = "https://account.lachlangmurphy.com/account/?" + param.toString();
+	window.location.href = url;
+});
+
+function account() {
+	if (user != null)
+		socket.emit('requestKey', user.email);
+	else
+		window.location.href = "https://account.lachlangmurphy.com/signin/";
+}
+
 var supportsPassive = false;
 try {
   window.addEventListener("test", null, Object.defineProperty({}, 'passive', {
@@ -128,8 +157,8 @@ document.getElementById('play').onmousedown = function() {
 							}
 							arena[randomX][randomY] = -1;
 							appleEat = true;
-							document.getElementById('score').innerText = "Length: " + (score + 2);
 							score += 2;
+							document.getElementById('score').innerText = "Length: " + score;
 						}
 						snakethis.pos.x += momentum.x;
 						snakethis.pos.y += momentum.y;
@@ -137,6 +166,16 @@ document.getElementById('play').onmousedown = function() {
 					arena[snakethis.pos.x][snakethis.pos.y] = snakethis.value;
 				} else {
 					document.getElementById('message').innerText = 'Game End';
+					let highScore = "Sign In!";
+					if (localStorage.getItem('user') != null) {
+						highScore = user.snakeHigh;
+					}
+					if (user != null && score > user.snakeHigh) {
+						highScore = score;
+						user.snakeHigh = score;
+						socket.emit('setHigh', [user.email,'snakeHigh',score]);
+					}
+					document.getElementById('score').innerHTML = "Length: " + score + "\nHigh Score: " + highScore;
 					gameOn = false;
 				}
 			}
