@@ -63,6 +63,34 @@ var timeout;
 context.scale(20, 20);
 context2.scale(40, 40);
 
+const socket = io('https://account.lachlangmurphy.com');
+let user;
+if (localStorage.getItem('user') != null) {
+    socket.emit('getUserData', localStorage.getItem('user'));
+}
+
+socket.on('userData', data => {
+    user = data;
+});
+
+socket.on('failedSetHigh', () => {
+    console.log("Could not set high score.");
+});
+
+socket.on('sendKey', key => {
+	let param = new URLSearchParams();
+	param.append('user', key);
+	let url = "https://account.lachlangmurphy.com/account/?" + param.toString();
+	window.location.href = url;
+});
+
+function account() {
+	if (user != null)
+		socket.emit('requestKey', user.email);
+	else
+		window.location.href = "https://account.lachlangmurphy.com/signin/";
+}
+
 function arenaSweep() {
     let rowCount = 1;
     outer: for (let y = arena.length - 1; y > 0; --y) {
@@ -250,12 +278,15 @@ localStorage.getItem('savedPieceValue')
         document.getElementById("gameOver").style.visibility = "visible";
         pause = true;
         gameStart = false;
-        if (localStorage.getItem('highScore') === null) {
-            localStorage.setItem('highScore', player.score)
-        } else if (localStorage.getItem('highScore') < player.score) {
-            localStorage.setItem('highScore', player.score)
+        let highScore = "Sign In!";
+        if (localStorage.getItem('user') != null) {
+            highScore = user.tetrisHigh;
         }
-        document.getElementById("gameOver").innerText = "Game Over" + "\nScore: " + player.score + "\nHigh Score: " + localStorage.getItem('highScore');
+        if (user != null && player.score > user.tetrisHigh) {
+            highScore = player.score;
+            socket.emit('setHigh', [user.email,'tetrisHigh',player.score]);
+        }
+        document.getElementById("gameOver").innerText = "Game Over" + "\nScore: " + player.score + "\nHigh Score: " + highScore;
     }
 }
 
