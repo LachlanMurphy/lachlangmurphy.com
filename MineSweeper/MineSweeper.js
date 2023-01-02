@@ -286,11 +286,6 @@ function endGame(rows, columns) {
     if (localStorage.getItem('user') != null) {
         highScore = user.minesweeperHigh;
     }
-    if (user != null && score < user.minesweeperHigh) {
-        highScore = score;
-        user.minesweeperHigh = score;
-        socket.emit('setHigh', [user.email,'minesweeperHigh',score]);
-    }
     document.getElementById('errorMessage').innerText = "Board Failed\nBest Score: "+highScore;
     localStorage.setItem('gameEnd', 'true');
 }
@@ -314,7 +309,16 @@ function gameWin(cell, rows, columns) {
 
     if (winCheck === (rows * columns) - parseInt(localStorage.getItem('bombAmount'))) {
         localStorage.setItem('gameEnd', 'true');
-        document.getElementById('errorMessage').innerText = "Game Finsihed";
+        let highScore = "Sign In!";
+        if (localStorage.getItem('user') != null) {
+            highScore = user.minesweeperHigh;
+        }
+        if (user != null && score < user.minesweeperHigh) {
+            highScore = score;
+            user.minesweeperHigh = score;
+            socket.emit('setHigh', [user.email,'minesweeperHigh',score]);
+        }
+        document.getElementById('errorMessage').innerText = "Game Finished\nScore: "+score+"\nBest Score: "+highScore;
     }
 }
 
