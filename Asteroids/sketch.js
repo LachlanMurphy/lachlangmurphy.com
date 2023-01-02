@@ -1,11 +1,36 @@
+const socket = io('https://account.lachlangmurphy.com');
+let user;
+if (localStorage.getItem('user') != null) {
+    socket.emit('getUserData', localStorage.getItem('user'));
+}
+
+socket.on('userData', data => {
+    user = data;
+    document.getElementById('account').innerHTML = user.firstName;
+});
+
+socket.on('failedSetHigh', () => {
+    console.log("Could not set high score.");
+});
+
+socket.on('sendKey', key => {
+	let param = new URLSearchParams();
+	param.append('user', key);
+	let url = "https://account.lachlangmurphy.com/account/?" + param.toString();
+	window.location.href = url;
+});
+
+function account() {
+	if (user != null)
+		socket.emit('requestKey', user.email);
+	else
+		window.location.href = "https://account.lachlangmurphy.com/signin/";
+}
+
 let player;
-
 let keys = [];
-
 let rocks;
-
 let score;
-
 let screenId;
 
 function startGame() {
@@ -45,7 +70,16 @@ function drawGameEnd() {
 	textSize(40);
 	textAlign(CENTER,CENTER);
 	textAlign(CENTER,BOTTOM);
-	text("Game Over", width/2,height/2);
+	let highScore = "Sign In!";
+	if (localStorage.getItem('user') != null) {
+		highScore = user.asteroidsHigh;
+	}
+	if (user != null && score > user.asteroidsHigh) {
+		highScore = score;
+		user.asteroidsHigh = score;
+		socket.emit('setHigh', [user.email,'asteroidsHigh',score]);
+	}
+	text("Game Over\nScore: "+score+"\nHigh Score: "+highScore, width/2,height/2);
 	textAlign(CENTER,TOP);
 	text("Space to Play Again", width/2,height/2);
 }
