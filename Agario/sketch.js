@@ -159,11 +159,11 @@ function drawGame() {
       socket.emit('setHigh', [user.email,'agarioHigh',score]);
     }
     let w = player.pos.x;
-    let h = player.pos.y+height/2;
-    text("You Died", player.pos.x,h/5);
-    text("Score: "+score, width/2,2*h/5);
-    text("High Score: "+highScore, width/2,3*h/5);
-    text("Space to Play Again", width/2, 4*h/5);
+    let h = player.pos.y;
+    text("You Died", width/2+w,height/5+h);
+    text("Score: "+score, width/2+w,2*height/5+h);
+    text("High Score: "+highScore, width/2+w,3*height/5+h);
+    text("Space to Play Again", width/2+w, 4*height/5+h);
   }
 }
 
