@@ -79,9 +79,13 @@ function drawGameEnd() {
 		user.asteroidsHigh = score;
 		socket.emit('setHigh', [user.email,'asteroidsHigh',score]);
 	}
-	text("Game Over\nScore: "+score+"\nHigh Score: "+highScore, width/2,height/2);
-	textAlign(CENTER,TOP);
-	text("Space to Play Again", width/2,height/2);
+	text("Game Over", width/2,height/5);
+	text("Score: "+score, width/2,2*height/5);
+	text("High Score: "+highScore, width/2,3*height/5);
+	text("Space to Play Again", width/2, 4*height/5);
+	// text("Game Over\nScore: "+score+"\nHigh Score: "+highScore, width/2,height/2);
+	// textAlign(CENTER,TOP);
+	// text("Space to Play Again", width/2,height/2);
 }
 
 function drawMenu() {
