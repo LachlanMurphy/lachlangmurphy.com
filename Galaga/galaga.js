@@ -449,14 +449,15 @@ function endGame() {
 	spaceShip.remove();
 	endGameCheck = true;
 	let highScore = "Sign In!";
+	let score = parseInt(playerScore.innerText.match(/(\d+)/)[0]);
 	if (localStorage.getItem('user') != null) {
 		highScore = user.galagaHigh;
 	}
-	if (user != null && playerScore > user.galagaHigh) {
-		highScore = playerScore;
+	if (user != null && score > user.galagaHigh) {
+		highScore = score;
 		user.galagaHigh = score;
-		socket.emit('setHigh', [user.email,'galagaHigh',playerScore]);
+		socket.emit('setHigh', [user.email,'galagaHigh',score]);
 	}
-	document.getElementById('endGameScreenWords').innerText = "Game Over\nScore: "+playerScore+"\nHigh Score: "+highScore;
+	document.getElementById('endGameScreenWords').innerText = "Game Over\nScore: "+score+"\nHigh Score: "+highScore;
 	document.getElementById('endGameScreen').style.display = "inline-block";
 }
