@@ -1,3 +1,32 @@
+const socket = io('https://account.lachlangmurphy.com');
+let user;
+if (localStorage.getItem('user') != null) {
+    socket.emit('getUserData', localStorage.getItem('user'));
+}
+
+socket.on('userData', data => {
+    user = data;
+    document.getElementById('account').innerHTML = user.firstName;
+});
+
+socket.on('failedSetHigh', () => {
+    console.log("Could not set high score.");
+});
+
+socket.on('sendKey', key => {
+	let param = new URLSearchParams();
+	param.append('user', key);
+	let url = "https://account.lachlangmurphy.com/account/?" + param.toString();
+	window.location.href = url;
+});
+
+function account() {
+	if (user != null)
+		socket.emit('requestKey', user.email);
+	else
+		window.location.href = "https://account.lachlangmurphy.com/signin/";
+}
+
 let arena;
 let player;
 
@@ -89,15 +118,13 @@ function drawGame() {
     enemies[i].friction();
     
     for (let j = enemies.length-1; j >= 0; j--) {
-      // try {
-        if (i != j &&
-            p5.Vector.sub(enemies[j].pos,enemies[i].pos).mag() < enemies[i].r &&
-            enemies[j].r-enemies[i].r * 0.1 < enemies[i].r) {
-          console.log("L");
-          enemies[i].r += enemies[j].r * 0.1;
-          enemies.splice(j,1);
-          enemies.push(new Enemy(random(40,arena.w-40),random(40,arena.h-40), random(50,75)));
-        }
+      if (i != j &&
+          p5.Vector.sub(enemies[j].pos,enemies[i].pos).mag() < enemies[i].r &&
+          enemies[j].r-enemies[i].r * 0.1 < enemies[i].r) {
+        enemies[i].r += enemies[j].r * 0.1;
+        enemies.splice(j,1);
+        enemies.push(new Enemy(random(40,arena.w-40),random(40,arena.h-40), random(50,75)));
+      }
     }
     
     if (dist(enemies[i].pos.x,enemies[i].pos.y,player.pos.x,player.pos.y) < enemies[i].r &&
@@ -121,8 +148,20 @@ function drawGame() {
     // What happens locally if the game ends
     fill(255,0,0);
     textSize(50);
-    text("You died", player.pos.x,player.pos.y-100);
-    text("Press space to restart!", player.pos.x,player.pos.y+100);
+    let highScore = "Sign In!";
+    let score = floor(player.r);
+    if (localStorage.getItem('user') != null) {
+      highScore = user.agarioHigh;
+    }
+    if (user != null && score > user.agarioHigh) {
+      highScore = score;
+      user.agarioHigh = score;
+      socket.emit('setHigh', [user.email,'agarioHigh',score]);
+    }
+    text("You Died", width/2,height/5);
+    text("Score: "+score, width/2,2*height/5);
+    text("High Score: "+highScore, width/2,3*height/5);
+    text("Space to Play Again", width/2, 4*height/5);
   }
 }
 
