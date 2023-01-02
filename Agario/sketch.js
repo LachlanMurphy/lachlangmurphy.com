@@ -162,8 +162,8 @@ function drawGame() {
     let h = player.pos.y;
     text("You Died", w,h-150);
     text("Score: "+score, w,h-75);
-    text("High Score: "+highScore, w,h+75);
-    text("Space to Play Again", w,h+150);
+    text("High Score: "+highScore, w,h);
+    text("Space to Play Again", w,h+75);
   }
 }
 
