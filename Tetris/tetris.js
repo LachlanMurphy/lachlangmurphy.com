@@ -286,12 +286,7 @@ localStorage.getItem('savedPieceValue')
         if (user != null && player.score > user.tetrisHigh) {
             highScore = player.score;
             user.tetrisHigh = player.score;
-            data = {
-                user: user.email,
-                type: 'tetrisHigh',
-                value: player.score
-            }
-            socket.emit('setHigh', data);
+            socket.emit('setHigh', [user.email,'tetrisHigh',player.score]);
         }
         document.getElementById("gameOver").innerText = "Game Over" + "\nScore: " + player.score + "\nHigh Score: " + highScore;
     }
