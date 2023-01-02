@@ -1,3 +1,34 @@
+let score;
+
+const socket = io('https://account.lachlangmurphy.com');
+let user;
+if (localStorage.getItem('user') != null) {
+    socket.emit('getUserData', localStorage.getItem('user'));
+}
+
+socket.on('userData', data => {
+    user = data;
+    document.getElementById('account').innerHTML = user.firstName;
+});
+
+socket.on('failedSetHigh', () => {
+    console.log("Could not set high score.");
+});
+
+socket.on('sendKey', key => {
+	let param = new URLSearchParams();
+	param.append('user', key);
+	let url = "https://account.lachlangmurphy.com/account/?" + param.toString();
+	window.location.href = url;
+});
+
+function account() {
+	if (user != null)
+		socket.emit('requestKey', user.email);
+	else
+		window.location.href = "https://account.lachlangmurphy.com/signin/";
+}
+
 function createMineField(rows, columns) {
     document.getElementById('timer').innerText = "00h:00m:00s:00ms";
     if (rows * columns <= 9 || rows < 4 || columns < 4) {
@@ -97,6 +128,7 @@ function createMineField(rows, columns) {
 
 function gameStart(cell, rows, columns, x, y) {
     var bombNumbers = [];
+    score = 0;
     if (document.getElementById('bombAmount').value == "") {
         if (rows === 16 && columns === 30) {
             var bombs = 99;
@@ -203,6 +235,7 @@ function timerStart() {
     var countDownDate = new Date().getTime();
     var x = setInterval(function() {
         if (localStorage.getItem('gameEnd') != 'true' && localStorage.getItem('gameRestart') == 'false') {
+            score++;
             var now = new Date().getTime();
             var distance = now - countDownDate;
             var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
@@ -249,24 +282,22 @@ function endGame(rows, columns) {
             }
         }
     }
-    document.getElementById('errorMessage').innerText = "Board Failed";
+    let highScore = "Sign In!";
+    if (localStorage.getItem('user') != null) {
+        highScore = user.minesweeperHigh;
+    }
+    if (user != null && score < user.minesweeperHigh) {
+        highScore = score;
+        user.minesweeperHigh = score;
+        socket.emit('setHigh', [user.email,'minesweeperHigh',score]);
+    }
+    document.getElementById('errorMessage').innerText = "Board Failed\nBest Score: "+highScore;
     localStorage.setItem('gameEnd', 'true');
 }
 
 function colorPick(cell) {
-    if (cell.bomb === 1) {
-            cell.style.color = "green";
-        } else if (cell.bomb === 2) {
-            cell.style.color = "blue";
-        } else if (cell.bomb === 3) {
-            cell.style.color = "orange";
-        } else if (cell.bomb === 4) {
-            cell.style.color = "purple";
-        } else if (cell.bomb === 5) {
-            cell.style.color = "black";
-        } else if (cell.bomb >= 6) {
-            cell.style.color = "red";
-    }
+    let color = ['green','blue','orange','purple','black','red','red','red'];
+    cell.style.color = color[cell.bomb-1];
 }
 
 function gameWin(cell, rows, columns) {

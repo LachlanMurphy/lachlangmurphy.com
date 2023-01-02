@@ -25,6 +25,14 @@
 			font-size: 5px;
 
 		}
+		#account {
+			position: absolute;
+			right: 20px;
+			top: 20px;
+			color: rgb(255, 255, 255);
+			transition: 0.25s;
+			cursor: pointer;
+		}
 	</style>
 	<a href="../Home/index.html"><b><u>Back To Home</u></b></a>
 	<br>
@@ -38,6 +46,7 @@
 	<button id="Submit" style="width: 90px; height: 30px; font-size: 20px;">Submit</button>
 	<h3 id="errorMessage" style="margin-top: 0px; margin-bottom: 0px; font-size: 30px;"></h3>
 	<h4 id="timer" style="margin-bottom: 0px; margin-top: 0px; font-size: 25px;">0:0:0</h4>
+	<div id="account" onclick="account()">Log In</div>
 	<script type="text/javascript" src="MineSweeper.js"></script>
 </body>
 </html>
