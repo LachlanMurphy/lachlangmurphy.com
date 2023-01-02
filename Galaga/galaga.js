@@ -1,3 +1,32 @@
+const socket = io('https://account.lachlangmurphy.com');
+let user;
+if (localStorage.getItem('user') != null) {
+    socket.emit('getUserData', localStorage.getItem('user'));
+}
+
+socket.on('userData', data => {
+    user = data;
+    document.getElementById('account').innerHTML = user.firstName;
+});
+
+socket.on('failedSetHigh', () => {
+    console.log("Could not set high score.");
+});
+
+socket.on('sendKey', key => {
+	let param = new URLSearchParams();
+	param.append('user', key);
+	let url = "https://account.lachlangmurphy.com/account/?" + param.toString();
+	window.location.href = url;
+});
+
+function account() {
+	if (user != null)
+		socket.emit('requestKey', user.email);
+	else
+		window.location.href = "https://account.lachlangmurphy.com/signin/";
+}
+
 let spaceShip = document.getElementById('spaceShip');
 let gameBoard = document.getElementById('gameBoard');
 let playerLevel = document.getElementById('level');
@@ -22,12 +51,12 @@ var enemyThreeDeath = new Audio("Assets/enemyThreeDeath.mp3");
 function KeyboardController(keys, repeat) {
     // Lookup of key codes to timer ID, or null for no repeat
     //
-    var timers= {};
+    var timers = {};
 
     // When key is pressed and we don't already think it's pressed, call the
     // key action callback and set a timer to generate another one after a delay
     //
-    document.onkeydown= function(event) {
+    document.onkeydown = function(event) {
         var key= (event || window.event).keyCode;
         if (!(key in keys))
             return true;
@@ -42,7 +71,7 @@ function KeyboardController(keys, repeat) {
 
     // Cancel timeout and mark key as released on keyup
     //
-    document.onkeyup= function(event) {
+    document.onkeyup = function(event) {
         var key= (event || window.event).keyCode;
         if (key in timers) {
             if (timers[key]!==null)
@@ -54,7 +83,7 @@ function KeyboardController(keys, repeat) {
     // When window is unfocused we may not get key events. To prevent this
     // causing a key to 'get stuck down', cancel all held keys
     //
-    window.onblur= function() {
+    window.onblur = function() {
         for (key in timers)
             if (timers[key]!==null)
                 clearInterval(timers[key]);
@@ -419,6 +448,15 @@ gameLevelSelect();
 function endGame() {
 	spaceShip.remove();
 	endGameCheck = true;
-	document.getElementById('endGameScreenWords').innerText = "Game Over";
+	let highScore = "Sign In!";
+	if (localStorage.getItem('user') != null) {
+		highScore = user.galagaHigh;
+	}
+	if (user != null && playerScore > user.galagaHigh) {
+		highScore = playerScore;
+		user.galagaHigh = score;
+		socket.emit('setHigh', [user.email,'galagaHigh',playerScore]);
+	}
+	document.getElementById('endGameScreenWords').innerText = "Game Over\nScore: "+playerScore+"\nHigh Score: "+highScore;
 	document.getElementById('endGameScreen').style.display = "inline-block";
 }
