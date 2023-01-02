@@ -160,10 +160,10 @@ function drawGame() {
     }
     let w = player.pos.x;
     let h = player.pos.y;
-    text("You Died", width/4+w,height/10+h);
-    text("Score: "+score, width/4+w,2*height/10+h);
-    text("High Score: "+highScore, width/4+w,3*height/10+h);
-    text("Space to Play Again", width/4+w, 4*height/10+h);
+    text("You Died", w,height+h-150);
+    text("Score: "+score, w,height+h-75);
+    text("High Score: "+highScore, w,height+h+75);
+    text("Space to Play Again", w, height+h+150);
   }
 }
 
