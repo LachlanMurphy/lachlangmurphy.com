@@ -71,6 +71,7 @@ if (localStorage.getItem('user') != null) {
 
 socket.on('userData', data => {
     user = data;
+    document.getElementById('account').innerHTML = user.firstName;
 });
 
 socket.on('failedSetHigh', () => {
