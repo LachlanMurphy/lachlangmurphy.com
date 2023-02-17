@@ -82,7 +82,7 @@ function drawGameEnd() {
 	text("Game Over", width/2,height/5);
 	text("Score: "+score, width/2,2*height/5);
 	text("High Score: "+highScore, width/2,3*height/5);
-	text("Space to Play Again", width/2, 4*height/5);
+	text("Press Any Key to Play Again", width/2, 4*height/5);
 }
 
 function drawMenu() {
@@ -174,7 +174,7 @@ function keyPressed() {
 
 	if (key === " " && player.bullets.length < 4 && screenId === 2) {
 		player.bullets.push(new Bullet(player))
-	} else if (screenId === 1 || screenId === 3) {
+	} else if (screenId === 1 || screenId === 3 && key != " ") {
 		startGame();
 	}
 }
