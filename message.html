@@ -1,0 +1,44 @@
+<html>
+<head>
+    <title>Fuck You!</title>
+    <link rel="icon" href="../Assets/Web-Icon.png">
+</head>
+<body id="body">
+    <h1>What's up Fucktards! (Jack & Miles)</h1>
+    <p>You guys are actually a piece of shit :) (respectively)</p>
+    <p>I literally made a website just to say:</p>
+    <h1 id="word" style="font-size: 100;">FUCK YOU!!!! :) (respectively)</h1>
+    <p>You guys can go fuck yourself!</p>
+</body>
+<style>
+    body {
+        text-align: center;
+    }
+
+    p {
+        font-size: 20;
+        color: white;
+    }
+
+    h1 {
+        font-size: 50;
+        color: white;
+    }
+</style>
+<script>
+    function getRandomInt(max) {
+        return Math.floor(Math.random() * max);
+    }
+
+    function getRanCol() {
+        return "rgb("+getRandomInt(255)+", "+getRandomInt(255)+", "+getRandomInt(255)+")";
+    }
+
+    document.body.style.background = "blue";
+
+    let x = setInterval(() => {
+        document.body.style.background = getRanCol();
+        document.getElementById("word").style.color = getRanCol();
+    }, 1);
+</script>
+</html>
