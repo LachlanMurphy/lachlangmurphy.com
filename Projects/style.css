@@ -1,13 +1,20 @@
+body {
+    background-color: aliceblue;
+    padding-left: 25%;
+}
+
 h1 {
     width: 100%;
     padding-bottom: 5px;
     top: 10px;
     font-size: 30px;
-    border-bottom: 5px solid blue;
+    color: rgb(22, 121, 63);
+    border-bottom: 5px solid rgb(196, 161, 55);
 }
 
 p {
     padding-bottom: 10px;
+    font-size: 20px;
 }
 
 div {
@@ -22,11 +29,79 @@ div h1 {
     padding-bottom: 5px;
     top: 10px;
     font-size: 25px;
-    border-bottom: 2px solid blue;
+    border-bottom: 2px solid rgb(196, 161, 55);
 }
 
 div img {
     float: left;
     width: 200px;
     padding-right: 5px;
+}
+
+a {
+    font-size: 20px;
+}
+
+#sideBar {
+	position: fixed;
+	width: 25%;
+	height: 100%;
+	background-color: rgb(50, 50, 50);
+	transition: 1000ms;
+    left: 0%;
+	top: 0px;
+    text-align: center;
+}
+
+#sideBar h2 {
+	color: white;
+	font-size: 30px;
+}
+
+#sideBar ul {
+    margin: 0;
+    padding: 0;
+}
+
+#sideBar ul li {
+	list-style: none;
+}
+
+#sideBar ul p {
+	cursor: pointer;
+	color: white;
+	text-decoration: none;
+	font-size: 20px;
+	font-family: arial;
+	transition: 500ms;
+    padding-bottom: 0;
+}
+
+#sideBar ul p:hover {
+	color: blue;
+	transition: 500ms;
+}
+
+#sideBar a {
+	cursor: pointer;
+	color: white;
+	text-decoration: none;
+	font-size: 30px;
+	font-family: arial;
+	transition: 500ms;
+}
+
+#sideBar a:hover {
+	color: blue;
+	transition: 500ms;
+}
+
+#instagramIcon {
+	position: absolute;
+	width: 50px;
+	height: 50px;
+	left: calc(50% - 25px);
+	bottom: 35px;
+	cursor: pointer;
+    padding: 0;
 }
