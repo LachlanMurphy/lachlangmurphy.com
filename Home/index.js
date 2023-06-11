@@ -11,6 +11,8 @@ function togglePieces() {
 	document.getElementById("subPieces").classList.toggle("active");
 }
 
+
+/* Used for accounts/server not currently in use
 // Acount stuff
 const socket = io("https://account.lachlangmurphy.com");
 
@@ -59,3 +61,5 @@ function account() {
 	else
 		window.location.href = "https://account.lachlangmurphy.com/signin/";
 }
+
+*/

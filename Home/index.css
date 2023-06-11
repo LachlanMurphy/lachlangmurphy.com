@@ -31,11 +31,11 @@ body {
 
 #sideBar {
 	position: fixed;
-	width: 40%;
+	width: 30%;
 	height: 100%;
-	background-color: black;
+	background-color: rgb(50, 50, 50);
 	transition: 1000ms;
-	left: -40%;
+	left: -30%;
 	top: 0px;
 }
 
@@ -51,23 +51,27 @@ body {
 	background-color: darkred;
 }
 
+#sideBar h2 {
+	color: white;
+	font-size: 30px;
+	padding: 40px 40px;
+}
+
 #sideBar ul li {
-	padding: 10px 15px;
-	border-bottom: 1px solid rgb(255, 255, 255, 0.5);
+	padding: 10px 30px;
 	justify-content: center;
 	list-style: none;
 }
 
 #sideBar ul {
 	text-align: center;
-	background-color: black;
 }
 
 #sideBar ul p {
 	cursor: pointer;
 	color: white;
 	text-decoration: none;
-	font-size: 30px;
+	font-size: 20px;
 	font-family: arial;
 	transition: 500ms;
 }
