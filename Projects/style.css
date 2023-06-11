@@ -100,8 +100,16 @@ a {
 	position: absolute;
 	width: 50px;
 	height: 50px;
-	left: calc(50% - 25px);
-	bottom: 35px;
+	left: calc(33% - 25px);
+	bottom: 25px;
 	cursor: pointer;
-    padding: 0;
+}
+
+#LIIcon {
+	position: absolute;
+	width: 50px;
+	height: 50px;
+	left: calc(66% - 25px);
+	bottom: 25px;
+	cursor: pointer;
 }
