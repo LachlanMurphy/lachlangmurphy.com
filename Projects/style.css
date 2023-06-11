@@ -28,4 +28,5 @@ div h1 {
 div img {
     float: left;
     width: 200px;
+    padding-right: 5px;
 }
